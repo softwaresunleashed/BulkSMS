@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Configurable parameters -->
+
+<resources>
+
+    <integer name="max_recipients">5</integer>
+    <integer name="free_version_code">0</integer>
+    <integer name="host_ads">0</integer>
+
+
+    <string name="app_name">Bulk SMS v2.1 (Full Version)</string>
+    <integer name="versionCode">10</integer>
+    <string name="versionName">@string/app_version</string>
+    <string name="app_version">Version ( v2.1 ) 2015-08-10</string>
+
+    <string name="version_history">
+        "\n" "Version History :"
+        "\n" "==============="
+        "\n" "v1.0_2015-07-19 : Initial Bulk Sms App upload to GooglePlayStore."
+        "\n" "v1.1_2015-07-28 : Minor UI changes incorporated."
+        "\n" "v1.2_2015-07-29 : A Possible Bug isolated."
+        "\n" "v1.3_2015-07-30 : Fixed freezing of List box in PhoneBook records.(Problem faced only on smaller screens). Added few more UI optimizations."
+        "\n" "v1.4_2015-07-31 : Started working on "Reminder" part of the application."
+        "\n" "v1.5_2015-08-01 : Set Reminder feature halfway. Releasing with few UI fixes."
+        "\n" "v1.6_2015-08-04 : Promotional Email UI added. Spread a word with your friends. Select to send promotional emails to your friends."
+        "\n" "v1.7_2015-08-05 : Code Beautification. (Nothing changed from end user perspective)."
+        "\n" "v1.8_2015-08-05 : Code Beautification included a minor bug. Fixed."
+        "\n" "v1.9_2015-08-06 : Bulk SMS Reminder finished. Releasing a test version."
+        "\n" "v2.0_2015-08-08 : Version 2.0 Launched. Major UI change for better UX (User Experience). Bulk SMS Reminder available in free version too. Limit - 5 recipients max."
+        "\n" "v2.1_2015-08-10 : Version 2.1 Launched. Major UI change for better UX (User Experience). Bulk SMS Reminder available in free version too. Limit - 5 recipients max. Added Contact Search for easy Phone Contacts selection"
+    </string>
+
+    <string name="app_about">
+             "\n\n"
+            "BULK SMS is aimed at users who wish to send one single message to huge number of recipients."
+            "\n""How is it different from regular sms apps already available ? (You may ask). "
+            "\n""Well, Bulk SMS v2.0 app provides you a feature where in you can set reminders (date,time) to send Birthday, Anniversary, Festive greetings to one or more recipients."
+            "You have to set the Recipient, Message, Date &amp; Time, and leave rest to Bulk SMS app to take care of sending the message on appropriate Date and Time."
+            "\n""Bulk SMS Reminder feature works even after you restart your phone."
+            "\n\n""We would love to hear from you, your feedback, suggestions &amp; bugs(if any) to make Bulk SMS even better."
+            "\n""e-mail: softwares.unleashed@gmail.com"
+            "\n""Visit us @ www.softwaresunleashed.com"
+            "\n\n""If you appreciate the work done by the developer of Bulk SMS app, please do take sometime out to rate this app on Google Store and Occasionally click on Ads. :)"
+
+    </string>
+
+
+    <string name="email_subject">New Android App -- Bulk SMS v2.1 (with Reminder &amp; Search Contacts  feature) -- Newly Launched!!!</string>
+    <string name="email_body">
+        "Dear Friend,"
+        "\n\n" "Hope this mail finds you in great health!!"
+        "\n""Your friend just used Bulk SMS to send messages to huge recipient list. We are sure you would like to give it a try as well."
+
+        "\n\n""Allow us to introduce BULK SMS Android App. We have launched an exclusive app to send Bulk SMS to users. You are amongst first lucky few to have a preview of this useful app."
+        "\n" "You can find it on Google Play too. You can install it from Google Play store. Search for 'Bulk SMS' on Google PlayStore "
+        "\n\n""Here is the direct link to App, Bulk SMS, on Google Play Store."
+        "\n\n""Link (Free - Limited Access) : https://play.google.com/store/apps/details?id=com.unleashed.android.bulksms1"
+        "\n""Link (Paid - Full Access): https://play.google.com/store/apps/details?id=com.unleashed.android.bulksms2"
+        "\n""Hope to hear from you!!"
+        "\n""======================================"
+        "\n""Software Unleashed Inc."
+        "\n""url: www.softwaresunleashed.com"
+        "\n""email: softwares.unleashed@gmail.com"
+    </string>
+
+
+
+    <!-- Banner Ad ID -->
+    <string name="banner_ad_unit_id">ca-app-pub-9975842691888931/6757388200</string>
+
+    <!-- Actual live banner for Bulk SMS...Use this in final production app
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>    - Test Ad ID
+    <string name="banner_ad_unit_id">ca-app-pub-9975842691888931/6757388200</string>    - Live Ad ID
+    -->
+
+    <!-- Appszoom Ad : App Key-->
+    <string name="az_appkey">bef9fbeddac73cb50854ebe6fdd0cbfc</string>
+
+    <!-- Appszoom Ad : App Key-->
+    <string name="adbuddiz_app_key">"9bd94a6a-6b11-4dd7-98b5-7b98522e78c8"</string>
+
+
+</resources>

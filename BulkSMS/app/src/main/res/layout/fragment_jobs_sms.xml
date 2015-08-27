@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/main_bg">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container_jobs_list" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2"
+                android:src="@drawable/banner_bulk_sms"
+                android:layout_gravity="center" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView_jobs_sms_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="@string/banner_ad_unit_id"
+                android:layout_gravity="center"
+                android:visibility="gone">
+            </com.google.android.gms.ads.AdView>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Click Refresh Button to display Pending Job List"
+                android:id="@+id/textView"
+                android:layout_marginTop="5dp"
+                android:typeface="serif"
+                android:textStyle="bold|italic"
+                android:textColor="#57810f"
+                android:background="@drawable/group_item_focused"
+                android:textSize="12dp"
+                android:layout_gravity="center"
+                android:autoText="false"
+                android:gravity="center" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imgbtn_refresh_records"
+                    android:src="@drawable/refresh_50_50"
+                    android:background="@drawable/button_states"
+                    android:layout_margin="5dp" />
+
+            </LinearLayout>
+
+            <ExpandableListView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/expandableListView_smsjobs"
+                android:groupIndicator="@drawable/expandlist_background"
+                android:listSelector="@drawable/expandlist_selector"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+    </FrameLayout>
+
+
+</LinearLayout>

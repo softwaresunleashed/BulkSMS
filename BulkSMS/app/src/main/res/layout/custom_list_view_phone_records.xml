@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:background="@null">
+<!--
+android:descendantFocusability="blocksDescendants"
+==> the above property is needed to be added if OnItemClickListener() needs to work in customer list view adapter.
+-->
+
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants"
+        android:id="@+id/LinearLayout_customrow"
+        android:background="@drawable/listview_itemshade">
+
+        <Space
+            android:layout_width="2dp"
+            android:layout_height="2dp"
+            android:layout_below="@id/LinearLayout_customrow"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            android:weightSum="2"
+            android:layout_weight="1.5"
+            android:id="@+id/LinearLayout_custom" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@drawable/user_default_image"
+                android:scaleType="center" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:layout_gravity="left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="@string/name"
+                    android:id="@+id/tv_phonename"
+                    android:textSize="15dp"
+                    android:textColor="#4661ff" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/number"
+                    android:layout_below="@id/tv_phonename"
+                    android:id="@+id/tv_phonenumber"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkBox_phonebookcontact"
+                android:enabled="false"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

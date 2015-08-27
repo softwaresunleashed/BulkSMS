@@ -1,0 +1,40 @@
+<resources>
+
+
+    <string name="title_section1">Bulk SMS</string>
+    <string name="title_section2">Set Reminder</string>
+    <string name="title_section3">Active Jobs</string>
+    <string name="title_section4">About</string>
+
+
+
+    <string name="contactbook_search_view_hint">Search Contact List</string>
+
+
+    <string name="btn_bulksms_send_now_text">Send Now</string>
+    <string name="btn_bulksms_set_reminder_text">Send : </string>
+
+
+    <string name="action_exit_app">Exit App</string>
+    <string name="action_tell_a_friend">Tell A Friend (email)</string>
+    <string name="action_rate_app_on_google_play_store">Rate Us</string>
+    <string name="action_send_promotional_email">Promote App</string>
+
+    <string name="confirm_msg">Yes Please!</string>
+    <string name="deny_msg">No Thanks!</string>
+    <string name="dialog_request_promotional_email_msg">Spread a word about Bulk SMS to all your friends.
+    Clicking YES, assumes your approval to send a Promotional Email to ALL email contacts in your list.</string>
+
+
+
+    <string name="title_activity_contact_book">Select Contacts:</string>
+    <string name="name">Name</string>
+    <string name="number">Phone Number</string>
+
+
+    <string name="copyright_disclaimer"> Copyright © 2015, Softwares Unleashed Inc. \n email: softwares.unleashed@gmail.com  \n url: www.softwaresunleashed.com</string>
+
+    <string name="test_device_id">41001a3e2e05b000</string>
+
+
+</resources>
