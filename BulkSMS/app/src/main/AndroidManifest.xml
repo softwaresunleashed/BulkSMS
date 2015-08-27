@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.unleashed.android.bulksms2"
+    package="com.unleashed.android.bulksms1"
     android:versionCode="10"
     android:versionName="@string/versionName" >
 

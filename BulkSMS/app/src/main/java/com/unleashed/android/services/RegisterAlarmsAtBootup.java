@@ -6,12 +6,11 @@ import android.database.Cursor;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.unleashed.android.bulksms2.MainActivity;
+
 import com.unleashed.android.datetimepicker.AlarmTask;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.dbhelper.DBHelper;
-import com.unleashed.android.expandablelistview.ExpandableListAdapter;
 
 import java.util.Calendar;
 

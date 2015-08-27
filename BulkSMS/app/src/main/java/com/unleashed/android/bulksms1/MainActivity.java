@@ -1,4 +1,4 @@
-package com.unleashed.android.bulksms2;
+package com.unleashed.android.bulksms1;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -62,9 +62,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
-import com.unleashed.android.bulksms2.AboutApp;
-import com.unleashed.android.bulksms2.ContactBook;
-import com.unleashed.android.bulksms2.R;
+
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;

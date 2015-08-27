@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.unleashed.android.datetimepicker.NotifyService;
 
 import java.util.Calendar;
 

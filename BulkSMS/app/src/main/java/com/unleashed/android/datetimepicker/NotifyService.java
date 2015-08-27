@@ -18,16 +18,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 
-import com.unleashed.android.bulksms2.MainActivity;
-import com.unleashed.android.bulksms2.R;
+import com.unleashed.android.bulksms1.MainActivity;
+import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.dbhelper.DBHelper;
 
-import java.sql.SQLException;
-import java.util.concurrent.Semaphore;
 
 /**
  * This service is started when an Alarm has been raised

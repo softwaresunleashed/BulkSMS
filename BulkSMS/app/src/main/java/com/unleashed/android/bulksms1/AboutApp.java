@@ -1,9 +1,7 @@
-package com.unleashed.android.bulksms2;
+package com.unleashed.android.bulksms1;
 
 import android.content.Context;
 import android.content.res.Resources;
-
-import com.unleashed.android.bulksms2.R;
 
 /**
  * Created by gupta on 7/19/2015.

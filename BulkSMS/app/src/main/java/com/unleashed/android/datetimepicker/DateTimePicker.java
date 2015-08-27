@@ -3,7 +3,6 @@ package com.unleashed.android.datetimepicker;
 import android.content.Context;
 import android.util.Log;
 
-import com.unleashed.android.bulksms2.MainActivity;
 
 import java.util.Calendar;
 

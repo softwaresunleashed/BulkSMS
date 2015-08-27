@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
-import android.widget.ListView;
+
 import android.widget.TextView;
 
-import com.unleashed.android.bulksms2.R;
+import com.unleashed.android.bulksms1.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by gupta on 7/15/2015.

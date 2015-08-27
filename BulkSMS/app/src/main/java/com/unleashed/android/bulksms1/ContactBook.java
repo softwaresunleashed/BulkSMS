@@ -1,4 +1,4 @@
-package com.unleashed.android.bulksms2;
+package com.unleashed.android.bulksms1;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -26,7 +26,7 @@ import android.widget.SearchView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.unleashed.android.bulksms2.R;
+
 import com.unleashed.android.customadapter.CustomListViewAdapter;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 
