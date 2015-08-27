@@ -10,7 +10,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.R;
 
 import java.util.HashMap;
 import java.util.List;

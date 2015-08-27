@@ -21,8 +21,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-import com.unleashed.android.bulksms1.MainActivity;
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.MainActivity;
+import com.unleashed.android.bulksms2.R;
 import com.unleashed.android.dbhelper.DBHelper;
 
 
