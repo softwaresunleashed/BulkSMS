@@ -21,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView2"
-                android:src="@drawable/banner_bulk_sms"
                 android:layout_gravity="center" />
 
             <com.google.android.gms.ads.AdView
