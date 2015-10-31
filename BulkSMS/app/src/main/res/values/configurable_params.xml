@@ -9,7 +9,7 @@
     <integer name="host_ads">1</integer>
 
 
-    <string name="app_name">Bulk SMS v2.1 (Full Version)</string>
+    <string name="app_name">Bulk SMS v2.1 (Free)</string>
     <integer name="versionCode">10</integer>
     <string name="versionName">@string/app_version</string>
     <string name="app_version">Version ( v2.1 ) 2015-08-10</string>
