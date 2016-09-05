@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    compileSdkVersion 23
+    buildToolsVersion "21.1.2"
     lintOptions {
         abortOnError false
     }
@@ -22,9 +22,9 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:23.0.0'
     compile files('libs/activation.jar')
-    compile files('libs/additiionnal.jar')
+    compile files('libs/additionnal.jar')
     compile files('libs/mail.jar')
     compile 'com.google.android.gms:play-services-ads:7.5.0'
     compile files('libs/appszoomsdk.jar')

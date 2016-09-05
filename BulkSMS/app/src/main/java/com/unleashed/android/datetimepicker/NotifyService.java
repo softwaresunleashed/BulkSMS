@@ -105,16 +105,36 @@ public class NotifyService extends Service {
         // What time to show on the notification
         long time = System.currentTimeMillis();
 
-        Notification notification = new Notification(icon, text, time);
+
 
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
+        // ------------------ Depricated ------------------
+        // Notification notification = new Notification(icon, text, time);
+
+
         // Set the info for the views that show in the notification panel.
-        notification.setLatestEventInfo(this, title, text, contentIntent);
+        //notification.setLatestEventInfo(this, title, text, contentIntent);
 
         // Clear the notification when it is pressed
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        //notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        // ------------------------------------------------
+
+        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
+
+        builder.setTicker(title);
+        builder.setContentTitle(title);
+        builder.setContentText(text);
+        builder.setSmallIcon(icon);
+        builder.setContentIntent(contentIntent);
+        builder.setAutoCancel(true);
+        //builder.setSubText("This is subtext...");   //API level 16
+        //builder.setNumber(100);
+        //builder.setOngoing(true);
+        builder.build();
+
+        Notification notification = builder.getNotification();
 
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);
