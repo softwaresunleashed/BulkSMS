@@ -28,6 +28,7 @@
 
 
     <string name="title_activity_contact_book">Select Contacts : </string>
+    <string name="title_set_date_time">Set Date and Time : </string>
     <string name="name">Name</string>
     <string name="number">Phone Number</string>
 

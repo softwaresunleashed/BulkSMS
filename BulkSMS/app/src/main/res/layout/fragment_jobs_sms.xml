@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/main_bg">
-
+    android:layout_height="fill_parent" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -38,17 +36,14 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:text="Click Refresh Button to display Pending Job List"
                 android:id="@+id/textView"
                 android:layout_marginTop="5dp"
                 android:typeface="serif"
                 android:textStyle="bold|italic"
                 android:textColor="#57810f"
-                android:background="@drawable/group_item_focused"
-                android:textSize="12dp"
-                android:layout_gravity="center"
-                android:autoText="false"
+                android:layout_gravity="left"
                 android:gravity="center" />
 
             <LinearLayout

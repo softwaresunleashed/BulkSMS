@@ -4,8 +4,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -46,19 +45,20 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Set Date and Time"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                        android:text="@string/title_set_date_time"
                         android:id="@+id/lbl_setDatenTime"
                         android:textStyle="bold|italic"
                         android:typeface="serif"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/group_item_focused"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:textColor="#57810f"
-                        android:textSize="12dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_gravity="center" />
+
 
                     <DatePicker
                         android:layout_width="wrap_content"

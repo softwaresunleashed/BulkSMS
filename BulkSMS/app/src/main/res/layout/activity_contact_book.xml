@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:text="@string/title_activity_contact_book"
                 android:id="@+id/lbl_contactbook"
                 android:textColor="#57810f"
@@ -111,7 +111,7 @@
 
             <ListView
                 android:layout_width="fill_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/listView_custom_phn_records"
                 android:descendantFocusability="blocksDescendants"
                 android:layout_marginTop="10dp"
