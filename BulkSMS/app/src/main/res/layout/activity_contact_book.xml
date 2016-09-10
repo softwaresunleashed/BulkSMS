@@ -97,7 +97,7 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:text="@string/title_activity_contact_book"
                 android:id="@+id/lbl_contactbook"
-                android:textColor="#57810f"
+                android:textColor="@color/black"
                 android:textStyle="bold|italic"
                 android:layout_marginTop="5dp"
                 android:gravity="left"

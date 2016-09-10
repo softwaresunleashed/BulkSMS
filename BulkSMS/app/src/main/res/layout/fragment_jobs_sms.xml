@@ -42,24 +42,26 @@
                 android:layout_marginTop="5dp"
                 android:typeface="serif"
                 android:textStyle="bold|italic"
-                android:textColor="#57810f"
-                android:layout_gravity="left"
-                android:gravity="center" />
+                android:textColor="@color/black"
+                android:layout_margin="5dp"
+                android:gravity="left" />
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
 
                 <ImageButton
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
                     android:id="@+id/imgbtn_refresh_records"
                     android:src="@drawable/refresh_50_50"
                     android:background="@drawable/button_states"
-                    android:layout_margin="5dp" />
+                    android:layout_margin="5dp"
 
-            </LinearLayout>
+                    />
+
+
 
             <ExpandableListView
                 android:layout_width="fill_parent"

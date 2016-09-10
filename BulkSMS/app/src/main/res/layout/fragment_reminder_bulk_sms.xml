@@ -54,7 +54,7 @@
                         android:typeface="serif"
                         android:layout_marginTop="10dp"
                         android:gravity="left"
-                        android:textColor="#57810f"
+                        android:textColor="@color/black"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:layout_gravity="center" />
