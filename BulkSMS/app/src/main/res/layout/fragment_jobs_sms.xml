@@ -46,7 +46,6 @@
                 android:layout_margin="5dp"
                 android:gravity="left" />
 
-
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,11 +56,7 @@
                     android:id="@+id/imgbtn_refresh_records"
                     android:src="@drawable/refresh_50_50"
                     android:background="@drawable/button_states"
-                    android:layout_margin="5dp"
-
-                    />
-
-
+                    android:layout_margin="5dp" />
 
             <ExpandableListView
                 android:layout_width="fill_parent"
@@ -69,6 +64,7 @@
                 android:id="@+id/expandableListView_smsjobs"
                 android:groupIndicator="@drawable/expandlist_background"
                 android:listSelector="@drawable/expandlist_selector"
+                android:layout_margin="@dimen/md_10dp_margin"
                 android:layout_marginTop="5dp" />
         </LinearLayout>
     </FrameLayout>

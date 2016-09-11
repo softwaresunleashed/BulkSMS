@@ -61,8 +61,6 @@ public class PhoneBookRowItem implements Parcelable {
         phone_user_name = in.readString();
         phone_user_number = in.readString();
         switch_state = (in.readByte() != 0);  // switch_state == true if byte != 0
-
-
     }
 
     @Override

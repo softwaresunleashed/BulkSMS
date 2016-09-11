@@ -32,6 +32,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -553,10 +555,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //                alert_dialog_buy_bulk_sms();
 //            }
 
-
-
         }
-
 
         mViewPager.setCurrentItem(tab.getPosition());
     }
@@ -583,7 +582,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
-
 
 
     }

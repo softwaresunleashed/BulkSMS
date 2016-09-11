@@ -8,7 +8,9 @@
         <!--android:startColor="#555994"-->
         <!--android:type="linear" />-->
 
-    <stroke android:width="2dp" android:color="@color/black_87"/>
+    <solid android:color="@color/black_24"/>
+
+    <stroke android:width="2dp" android:color="#000000"/>
 
     <corners
         android:radius="@dimen/corner_radius"/>

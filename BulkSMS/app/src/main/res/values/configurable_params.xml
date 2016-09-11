@@ -6,7 +6,7 @@
 
     <integer name="max_recipients">5</integer>
     <integer name="free_version_code">1</integer>
-    <integer name="host_ads">1</integer>
+    <integer name="host_ads">0</integer>
 
 
     <string name="app_name">Bulk SMS v2.1 (Free)</string>

@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/md_2dp_margin"
     android:descendantFocusability="blocksDescendants"
     android:background="@null">
 <!--
@@ -75,6 +76,15 @@ android:descendantFocusability="blocksDescendants"
                 android:clickable="false" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_width"
+            android:layout_marginTop="@dimen/md_4dp_margin"
+            android:background="@color/divider_line"
+            android:layout_marginLeft="@dimen/md_24dp_margin"
+            android:layout_marginRight="@dimen/md_24dp_margin"
+            />
 
     </LinearLayout>
 

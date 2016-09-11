@@ -48,6 +48,7 @@
                             android:orientation="vertical"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/md_2dp_margin"
                             android:layout_below="@id/adView_send_bulk_sms_tab"
                             android:weightSum="1"
                             android:id="@+id/LinearLayout_Phn_SmsMsg">
@@ -64,7 +65,7 @@
                                 android:gravity="left"
                                 android:textColor="#57810f"
                                 android:typeface="serif"
-                                android:textSize="20dp" />
+                                android:textSize="@dimen/txt_size_14sp" />
 
                             <LinearLayout
                                 android:orientation="horizontal"
@@ -108,7 +109,7 @@
                                 android:gravity="left"
                                 android:textColor="#57810f"
                                 android:typeface="serif"
-                                android:textSize="20dp" />
+                                android:textSize="@dimen/txt_size_14sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -120,7 +121,8 @@
                                 android:textColor="#57810f"
                                 android:textStyle="bold|italic"
                                 android:typeface="serif"
-                                android:background="#fff1c0" />
+                                android:background="#fff1c0"
+                                android:textSize="@dimen/txt_size_12sp"/>
 
                             <LinearLayout
                                 android:orientation="horizontal"
@@ -131,6 +133,7 @@
                                 <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp"
+                                    android:padding="@dimen/md_2dp_margin"
                                     android:inputType="textMultiLine"
                                     android:maxLines="5"
                                     android:ems="10"
@@ -152,10 +155,11 @@
                                 android:id="@+id/imgbtn_SendBulkSMS"
                                 android:src="@drawable/btnbulksms3"
                                 android:background="@drawable/button_states"
-                                android:layout_gravity="right"
+                                android:layout_gravity="center"
                                 android:padding="5dp"
+                                android:textAllCaps="false"
                                 android:layout_marginLeft="10dp"
-                                android:text="Send Now" />
+                                android:text="@string/btn_bulksms_send_now_text" />
 
                             <RadioGroup
                                 android:layout_width="wrap_content"

@@ -3,5 +3,53 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!--Borders-->
     <dimen name="corner_radius">4dp</dimen>
+    <dimen name="stroke_width">1dp</dimen>
+
+    <!--Dividers-->
+    <dimen name="divider_width">1dp</dimen>
+
+    <!--Buttons-->
+    <dimen name="button_radius">10dp</dimen>
+    <dimen name="button_stroke_width_normal">2dp</dimen>
+    <dimen name="button_stroke_width_pressed">4dp</dimen>
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="md_1dp_margin">1dp</dimen>
+    <dimen name="md_2dp_margin">2dp</dimen>
+    <dimen name="md_4dp_margin">4dp</dimen>
+    <dimen name="md_6dp_margin">6dp</dimen>
+    <dimen name="md_8dp_margin">8dp</dimen>
+    <dimen name="md_10dp_margin">10dp</dimen>
+    <dimen name="md_12dp_margin">12dp</dimen>
+    <dimen name="md_16dp_margin">16dp</dimen>
+    <dimen name="md_18dp_margin">18dp</dimen>
+    <dimen name="md_24dp_margin">24dp</dimen>
+    <dimen name="md_32dp_margin">32dp</dimen>
+    <dimen name="md_42dp_margin">42dp</dimen>
+    <dimen name="md_48dp_margin">48dp</dimen>
+    <dimen name="md_56dp_margin">56dp</dimen>
+    <dimen name="md_64dp_margin">64dp</dimen>
+
+    <!--Paddings-->
+    <dimen name="padding_2dp">2dp</dimen>
+    <dimen name="padding_3dp">3dp</dimen>
+    <dimen name="padding_4dp">4dp</dimen>
+    <dimen name="padding_6dp">6dp</dimen>
+    <dimen name="padding_8dp">8dp</dimen>
+    <dimen name="padding_10dp">10dp</dimen>
+    <dimen name="padding_12dp">12dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="padding_18dp">18dp</dimen>
+    <dimen name="padding_20dp">20dp</dimen>
+    <dimen name="padding_24dp">24dp</dimen>
+
+
+    <!--Text Sizes-->
+    <dimen name="txt_size_14sp">14sp</dimen>
+    <dimen name="txt_size_12sp">12sp</dimen>
+    <dimen name="txt_size_10sp">10sp</dimen>
+
 </resources>

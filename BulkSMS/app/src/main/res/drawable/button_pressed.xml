@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:endColor="#c0c0c0"
-        android:centerColor="#c0c0c0"
-        android:startColor="#c0c0c0"
-        android:angle="270" />
-    <stroke android:width="10px"
-        android:color="#808080"/>
+    <!--<gradient-->
+        <!--android:endColor="#c0c0c0"-->
+        <!--android:centerColor="#c0c0c0"-->
+        <!--android:startColor="#c0c0c0"-->
+        <!--android:angle="270" />-->
+
+    <stroke android:width="@dimen/button_stroke_width_pressed"
+        android:color="@color/black_87"/>
+
     <corners
-        android:radius="10dp" />
+        android:radius="@dimen/button_radius" />
+
     <padding
-        android:left="10dp"
-        android:top="10dp"
-        android:right="10dp"
-        android:bottom="10dp" />
+        android:left="@dimen/padding_10dp"
+        android:top="@dimen/padding_10dp"
+        android:right="@dimen/padding_10dp"
+        android:bottom="@dimen/padding_10dp" />
 </shape>
