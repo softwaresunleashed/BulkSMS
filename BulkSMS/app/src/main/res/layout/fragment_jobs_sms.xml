@@ -64,7 +64,8 @@
                 android:id="@+id/expandableListView_smsjobs"
                 android:groupIndicator="@drawable/expandlist_background"
                 android:listSelector="@drawable/expandlist_selector"
-                android:layout_margin="@dimen/md_10dp_margin"
+                android:layout_marginLeft="@dimen/md_10dp_margin"
+                android:layout_marginRight="@dimen/md_10dp_margin"
                 android:layout_marginTop="5dp" />
         </LinearLayout>
     </FrameLayout>

@@ -10,7 +10,7 @@ import android.util.Log;
 import com.unleashed.android.datetimepicker.AlarmTask;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
-import com.unleashed.android.dbhelper.DBHelper;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 import java.util.Calendar;
 

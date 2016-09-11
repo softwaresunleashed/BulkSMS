@@ -133,13 +133,14 @@
                                 <EditText
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp"
-                                    android:padding="@dimen/md_2dp_margin"
+                                    android:layout_margin="@dimen/md_10dp_margin"
                                     android:inputType="textMultiLine"
                                     android:maxLines="5"
                                     android:ems="10"
                                     android:id="@+id/et_SMS_msg"
                                     android:layout_gravity="left"
-                                    android:background="@drawable/abc_popup_background_mtrl_mult" />
+                                    android:background="@drawable/border_round_corners" />
+                                <!--android:background="@drawable/abc_popup_background_mtrl_mult"-->
 
                             </LinearLayout>
 
@@ -147,7 +148,7 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="@dimen/md_4dp_margin">
 
                             <Button
                                 android:layout_width="wrap_content"

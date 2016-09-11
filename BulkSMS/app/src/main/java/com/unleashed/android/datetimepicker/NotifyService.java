@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
-import com.unleashed.android.dbhelper.DBHelper;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 
 /**
