@@ -1,4 +1,4 @@
-package com.unleashed.android.bulksms1;
+package com.unleashed.android.bulksms2;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

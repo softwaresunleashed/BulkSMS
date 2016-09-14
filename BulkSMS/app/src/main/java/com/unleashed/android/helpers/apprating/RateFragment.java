@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.R;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.Preferences;
 

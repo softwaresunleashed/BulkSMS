@@ -25,7 +25,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.R;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

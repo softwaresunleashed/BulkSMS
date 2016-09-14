@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.R;
 import com.unleashed.android.helpers.Preferences;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.config.Config;

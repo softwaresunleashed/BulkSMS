@@ -2,7 +2,7 @@ package com.unleashed.android.helpers;
 
 import android.util.Log;
 
-import com.unleashed.android.bulksms1.BuildConfig;
+import com.unleashed.android.bulksms2.BuildConfig;
 
 
 public class Logger {

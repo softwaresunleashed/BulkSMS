@@ -6,7 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
-import com.unleashed.android.bulksms1.BuildConfig;
+import com.unleashed.android.bulksms2.BuildConfig;
 
 
 public class Connectivity {

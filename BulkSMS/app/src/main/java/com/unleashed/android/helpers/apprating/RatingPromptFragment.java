@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
-import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms2.R;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.Preferences;
 

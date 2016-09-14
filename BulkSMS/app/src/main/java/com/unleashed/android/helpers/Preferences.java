@@ -3,7 +3,7 @@ package com.unleashed.android.helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.unleashed.android.bulksms1.MainActivity;
+import com.unleashed.android.bulksms2.MainActivity;
 
 public class Preferences {
     public static final String SHARED_PREF_NAME = "BulkSMSPrefs";
