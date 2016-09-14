@@ -52,5 +52,10 @@ android {
             exclude group: 'com.google.android.gms', module: 'play-services-base'
         }
 
+        // Firebase Related Dependency Libs
+        compile 'com.google.firebase:firebase-auth:9.4.0'
+
     }
+
+apply plugin: 'com.google.gms.google-services'
 
