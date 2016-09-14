@@ -4,8 +4,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg">
+    android:layout_height="match_parent" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -33,7 +32,6 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/imgView_Banner"
-                android:src="@drawable/banner_bulk_sms"
                 android:layout_gravity="center_horizontal" />
 
             <ScrollView

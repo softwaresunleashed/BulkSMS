@@ -27,14 +27,58 @@
 
 
 
-    <string name="title_activity_contact_book">Select Contacts:</string>
+    <string name="title_activity_contact_book">Select Contacts : </string>
+    <string name="title_set_date_time">Set Date and Time : </string>
     <string name="name">Name</string>
     <string name="number">Phone Number</string>
-
 
     <string name="copyright_disclaimer"> Copyright © 2015, Softwares Unleashed Inc. \n email: softwares.unleashed@gmail.com  \n url: www.softwaresunleashed.com</string>
 
     <string name="test_device_id">41001a3e2e05b000</string>
+
+
+
+    <!--Rating prompt related strings-->
+    <string name="feedback_prompt_title">Are you happy with BulkSMS app ?</string>
+    <string name="feedback_prompt_negative_btn">No</string>
+    <string name="feedback_prompt_positive_btn">Yes</string>
+    <string name="rating_prompt_title">Thank You</string>
+    <string name="rating_prompt_message">Happy to hear that you liked BulkSMS! Will you take a moment to rate us in the Play Store </string>
+    <string name="rating_prompt_negative_btn">No Thanks</string>
+    <string name="rating_prompt_positive_btn">Rate This App</string>
+    <string name="rating_prompt_neutral_btn">Remind Me Later</string>
+    <string name="play_app_not_found">Google Play App not found</string>
+    <string name="rate">Rate App</string>
+    <string name="review_rate_our_application">We\'d love to get feedback from you on our app. The more details you can provide, the better.</string>
+    <string name="review_tap_on_the_star">Tap on the star to rate</string>
+    <string name="review_no_thanks">No, thank you. I will assess later</string>
+    <string name="review_thank_you_for_rating">Thank you for rating!</string>
+    <string name="review_go_to_app_store">We are pleased that you like our app! Go to the App Store to share your opinion with other users.</string>
+    <string name="review_not_now">Not now</string>
+    <string name="review_go">Go</string>
+    <string name="review_thank_you_for_feedback">Thank you! Your feedback has been sent.</string>
+    <string name="review_write_us_detailed_comment">Send us your views</string>
+    <string name="review_your_email">Your e-mail (optional)</string>
+    <string name="review_send">Send</string>
+
+
+    <!--Login strings-->
+    <string name="no_internet_new">Oops! No internet.Check your connection</string>
+    <string name="retry">Retry</string>
+    <string name="connect_with_facebook">Connect with Facebook</string>
+    <string name="link_your_facebook">Complete your profile. Sell Faster</string>
+    <string name="connect_with_google">Connect with Google</string>
+    <string name="mobile">Mobile</string>
+    <string name="google">Google</string>
+    <string name="already_have_account">Already have an account ?</string>
+    <string name="account_terms_use">By continuing, you agree to the Terms and Conditions</string>
+    <string name="login_now">Login Now</string>
+    <string name="login">Login</string>
+    <string name="login_required_message">You need to login or register to continue using OLX App</string>
+    <string name="exit_app">Exit App</string>
+    <string name="continue_btn">Continue</string>
+    <string name="create_new_password">Create New Password</string>
+
 
 
 </resources>

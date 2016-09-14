@@ -3,7 +3,8 @@ package com.unleashed.android.services;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
+import com.unleashed.android.helpers.Logger;
 
 public class BootupReceiver extends BroadcastReceiver {
 
@@ -14,7 +15,7 @@ public class BootupReceiver extends BroadcastReceiver {
         Intent service = new Intent(context, RegisterAlarmsAtBootup.class);
         context.startService(service);
 
-        Log.v("Bulk SMS: ", "BootupReceiver.java:onReceive() - Alarm Register Service loaded at bootup");
+        Logger.push(Logger.LogType.LOG_VERBOSE, "BootupReceiver.java:onReceive() - Alarm Register Service loaded at bootup");
 
     }
 }

@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="20dp"
     android:id="@+id/LinearLayout_WelcomeSplashScreenContainer"
-    android:background="@drawable/main_bg">
+    android:background="@drawable/splash_screen_background">
+    <!--android:background="@drawable/main_bg"-->
+
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageAppLogo"
         android:src="@drawable/bulksmsapplogo"
+        android:scaleType="centerInside"
         android:layout_gravity="center" />
 
     <TextView
@@ -19,15 +26,17 @@
         android:text="@string/app_version"
         android:textColor="#3364ff"
         android:textStyle="bold|italic"
+        android:textSize="@dimen/txt_size_12sp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_gravity="center" />
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/copyright_disclaimer"
         android:id="@+id/tv_copyright_disclaimer"
         android:layout_gravity="center"
         android:textStyle="bold|italic"
-        android:textSize="10dp" />
+        android:textSize="@dimen/txt_size_10sp" />
 </LinearLayout>

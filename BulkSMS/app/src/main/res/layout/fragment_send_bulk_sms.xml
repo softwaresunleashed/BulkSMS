@@ -1,13 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:layout_height="fill_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity$PlaceholderFragment"
-    android:background="@drawable/main_bg">
-
+    android:layout_height="fill_parent"
+    tools:context=".MainActivity$PlaceholderFragment" >
+    <!--android:background="@drawable/main_bg"-->
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -52,32 +48,32 @@
                             android:orientation="vertical"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
+                            android:layout_marginTop="@dimen/md_2dp_margin"
                             android:layout_below="@id/adView_send_bulk_sms_tab"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="false"
                             android:weightSum="1"
                             android:id="@+id/LinearLayout_Phn_SmsMsg">
 
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
-                                android:text="Select Contacts  : "
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="@string/title_activity_contact_book"
                                 android:id="@+id/lbl_PhoneList"
-                                android:layout_marginTop="20px"
+                                android:layout_marginTop="10dp"
+                                android:paddingLeft="10dp"
                                 android:textStyle="bold|italic"
-                                android:background="@drawable/group_item_focused"
-                                android:gravity="center"
+                                android:gravity="left"
                                 android:textColor="#57810f"
                                 android:typeface="serif"
-                                android:textSize="20dp" />
+                                android:textSize="@dimen/txt_size_14sp" />
 
                             <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="133dp"
+                                android:layout_height="100dp"
                                 android:id="@+id/LinearLayout_ContactInfo"
                                 android:weightSum="2">
+
 
                                 <ListView
                                     android:layout_width="0dp"
@@ -85,18 +81,17 @@
                                     android:id="@+id/listView_PhnNums"
                                     android:layout_gravity="left"
                                     android:layout_weight="2"
-                                    android:background="@drawable/abc_popup_background_mtrl_mult"
+                                    android:layout_margin="4dp"
+                                    android:background="@drawable/border_round_corners"
                                     android:padding="1dp" />
 
-                                <Space
-                                    android:layout_width="100px"
-                                    android:layout_height="20px" />
 
                                 <ImageButton
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/imgbtn_SelectContacts"
                                     android:src="@drawable/select_users"
+                                    android:layout_marginRight="5dp"
                                     android:background="@drawable/button_states"
                                     android:layout_gravity="center" />
 
@@ -105,27 +100,29 @@
                             <TextView
                                 android:layout_width="fill_parent"
                                 android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceLarge"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:text="SMS Text Message :"
                                 android:id="@+id/lbl_SMSText"
                                 android:layout_marginTop="30px"
+                                android:paddingLeft="10dp"
                                 android:textStyle="bold|italic"
-                                android:background="@drawable/group_item_focused"
-                                android:gravity="center"
+                                android:gravity="left"
                                 android:textColor="#57810f"
                                 android:typeface="serif"
-                                android:textSize="20dp" />
+                                android:textSize="@dimen/txt_size_14sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
                                 android:text="160/0"
                                 android:id="@+id/lbl_SMSCharCount"
+                                android:layout_marginLeft="10dp"
                                 android:textColor="#57810f"
                                 android:textStyle="bold|italic"
                                 android:typeface="serif"
-                                android:background="#fff1c0" />
+                                android:background="#fff1c0"
+                                android:textSize="@dimen/txt_size_12sp"/>
 
                             <LinearLayout
                                 android:orientation="horizontal"
@@ -135,12 +132,15 @@
 
                                 <EditText
                                     android:layout_width="match_parent"
-                                    android:layout_height="100dp"
+                                    android:layout_height="200dp"
+                                    android:layout_margin="@dimen/md_10dp_margin"
                                     android:inputType="textMultiLine"
+                                    android:maxLines="5"
                                     android:ems="10"
                                     android:id="@+id/et_SMS_msg"
                                     android:layout_gravity="left"
-                                    android:background="@drawable/abc_popup_background_mtrl_mult" />
+                                    android:background="@drawable/border_round_corners" />
+                                <!--android:background="@drawable/abc_popup_background_mtrl_mult"-->
 
                             </LinearLayout>
 
@@ -148,20 +148,19 @@
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="@dimen/md_4dp_margin">
 
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/imgbtn_SendBulkSMS"
                                 android:src="@drawable/btnbulksms3"
-                                android:layout_alignParentBottom="true"
-                                android:layout_centerHorizontal="true"
                                 android:background="@drawable/button_states"
-                                android:layout_gravity="right"
+                                android:layout_gravity="center"
                                 android:padding="5dp"
+                                android:textAllCaps="false"
                                 android:layout_marginLeft="10dp"
-                                android:text="Send Now" />
+                                android:text="@string/btn_bulksms_send_now_text" />
 
                             <RadioGroup
                                 android:layout_width="wrap_content"

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "218106236410",
+    "firebase_url": "https://bulksms-3e0f6.firebaseio.com",
+    "project_id": "bulksms-3e0f6",
+    "storage_bucket": "bulksms-3e0f6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:218106236410:android:a283d0f7e24fb57f",
+        "android_client_info": {
+          "package_name": "com.unleashed.android.bulksms1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "218106236410-tmh1pqkpabkdh1s2bc13frohbn8fi87i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwRaExF4kTalq8xdYv6A8xPCSOJSIJ9pY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

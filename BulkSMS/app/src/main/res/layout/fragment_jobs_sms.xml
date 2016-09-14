@@ -3,9 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/main_bg">
-
+    android:layout_height="fill_parent" >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -38,33 +36,27 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:text="Click Refresh Button to display Pending Job List"
                 android:id="@+id/textView"
                 android:layout_marginTop="5dp"
                 android:typeface="serif"
                 android:textStyle="bold|italic"
-                android:textColor="#57810f"
-                android:background="@drawable/group_item_focused"
-                android:textSize="12dp"
-                android:layout_gravity="center"
-                android:autoText="false"
-                android:gravity="center" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:textColor="@color/black"
+                android:layout_margin="5dp"
+                android:gravity="left" />
 
                 <ImageButton
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp"
                     android:id="@+id/imgbtn_refresh_records"
                     android:src="@drawable/refresh_50_50"
                     android:background="@drawable/button_states"
                     android:layout_margin="5dp" />
-
-            </LinearLayout>
 
             <ExpandableListView
                 android:layout_width="fill_parent"
@@ -72,6 +64,8 @@
                 android:id="@+id/expandableListView_smsjobs"
                 android:groupIndicator="@drawable/expandlist_background"
                 android:listSelector="@drawable/expandlist_selector"
+                android:layout_marginLeft="@dimen/md_10dp_margin"
+                android:layout_marginRight="@dimen/md_10dp_margin"
                 android:layout_marginTop="5dp" />
         </LinearLayout>
     </FrameLayout>

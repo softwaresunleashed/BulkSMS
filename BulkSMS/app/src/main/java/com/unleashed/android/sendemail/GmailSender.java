@@ -3,22 +3,18 @@ package com.unleashed.android.sendemail;
 
 
 
-import android.util.Log;
+import com.unleashed.android.helpers.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.security.Security;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
-
 import javax.mail.PasswordAuthentication;
-
-
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -77,7 +73,7 @@ public class GmailSender extends javax.mail.Authenticator {
             Transport.send(message);
 
         }catch(Exception ex){
-            Log.e("Bulk SMS: ", "GmailSender.java:sendMail() caught exception");
+            Logger.push(Logger.LogType.LOG_ERROR, "GmailSender.java:sendMail() caught exception");
 			ex.printStackTrace();
         }
     }

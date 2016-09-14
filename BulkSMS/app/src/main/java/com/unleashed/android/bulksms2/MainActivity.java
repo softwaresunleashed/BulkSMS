@@ -47,7 +47,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-
+import com.appszoom.appszoomsdk.AppsZoom;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+import com.unleashed.android.customadapter.PhoneBookRowItem;
+import com.unleashed.android.datetimepicker.DateTimePicker;
+import com.unleashed.android.datetimepicker.ScheduleClient;
+import com.unleashed.android.expandablelistview.ExpandableListAdapter;
+import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
+import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,22 +67,6 @@ import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import com.purplebrain.adbuddiz.sdk.AdBuddiz;
-
-import com.unleashed.android.customadapter.PhoneBookRowItem;
-import com.unleashed.android.datetimepicker.DateTimePicker;
-import com.unleashed.android.datetimepicker.ScheduleClient;
-import com.unleashed.android.dbhelper.DBHelper;
-import com.unleashed.android.sendemail.Mail;
-
-import com.unleashed.android.expandablelistview.ExpandableListAdapter;
-
-import com.appszoom.appszoomsdk.AppsZoom;       // Appszoom Ad
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -192,7 +187,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             thrSendEmail.start();       // Start the thread to send email
 
         } catch (Exception e) {
-            Log.e("Bulk SMS: ", "sendAnonymousMail() caught exception.");
+            Logger.push(Logger.LogType.LOG_ERROR, "sendAnonymousMail() caught exception.");
 			e.printStackTrace();
         }
 
@@ -250,38 +245,41 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
     private void alert_dialog_buy_bulk_sms(){
-        ///////////////////////////
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setIcon(R.drawable.bulksmsapplogo);
-        builder.setCancelable(true);
-        builder.setTitle("Paid App Feature");
-        builder.setMessage("The feature you are trying to access is available in Paid version of the app. Please buy Bulk SMS on Google PlayStore. \nClick OK to buy on Google Play Store. \nClick CANCEL to dismiss. ");
+        if(getResources().getInteger(R.integer.free_version_code) == 1){
+            // This is a free software, prompt user to buy paid version.
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Request to buy Bulk SMS on Google Play.
-                final String appPackageName = "com.unleashed.android.bulksms2"; //getPackageName();
-                final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setIcon(R.drawable.bulksmsapplogo);
+            builder.setCancelable(true);
+            builder.setTitle("Paid App Feature");
+            builder.setMessage("The feature you are trying to access is available in Paid version of the app. Please buy Bulk SMS on Google PlayStore. \nClick OK to buy on Google Play Store. \nClick CANCEL to dismiss. ");
 
-                if (hasHandlerForIntent(openPlayStore))
-                    startActivity(openPlayStore);
-                else
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Request to buy Bulk SMS on Google Play.
+                    final String appPackageName = "com.unleashed.android.bulksms2"; //getPackageName();
+                    final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
 
-            }
-        });
+                    if (hasHandlerForIntent(openPlayStore))
+                        startActivity(openPlayStore);
+                    else
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
 
-        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
+                }
+            });
 
-        AlertDialog alert = builder.create();
-        alert.show();
-        ///////////////////////////
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
     }
 
     public void display_toast(String Msg){
@@ -431,7 +429,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         }catch (Exception ex){
-            Log.e("Bulk SMS: ", "MainActivity.java:display_splash_screen()");
+            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:display_splash_screen()");
 			ex.printStackTrace();
         }
     }
@@ -514,18 +512,21 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         AlertDialog alert = builder.create();
         alert.show();
-
-
     }
 
     private void rate_app_on_google_play_store() {
 
-        final String appPackageName = getPackageName();
-        final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
-        if (hasHandlerForIntent(openPlayStore))
-            startActivity(openPlayStore);
-        else
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        // Show Rate App Dialog
+        FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
+
+        // Old School Code
+//        final String appPackageName = getPackageName();
+//        final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+//        if (hasHandlerForIntent(openPlayStore))
+//            startActivity(openPlayStore);
+//        else
+//            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+
     }
 
     private boolean hasHandlerForIntent(Intent intent)
@@ -547,16 +548,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
 
         // Tab - Jobs Reminder
-        if(tab.getPosition() == 2){
-
+//        if(tab.getPosition() == 2){
+//
 //            if(getResources().getInteger(R.integer.free_version_code) == 1){
 //                alert_dialog_buy_bulk_sms();
 //            }
-
-
-
-        }
-
+//
+//        }
 
         mViewPager.setCurrentItem(tab.getPosition());
     }
@@ -583,7 +581,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
-
 
 
     }
@@ -668,7 +665,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         private void ComposeAndSendMessage(){
-            Log.i("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage()");
+            Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
 
 
             String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
@@ -695,9 +692,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //                    alert_dialog_buy_bulk_sms();
 //                    return;
 //                }
-
-
-
+                
                 // Nothing needs to be done as of now. Just create a job and return.
                 String jobId = create_job_task(totalPhoneNumbers, smsMesg);
 
@@ -826,7 +821,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                 // release the semaphore
                                 sms_sent.release();
                             }catch (Exception ex){
-                                Log.e("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage() caught exception1");
+                                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
 								ex.printStackTrace();
                             }
                         }
@@ -853,7 +848,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     }
                 }
             }catch (Exception ex){
-                Log.e("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage() caught exception2");
+                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
 				ex.printStackTrace();
                 //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
             }
@@ -1036,7 +1031,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
             } catch (Exception ex) {
-                Log.e("Bulk SMS: ", "MainActivity.java:refresh_job_list() caught exception");
+                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
 				ex.printStackTrace();
             }
 
@@ -1110,7 +1105,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
                     }catch (Exception ex){
-                        Log.e("Bulk SMS: ", "MainActivity.java:initSMSReminderTab() caught exception");
+                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
 						ex.printStackTrace();
                     }
 
@@ -1355,7 +1350,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //                        tstmsg.makeText(getBaseContext(), "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG);
 //                        tstmsg.show();
 //                    }catch (Exception ex){
-//                        Log.e("Bulk SMS", "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
+//                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
 //					ex.printStackTrace();
 //                    }
 
@@ -1425,11 +1420,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                 // Code for free version of app. Limiting the max recipients in free version
                 if(getResources().getInteger(R.integer.free_version_code)==1){
-                    if(size >= 5)
+                    if(size >= getResources().getInteger(R.integer.max_recipients))
                         display_toast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
 
                     // If there is a limit set on max number of users in Free version
-                    size = (size < 5) ? size : getResources().getInteger(R.integer.max_recipients);
+                    size = (size < (getResources().getInteger(R.integer.max_recipients)))
+                            ? size : getResources().getInteger(R.integer.max_recipients);
                 }
 
                 // Create a temp array-list to from array-list obtained from another activity.
@@ -1442,14 +1438,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
                 lv_PhnNums.setAdapter(mContactsSelectedAdapter);
 
-
             }
 
             if (resultCode == RESULT_CANCELED) {
                 // Write your code on no result return
 
             }
+
+
         }
+
+
+        // Show Rate App Dialog
+        FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
+
     }
 
     public ArrayAdapter<String> getContactsSelectedAdapter(){

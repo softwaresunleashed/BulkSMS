@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:background="@drawable/login_bg_image">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/md_32dp_margin"
+        android:layout_marginRight="@dimen/md_32dp_margin"
+        android:id="@+id/parent_container"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="4dp">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="90dp"
+            android:background="@drawable/black_border"
+            app:srcCompat="@drawable/img_olx_login" />
+
+        <!--<TextView-->
+            <!--style="@style/SubheadRegular"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/md_12dp_margin"-->
+            <!--android:text="@string/start_buying_selling"-->
+            <!--android:textColor="@color/white" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_fb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="@dimen/md_20dp_margin"
+                android:background="@drawable/fb_login_button_selector"
+                android:drawableLeft="@drawable/login_fb_icon_layer_list"
+                android:drawablePadding="@dimen/padding_10dp"
+                android:minHeight="48dp"
+                android:paddingBottom="@dimen/padding_10dp"
+                android:paddingLeft="@dimen/fb_button_padding_left_right"
+                android:paddingRight="@dimen/fb_button_padding_left_right"
+                android:paddingTop="@dimen/padding_10dp"
+                android:text="@string/connect_with_facebook"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Body1Regular"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md_12dp_margin"
+                android:minHeight="@dimen/md_48dp_margin"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_google"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/md_2dp_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/google_signin_bg"
+                    android:drawableLeft="@drawable/google_icon_layer_list"
+                    android:paddingLeft="@dimen/login_btn_padding"
+                    android:paddingRight="@dimen/login_btn_padding"
+                    android:text="@string/google" />
+
+                <Button
+                    android:id="@+id/btn_phone_register"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/md_2dp_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/google_signin_bg"
+                    android:drawableLeft="@drawable/login_icon_layer_list"
+                    android:paddingLeft="@dimen/login_btn_padding"
+                    android:paddingRight="@dimen/login_btn_padding"
+                    android:text="@string/mobile" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/md_8dp_margin"
+                android:layout_marginTop="@dimen/md_56dp_margin"
+                android:text="@string/already_have_account"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/btn_legacy_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/md_4dp_margin"
+                android:background="@drawable/google_signin_bg"
+                android:text="@string/login_now"
+                android:textColor="@color/login_now_grey" />
+
+            <TextView
+                android:id="@+id/tv_tnc"
+                style="@style/CaptionRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:background="@drawable/dark_background_text_selector"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/md_8dp_margin"
+                android:layout_marginTop="@dimen/md_16dp_margin"
+                android:text="@string/account_terms_use"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+
+
+
+
+
+
+

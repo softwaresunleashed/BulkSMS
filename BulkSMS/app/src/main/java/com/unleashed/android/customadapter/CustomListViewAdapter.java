@@ -2,14 +2,12 @@ package com.unleashed.android.customadapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Filter;
-
 import android.widget.TextView;
 
 import com.unleashed.android.bulksms2.R;
@@ -117,7 +115,6 @@ public class CustomListViewAdapter extends ArrayAdapter<PhoneBookRowItem> {
             // Instantiate view
             convertView = inflater.inflate(mResource, mParent, false);
 
-
             holder = new Holder();
             holder.phone_user_name = (TextView)convertView.findViewById(R.id.tv_phonename);
             holder.phone_user_name.setText(rowItem.getPhoneUserName());
@@ -143,9 +140,7 @@ public class CustomListViewAdapter extends ArrayAdapter<PhoneBookRowItem> {
         }
 
         // Set the color of the list view
-        convertView.setBackgroundColor(holder.state ? Color.LTGRAY : Color.WHITE);
-
-
+        //convertView.setBackgroundColor(holder.state ? Color.LTGRAY : Color.WHITE);
 
         return convertView;
     }

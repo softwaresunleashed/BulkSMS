@@ -7,8 +7,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
+import com.unleashed.android.helpers.Logger;
 
 import java.util.Calendar;
 
@@ -48,7 +48,7 @@ public class AlarmTask implements Runnable{
         intent.putExtra(NotifyService.INTENT_NOTIFY, true);
         intent.putExtra(NotifyService.INTENT_JOBID, jobid);            // Pass the job id
 
-        Log.i("Bulk SMS: ", "AlarmTask.java:run() - jobid = " + jobid);
+        Logger.push(Logger.LogType.LOG_INFO, "AlarmTask.java:run() - jobid = " + jobid);
 
         // Very IMPORTANT :
         // Second parameter of pending Intent needs to be set to a unique number else,

@@ -17,13 +17,12 @@ import android.database.Cursor;
 import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
-
 
 import com.unleashed.android.bulksms2.MainActivity;
 import com.unleashed.android.bulksms2.R;
-import com.unleashed.android.dbhelper.DBHelper;
+import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 
 /**
@@ -61,17 +60,17 @@ public class NotifyService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i("Bulk SMS: ", "NotifyService : onCreate()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService : onCreate()");
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("Bulk SMS: ", "NotifyService :onStartCommand() - Received start id " + startId + ": " + intent);
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService :onStartCommand() - Received start id " + startId + ": " + intent);
 
         // Get the JOBID for which notification has been triggered.
         String JOBID = intent.getStringExtra(INTENT_JOBID);
-        Log.i("Bulk SMS: ", "NotifyService :onStartCommand() - JOBID=" + JOBID);
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService :onStartCommand() - JOBID=" + JOBID);
 
         // If this service was started by out AlarmTask intent then we want to show our notification
         if(intent.getBooleanExtra(INTENT_NOTIFY, false))
@@ -94,7 +93,7 @@ public class NotifyService extends Service {
      */
     private void showNotification(String jobID) {
 
-        Log.i("Bulk SMS: ", "NotifyService.java:showNotification()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:showNotification()");
 
         // This is the 'title' of the notification
         CharSequence title = "Bulk SMS!!";
@@ -105,16 +104,36 @@ public class NotifyService extends Service {
         // What time to show on the notification
         long time = System.currentTimeMillis();
 
-        Notification notification = new Notification(icon, text, time);
+
 
         // The PendingIntent to launch our activity if the user selects this notification
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
 
+        // ------------------ Depricated ------------------
+        // Notification notification = new Notification(icon, text, time);
+
+
         // Set the info for the views that show in the notification panel.
-        notification.setLatestEventInfo(this, title, text, contentIntent);
+        //notification.setLatestEventInfo(this, title, text, contentIntent);
 
         // Clear the notification when it is pressed
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        //notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        // ------------------------------------------------
+
+        Notification.Builder builder = new Notification.Builder(this.getApplicationContext());
+
+        builder.setTicker(title);
+        builder.setContentTitle(title);
+        builder.setContentText(text);
+        builder.setSmallIcon(icon);
+        builder.setContentIntent(contentIntent);
+        builder.setAutoCancel(true);
+        //builder.setSubText("This is subtext...");   //API level 16
+        //builder.setNumber(100);
+        //builder.setOngoing(true);
+        builder.build();
+
+        Notification notification = builder.getNotification();
 
         // Send the notification to the system.
         mNM.notify(NOTIFICATION, notification);
@@ -130,7 +149,7 @@ public class NotifyService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        Log.i("Bulk SMS: ", "NotifyService.java:onDestroy()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:onDestroy()");
 
         // Stop the service when we are finished
         //stopSelf();
@@ -157,14 +176,14 @@ public class NotifyService extends Service {
                                 // Start sending sms messages in background
                                 delegateMessageSending(PhoneNumbers, SMS_Message);
 
-                                Log.i("Bulk SMS: ", "NotifyService.java:process_job_id() - JOBID=" + jobid);
+                                Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:process_job_id() - JOBID=" + jobid);
 
                                 // Delete reference of JOBID already processed.
                                 localDBHelperObj.deleteJob(jobid);
                 //           }while(c.moveToNext());
                         }
                 } catch (Exception e) {
-                    Log.e("Bulk SMS: ", "NotifyService.java - process_job_id(): caught exception");
+                    Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java - process_job_id(): caught exception");
                     e.printStackTrace();
                 }
             }
@@ -261,7 +280,7 @@ public class NotifyService extends Service {
                 i = endIndex;
             }
         }catch (Exception e){
-            Log.e("Bulk SMS: ", "NotifyService.java:delegateMessageSending() caught exception");
+            Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java:delegateMessageSending() caught exception");
             e.printStackTrace();
             //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
         }

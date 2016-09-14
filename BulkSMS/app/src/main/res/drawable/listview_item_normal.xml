@@ -16,7 +16,7 @@
 
 -->
     <corners
-        android:radius="10dp" />
+        android:radius="@dimen/corner_radius" />
 
 
 </selector>

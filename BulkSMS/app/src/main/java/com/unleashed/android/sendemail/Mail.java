@@ -1,7 +1,6 @@
 package com.unleashed.android.sendemail;
 
-import android.util.Log;
-import android.widget.Toast;
+import com.unleashed.android.helpers.Logger;
 
 import java.util.Date;
 import java.util.Properties;
@@ -11,7 +10,6 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.activation.MailcapCommandMap;
-import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
@@ -21,7 +19,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.security.auth.Subject;
 
 /**
  * Created by gupta on 7/22/2015.
@@ -125,8 +122,8 @@ public class Mail extends javax.mail.Authenticator {
                     }
 
                 }catch (Exception ex){
-                        Log.e("Bulk SMS: ", "Mail.java:send() caught exception");
-						ex.printStackTrace();
+                    Logger.push(Logger.LogType.LOG_ERROR, "Mail.java:send() caught exception");
+                    ex.printStackTrace();
                 }
 
 
