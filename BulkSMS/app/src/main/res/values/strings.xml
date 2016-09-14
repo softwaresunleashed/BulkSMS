@@ -61,4 +61,24 @@
     <string name="review_your_email">Your e-mail (optional)</string>
     <string name="review_send">Send</string>
 
+
+    <!--Login strings-->
+    <string name="no_internet_new">Oops! No internet.Check your connection</string>
+    <string name="retry">Retry</string>
+    <string name="connect_with_facebook">Connect with Facebook</string>
+    <string name="link_your_facebook">Complete your profile. Sell Faster</string>
+    <string name="connect_with_google">Connect with Google</string>
+    <string name="mobile">Mobile</string>
+    <string name="google">Google</string>
+    <string name="already_have_account">Already have an account ?</string>
+    <string name="account_terms_use">By continuing, you agree to the Terms and Conditions</string>
+    <string name="login_now">Login Now</string>
+    <string name="login">Login</string>
+    <string name="login_required_message">You need to login or register to continue using OLX App</string>
+    <string name="exit_app">Exit App</string>
+    <string name="continue_btn">Continue</string>
+    <string name="create_new_password">Create New Password</string>
+
+
+
 </resources>

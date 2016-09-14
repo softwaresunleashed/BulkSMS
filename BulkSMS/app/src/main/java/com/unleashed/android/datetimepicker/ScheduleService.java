@@ -7,8 +7,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
+import com.unleashed.android.helpers.Logger;
 
 import java.util.Calendar;
 
@@ -25,7 +25,7 @@ public class ScheduleService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("Bulk SMS: ", "ScheduleService - Received start id " + startId + ": " + intent);
+        Logger.push(Logger.LogType.LOG_INFO, "ScheduleService - Received start id " + startId + ": " + intent);
 
         // We want this service to continue running until it is explicitly stopped, so return sticky.
         return START_STICKY;

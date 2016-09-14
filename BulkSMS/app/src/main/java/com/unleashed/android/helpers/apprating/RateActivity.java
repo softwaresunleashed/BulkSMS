@@ -4,15 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Preferences;
+import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.config.Config;
 
 
-public class RateActivity extends AppCompatActivity {
+public class RateActivity extends BaseActivity {
     protected static final int DAYS_TO_RATE = 7;
     Context context;
 

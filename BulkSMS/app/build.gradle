@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "21.1.2"
     lintOptions {
         abortOnError false
@@ -10,6 +10,7 @@ android {
         applicationId 'com.unleashed.android.bulksms1'
         minSdkVersion 16
         targetSdkVersion 19
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -29,17 +30,27 @@ android {
     }
 
     dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile files('libs/activation.jar')
-    compile files('libs/additionnal.jar')
-    compile files('libs/mail.jar')
-    compile 'com.google.android.gms:play-services-ads:7.5.0'
-    compile files('libs/appszoomsdk.jar')
-    compile files('libs/AdBuddiz-3.0.14.jar')
+        compile fileTree(include: ['*.jar'], dir: 'libs')
+        compile files('libs/activation.jar')
+        compile files('libs/additionnal.jar')
+        compile files('libs/mail.jar')
 
-    compile('com.avast:android-styled-dialogs:2.2.0') {
-        exclude group: 'com.android.support', module: 'appcompat-v7'
+        compile files('libs/appszoomsdk.jar')
+        compile files('libs/AdBuddiz-3.0.14.jar')
+
+        compile('com.avast:android-styled-dialogs:2.2.0') {
+            exclude group: 'com.android.support', module: 'appcompat-v7'
+        }
+
+        compile 'com.android.support:design:24.2.0'
+        compile 'com.android.support:appcompat-v7:24.2.0'
+
+        compile('com.google.android.gms:play-services-ads:9.4.0'){
+            exclude group: 'com.google.android.gms', module: 'play-services-base'
+        }
+        compile('com.google.android.gms:play-services-auth:9.4.0') {
+            exclude group: 'com.google.android.gms', module: 'play-services-base'
+        }
+
     }
-}
 

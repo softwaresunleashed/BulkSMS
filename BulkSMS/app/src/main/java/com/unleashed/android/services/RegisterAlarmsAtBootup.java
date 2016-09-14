@@ -4,12 +4,11 @@ import android.app.Service;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.IBinder;
-import android.util.Log;
-
 
 import com.unleashed.android.datetimepicker.AlarmTask;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
+import com.unleashed.android.helpers.Logger;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 import java.util.Calendar;
@@ -33,7 +32,7 @@ public class RegisterAlarmsAtBootup extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-        Log.v("Bulk SMS: ", "Service Started successfully");
+        Logger.push(Logger.LogType.LOG_VERBOSE, "Service Started successfully");
 
 
         // Read DB file and register alarms according to job id
@@ -59,7 +58,7 @@ public class RegisterAlarmsAtBootup extends Service{
                 int hour = Integer.valueOf(jobId.substring(9,10+1));
                 int minute = Integer.valueOf(jobId.substring(11));
 
-                Log.v("Bulk SMS: ", "Registering Alarm : " + year + "-" + String.valueOf(month+1) + "-" + day + "/" + hour + ":" + minute);
+                Logger.push(Logger.LogType.LOG_VERBOSE, "Registering Alarm : " + year + "-" + String.valueOf(month+1) + "-" + day + "/" + hour + ":" + minute);
 
                 calendar_date.set(year, month, day);
                 calendar_date.set(Calendar.HOUR_OF_DAY, hour);

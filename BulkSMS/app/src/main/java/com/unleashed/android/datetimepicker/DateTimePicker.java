@@ -1,8 +1,8 @@
 package com.unleashed.android.datetimepicker;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.unleashed.android.helpers.Logger;
 
 import java.util.Calendar;
 
@@ -51,7 +51,7 @@ public class DateTimePicker {
             scheduleClient.setAlarmForNotification(calendar_date, jobId);
 
         }catch (Exception ex){
-            Log.e("Bulk SMS: " , "DateTimePicker.java:setMessageReminder()");
+            Logger.push(Logger.LogType.LOG_ERROR, "DateTimePicker.java:setMessageReminder()");
 			ex.printStackTrace();
         }
 

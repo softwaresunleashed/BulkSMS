@@ -699,4 +699,12 @@ public class Helpers {
 //        return PlayServicesUtils.isGooglePlayServicesAvailable(context)
 //                == ConnectionResult.SUCCESS;
 //    }
+
+    public static boolean isMandatoryRegEnabled(Context context) {
+        /*if (context != null)
+            return Preferences.getAppPreference(context, Preferences.SHARED_PREF_MAND_REG, false);
+        return false;*/
+        return true;
+    }
+
 }

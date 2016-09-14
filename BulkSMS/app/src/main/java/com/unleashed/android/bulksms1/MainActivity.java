@@ -55,6 +55,7 @@ import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
+import com.unleashed.android.helpers.Logger;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.sendemail.Mail;
@@ -186,7 +187,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             thrSendEmail.start();       // Start the thread to send email
 
         } catch (Exception e) {
-            Log.e("Bulk SMS: ", "sendAnonymousMail() caught exception.");
+            Logger.push(Logger.LogType.LOG_ERROR, "sendAnonymousMail() caught exception.");
 			e.printStackTrace();
         }
 
@@ -428,7 +429,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         }catch (Exception ex){
-            Log.e("Bulk SMS: ", "MainActivity.java:display_splash_screen()");
+            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:display_splash_screen()");
 			ex.printStackTrace();
         }
     }
@@ -664,7 +665,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         private void ComposeAndSendMessage(){
-            Log.i("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage()");
+            Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
 
 
             String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
@@ -820,7 +821,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                                 // release the semaphore
                                 sms_sent.release();
                             }catch (Exception ex){
-                                Log.e("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage() caught exception1");
+                                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
 								ex.printStackTrace();
                             }
                         }
@@ -847,7 +848,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     }
                 }
             }catch (Exception ex){
-                Log.e("Bulk SMS: ", "MainActivity.java:ComposeAndSendMessage() caught exception2");
+                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
 				ex.printStackTrace();
                 //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
             }
@@ -1030,7 +1031,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
             } catch (Exception ex) {
-                Log.e("Bulk SMS: ", "MainActivity.java:refresh_job_list() caught exception");
+                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
 				ex.printStackTrace();
             }
 
@@ -1104,7 +1105,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
                     }catch (Exception ex){
-                        Log.e("Bulk SMS: ", "MainActivity.java:initSMSReminderTab() caught exception");
+                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
 						ex.printStackTrace();
                     }
 
@@ -1349,7 +1350,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //                        tstmsg.makeText(getBaseContext(), "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG);
 //                        tstmsg.show();
 //                    }catch (Exception ex){
-//                        Log.e("Bulk SMS", "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
+//                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
 //					ex.printStackTrace();
 //                    }
 

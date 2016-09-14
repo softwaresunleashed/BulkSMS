@@ -3,20 +3,16 @@ package com.unleashed.android.bulksms1;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.provider.ContactsContract;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -26,9 +22,9 @@ import android.widget.SearchView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-
 import com.unleashed.android.customadapter.CustomListViewAdapter;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
+import com.unleashed.android.helpers.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -100,7 +96,7 @@ public class ContactBook extends Activity
                         mAdView.loadAd(adRequest);
 
                     } catch (Exception ex) {
-                        Log.e("Bulk SMS: ", "ContactBook.java:onCreate()");
+                        Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:onCreate()");
 						ex.printStackTrace();
                     }
                 }
@@ -325,7 +321,7 @@ public class ContactBook extends Activity
 
             }
         }catch (Exception ex){
-            Log.e("Bulk SMS: ", "ContactBook.java:populateAdapter()");
+            Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:populateAdapter()");
 			ex.printStackTrace();
         }
 
@@ -416,7 +412,7 @@ public class ContactBook extends Activity
            // Set the size of Contact List
            sizeOfSelectedContacts = selectedContacts.size();
        }catch (Exception ex){
-           Log.e("Bulk SMS: ", "ContactBook.java:selectAllContactBookEntries()");
+           Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:selectAllContactBookEntries()");
 		   ex.printStackTrace();
        }
 
@@ -503,7 +499,7 @@ public class ContactBook extends Activity
 
 
         }catch (Exception ex){
-            Log.e("Bulk SMS", ex.getStackTrace().toString());
+            Logger.push(Logger.LogType.LOG_ERROR, ex.getStackTrace().toString());
         }
 
     }

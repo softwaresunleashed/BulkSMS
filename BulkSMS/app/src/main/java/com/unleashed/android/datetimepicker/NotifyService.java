@@ -17,12 +17,11 @@ import android.database.Cursor;
 import android.os.Binder;
 import android.os.IBinder;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
-
 
 import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.Logger;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 
@@ -61,17 +60,17 @@ public class NotifyService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i("Bulk SMS: ", "NotifyService : onCreate()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService : onCreate()");
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("Bulk SMS: ", "NotifyService :onStartCommand() - Received start id " + startId + ": " + intent);
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService :onStartCommand() - Received start id " + startId + ": " + intent);
 
         // Get the JOBID for which notification has been triggered.
         String JOBID = intent.getStringExtra(INTENT_JOBID);
-        Log.i("Bulk SMS: ", "NotifyService :onStartCommand() - JOBID=" + JOBID);
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService :onStartCommand() - JOBID=" + JOBID);
 
         // If this service was started by out AlarmTask intent then we want to show our notification
         if(intent.getBooleanExtra(INTENT_NOTIFY, false))
@@ -94,7 +93,7 @@ public class NotifyService extends Service {
      */
     private void showNotification(String jobID) {
 
-        Log.i("Bulk SMS: ", "NotifyService.java:showNotification()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:showNotification()");
 
         // This is the 'title' of the notification
         CharSequence title = "Bulk SMS!!";
@@ -150,7 +149,7 @@ public class NotifyService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        Log.i("Bulk SMS: ", "NotifyService.java:onDestroy()");
+        Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:onDestroy()");
 
         // Stop the service when we are finished
         //stopSelf();
@@ -177,14 +176,14 @@ public class NotifyService extends Service {
                                 // Start sending sms messages in background
                                 delegateMessageSending(PhoneNumbers, SMS_Message);
 
-                                Log.i("Bulk SMS: ", "NotifyService.java:process_job_id() - JOBID=" + jobid);
+                                Logger.push(Logger.LogType.LOG_INFO, "NotifyService.java:process_job_id() - JOBID=" + jobid);
 
                                 // Delete reference of JOBID already processed.
                                 localDBHelperObj.deleteJob(jobid);
                 //           }while(c.moveToNext());
                         }
                 } catch (Exception e) {
-                    Log.e("Bulk SMS: ", "NotifyService.java - process_job_id(): caught exception");
+                    Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java - process_job_id(): caught exception");
                     e.printStackTrace();
                 }
             }
@@ -281,7 +280,7 @@ public class NotifyService extends Service {
                 i = endIndex;
             }
         }catch (Exception e){
-            Log.e("Bulk SMS: ", "NotifyService.java:delegateMessageSending() caught exception");
+            Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java:delegateMessageSending() caught exception");
             e.printStackTrace();
             //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
         }
