@@ -62,17 +62,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ContactBook"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_contact_book"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-
             <!--
         android:configChanges="keyboardHidden|orientation|screenSize"
         is needed to avoid crashes when orientation of the app changes.
             -->
-
         </activity>
 
         <!-- Include the AdActivity configChanges and theme. -->
@@ -91,6 +90,15 @@
         <activity
             android:name="com.purplebrain.adbuddiz.sdk.AdBuddizActivity"
             android:theme="@android:style/Theme.Translucent" />
+
+        <activity
+            android:name="com.unleashed.android.helpers.apprating.RateActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_contact_book"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
+
 
         <!-- AppsZoom Ad: Detect app installs. Necessary to control the installs your app generates (avoid using it if you are only tracking) -->
         <receiver android:name="com.appszoom.appszoomsdk.AppsZoomPackageAddedReceiver" >

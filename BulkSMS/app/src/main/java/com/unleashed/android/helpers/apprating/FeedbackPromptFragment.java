@@ -39,7 +39,6 @@ public class FeedbackPromptFragment extends SimpleDialogFragment{
     }
 
     public static FeedbackPromptFragment newInstance() {
-
         Bundle args = new Bundle();
         FeedbackPromptFragment fragment = new FeedbackPromptFragment();
         fragment.setArguments(args);

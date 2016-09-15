@@ -66,8 +66,14 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_ABOUT_APP;
+import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_JOBS_SMS;
+import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_REMINDER_SMS;
+import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_SEND_BULK_SMS;
+import static com.unleashed.android.bulksms1.R.id.container;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, View.OnClickListener {
+
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, View.OnClickListener, PlaceholderFragment.IInitCallbacks {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -310,6 +316,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         dsdttmpick = new DateTimePicker(getApplicationContext());
 
+        // Register for callbacks from the fragments
+        PlaceholderFragment.registerFragmentCallbacks(this);
 
 
         if(getResources().getInteger(R.integer.host_ads)==1) {
@@ -594,6 +602,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     }
 
+    @Override
+    public void initCallbacks(View view, int fragment_number) {
+        // Call corresponding initialization routines, as per the tab selected.
+        switch(fragment_number){
+            case TAB_SEND_BULK_SMS:
+                initSendBulkSMSTab(view);
+                break;
+
+            case TAB_REMINDER_SMS:
+                initSMSReminderTab(view);
+                break;
+
+            case TAB_JOBS_SMS:
+                initJobsSMSTab(view);
+                break;
+
+            case TAB_ABOUT_APP:
+                initAboutAppTab(view);
+                break;
+        };
+    }
 
 
     /**
@@ -715,14 +744,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 // Write your code on no result return
 
             }
-
-
         }
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // Show Rate App Dialog
         FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
-
     }
 
     public ArrayAdapter<String> getContactsSelectedAdapter(){
@@ -1218,7 +1250,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Context cntx = getActivity(); //getBaseContext(); //getApplication();
+                Context cntx = SUApplication.getContext();//getActivity(); //getBaseContext(); //getApplication();
                 final CharSequence[] items = {"Delete", "Cancel"};
                 final int pos = position;
 

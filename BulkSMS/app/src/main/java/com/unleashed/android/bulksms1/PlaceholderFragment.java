@@ -20,16 +20,13 @@ public class PlaceholderFragment extends Fragment{
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     // Static Numbers assiged to Tab(s)
-    private static final int TAB_SEND_BULK_SMS = 1;
-    private static final int TAB_REMINDER_SMS = 2;
-    private static final int TAB_JOBS_SMS = 3;
-    private static final int TAB_ABOUT_APP = 4;
+    public static final int TAB_SEND_BULK_SMS = 1;
+    public static final int TAB_REMINDER_SMS = 2;
+    public static final int TAB_JOBS_SMS = 3;
+    public static final int TAB_ABOUT_APP = 4;
 
     // View obj variable to pass View instances
     private View mView;
-
-
-
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -44,47 +41,55 @@ public class PlaceholderFragment extends Fragment{
         return fragment;
     }
 
+    public static void registerFragmentCallbacks(IInitCallbacks cbListener){
+        if(cbListener != null){
+            callbackListener = cbListener;
+        }
+    }
+
+    static IInitCallbacks callbackListener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_send_bulk_sms, container, false);
-
-
         int TabNumber;
         Bundle args = getArguments();
         TabNumber = args.getInt(ARG_SECTION_NUMBER);
 
+        View rootView = inflater.inflate(R.layout.fragment_send_bulk_sms, container, false);
+
         switch(TabNumber){
             case TAB_SEND_BULK_SMS:
                 rootView = inflater.inflate(R.layout.fragment_send_bulk_sms, container, false);
-                // Get all the handles
-                mView = rootView;
-                initSendBulkSMSTab(mView);
+                if(callbackListener != null)
+                    callbackListener.initCallbacks(rootView, TAB_SEND_BULK_SMS);
                 break;
 
             case TAB_REMINDER_SMS:
                 rootView = inflater.inflate(R.layout.fragment_reminder_bulk_sms, container, false);
-                mView = rootView;
-                initSMSReminderTab(mView);
+                if(callbackListener != null)
+                    callbackListener.initCallbacks(rootView, TAB_REMINDER_SMS);
                 break;
 
             case TAB_JOBS_SMS:
                 rootView = inflater.inflate(R.layout.fragment_jobs_sms, container, false);
-                mView = rootView;
-                initJobsSMSTab(mView);
+                if(callbackListener != null)
+                    callbackListener.initCallbacks(rootView, TAB_JOBS_SMS);
+
                 break;
 
             case TAB_ABOUT_APP:
                 rootView = inflater.inflate(R.layout.fragment_about_app, container, false);
-                mView = rootView;
-                initAboutAppTab(mView);
+                if(callbackListener != null)
+                    callbackListener.initCallbacks(rootView, TAB_ABOUT_APP);
                 break;
         };
 
         return rootView;
     }
 
+    public interface IInitCallbacks{
+        public void initCallbacks(View view, int fragment_number);
+    }
 
 
 }
