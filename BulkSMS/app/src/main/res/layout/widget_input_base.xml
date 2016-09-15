@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?><!-- field content container -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/tooltipContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/border_color"
+        android:orientation="vertical"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tooltipTitle"
+            style="@style/input_text_caption_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/border_color"
+            android:gravity="start"
+            android:paddingBottom="1dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="0dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tooltipDesc"
+            style="@style/input_text_caption_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/border_color"
+            android:gravity="start"
+            android:paddingBottom="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="1dp"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/iconImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_weight="0"
+                android:scaleType="fitCenter" />
+
+            <FrameLayout
+                android:id="@+id/fl_componentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top"
+                    android:orientation="vertical">
+
+                    <FrameLayout
+                        android:id="@+id/contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp" />
+
+                    <TextView
+                        android:id="@+id/message"
+                        style="@style/input_text_caption_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/material_amber_300"
+                        android:padding="3dp"
+                        android:textColor="@color/black"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/errorContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/errorMsg"
+                            style="@style/input_text_error_style"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/md_16dp_margin"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textColor="@color/field_error"
+                            android:visibility="invisible" />
+
+                        <TextView
+                            android:id="@+id/counter"
+                            style="@style/input_text_caption_style"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dp"
+                            android:text=""
+                            android:textSize="@dimen/txt_size_12sp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/titleContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <pl.tablica2.widgets.TypefaceTextView
+                        android:id="@+id/title"
+                        style="@style/input_text_caption_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <!-- Error container -->
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iconClear"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginTop="@dimen/md_20dp_margin"
+            android:background="@drawable/icon_clear_selector_bg"
+            android:padding="6dp"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_action_remove" />
+
+    </LinearLayout>
+    <!--</android.support.v7.widget.CardView>-->
+</LinearLayout>

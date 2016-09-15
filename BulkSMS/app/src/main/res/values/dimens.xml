@@ -33,6 +33,7 @@
     <dimen name="md_42dp_margin">42dp</dimen>
     <dimen name="md_48dp_margin">48dp</dimen>
     <dimen name="md_56dp_margin">56dp</dimen>
+    <dimen name="md_60dp_margin">60dp</dimen>
     <dimen name="md_64dp_margin">64dp</dimen>
 
     <!--Paddings-->
@@ -58,5 +59,11 @@
     <!--fb_login_widget-->
     <dimen name="fb_button_padding_left_right">@dimen/padding_36dp</dimen>
     <dimen name="login_btn_padding">@dimen/padding_16dp</dimen>
+
+    <dimen name="action_bar_height">@dimen/md_60dp_margin</dimen>
+
+
+
+
 
 </resources>

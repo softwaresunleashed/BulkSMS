@@ -3,8 +3,11 @@
 
     <!--Material Colors-->
     <color name="material_blue_800">#FF1565C0</color>
+    <color name="red_accent_700">#FFD50000</color>
     <color name="material_red_900">#FFB71C1C</color>
+    <color name="material_amber_300">#FFFFD54F</color>
     <color name="material_amber_900">#FFFF6F00</color>
+    <color name="material_light_green_500">#FF8BC34A</color>
 
 
     <!--Shaded of White-->
@@ -48,6 +51,18 @@
     <color name="transparent_white_preesed">@color/white_40</color>
     <color name="fb_blue_button">#4f70a7</color>
     <color name="fb_blue_button_pressed">#2A457E</color>
+    <color name="newadlist_link_pressed">#22007FFF</color>
+    <color name="action_bar_button_background_hamburger">#FF7900</color>
+    <color name="olx_orange_selected">#88FF7700</color>
+    <color name="olx_orange">#ff7700</color>
+    <color name="border_color">#aabb00</color>
+    <color name="red_error">@color/red_accent_700</color>
+    <color name="field_error">@color/material_red_900</color>
+    <color name="input_icon_valid">@color/material_light_green_500</color>
+    <color name="input_icon_invalid">@color/material_red_900</color>
+    <color name="input_icon_neutral">@color/transparent</color>
+
+
 
 
 

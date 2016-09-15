@@ -104,8 +104,6 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
 
 
-
-
         <!-- AppsZoom Ad: Detect app installs. Necessary to control the installs your app generates (avoid using it if you are only tracking) -->
         <receiver android:name="com.appszoom.appszoomsdk.AppsZoomPackageAddedReceiver" >
             <intent-filter>

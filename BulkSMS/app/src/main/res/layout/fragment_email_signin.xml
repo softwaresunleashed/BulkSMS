@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tablica="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parent_container"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/md_60dp_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/md_16dp_margin"
+            android:layout_marginRight="@dimen/md_16dp_margin"
+            android:orientation="vertical">
+
+            <com.unleashed.android.helpers.widgets.inputs.InputTextEdit
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md_8dp_margin"
+                app:IconDisabled="true" />
+
+            <com.unleashed.android.helpers.widgets.inputs.InputTextEdit
+                android:id="@+id/edt_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:IconDisabled="true" />
+
+            <TextView
+                android:id="@+id/tv_forgot_password"
+                style="@style/Body1Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/md_20dp_margin"
+                android:background="@drawable/blue_link_button_selector"
+                android:text="@string/forgot_password"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_sky_blue" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/tv_login"
+        style="@style/BottomActionTextPosting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        android:layout_gravity="bottom"
+        android:background="@drawable/orange_button_selector"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="@dimen/padding_4dp"
+        android:text="@string/login"
+        android:visibility="visible" />
+
+</FrameLayout>
+

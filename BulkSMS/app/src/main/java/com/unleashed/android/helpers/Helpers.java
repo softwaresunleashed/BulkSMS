@@ -9,11 +9,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.support.annotation.DrawableRes;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
@@ -23,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.unleashed.android.bulksms1.R;
@@ -641,8 +645,15 @@ public class Helpers {
 
 
 
+    public static void setSvgAsSource(Context context, ImageView view, @DrawableRes int resID) {
+        Drawable drawable = getSvgAsDrawable(context, resID);
+        if (drawable != null) view.setImageDrawable(drawable);
+    }
 
-
+    public static Drawable getSvgAsDrawable(Context context, @DrawableRes int resID) {
+        VectorDrawableCompat vectorDrawableCompat = VectorDrawableCompat.create(context.getResources(), resID, context.getTheme());
+        return vectorDrawableCompat != null ? vectorDrawableCompat.getCurrent() : null;
+    }
 
     public static boolean isRooted() {
         return findBinary("su");
