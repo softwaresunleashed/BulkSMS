@@ -49,6 +49,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.unleashed.android.application.SUApplication;
+import com.unleashed.android.bulksms_activities.ContactBook;
+import com.unleashed.android.bulksms_fragments.PlaceholderFragment;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
@@ -66,11 +68,10 @@ import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_ABOUT_APP;
-import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_JOBS_SMS;
-import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_REMINDER_SMS;
-import static com.unleashed.android.bulksms1.PlaceholderFragment.TAB_SEND_BULK_SMS;
-import static com.unleashed.android.bulksms1.R.id.container;
+import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_ABOUT_APP;
+import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_JOBS_SMS;
+import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_REMINDER_SMS;
+import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_SEND_BULK_SMS;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, View.OnClickListener, PlaceholderFragment.IInitCallbacks {

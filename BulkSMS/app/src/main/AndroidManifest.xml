@@ -64,7 +64,7 @@
         </activity>
 
         <activity
-            android:name=".ContactBook"
+            android:name="com.unleashed.android.bulksms_activities.ContactBook"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_contact_book"
             android:windowSoftInputMode="adjustResize|stateHidden" >
