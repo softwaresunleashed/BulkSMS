@@ -10,9 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,21 +17,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.unleashed.android.bulksms1.R;
-import com.unleashed.android.helpers.Connectivity;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
 
 
 
@@ -49,7 +34,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     private static final int GOOGLE_LOGIN_RETRY = 2;
     private static final int RC_SIGN_IN = 123;
     private static final int LOADER_GOOGLE_LOGIN = 1;
-    private GoogleApiClient mGoogleApiClient;
+    //private GoogleApiClient mGoogleApiClient;
 
     private ProgressDialog progressDialog;
     private String mLaunchSource = "";
@@ -90,7 +75,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         phoneRegisterBtn.setOnClickListener(this);
         tv_tnc.setOnClickListener(this);
 
-        buildGoogleLoginClient();
+        //buildGoogleLoginClient();
 
         return view;
     }
@@ -121,10 +106,10 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fb:
-                performFacebookLogin();
+                //performFacebookLogin();
                 break;
             case R.id.btn_google:
-                performGoogleLogin();
+                //performGoogleLogin();
                 break;
             case R.id.btn_legacy_login:
                 startLoginActivity();
@@ -133,59 +118,59 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
                 startRegisterActivity();
                 break;
             case R.id.tv_tnc:
-                displayWeb("rules", getString(R.string.term_of_use));
+                //displayWeb("rules", getString(R.string.term_of_use));
                 break;
         }
     }
 
-    private void buildGoogleLoginClient() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestServerAuthCode("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com", false)
-                .requestIdToken("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com")
-                .build();
+//    private void buildGoogleLoginClient() {
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .requestServerAuthCode("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com", false)
+//                .requestIdToken("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com")
+//                .build();
+//
+//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+//                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+//    }
+//
+//    public void googleSignIn() {
+//
+//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//    }
+//
+//    public void googleSignOut() {
+//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(Status status) {
+//
+//                    }
+//                });
+//    }
+//
+//    private void performGoogleLogin() {
+//        if (Connectivity.isConnected(getActivity())) {
+//            googleSignIn();
+//        } else {
+//            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
+//        }
+//    }
 
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-    }
-
-    public void googleSignIn() {
-
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    public void googleSignOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-
-                    }
-                });
-    }
-
-    private void performGoogleLogin() {
-        if (Connectivity.isConnected(getActivity())) {
-            googleSignIn();
-        } else {
-            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
-        }
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            GoogleSignInAccount acct = result.getSignInAccount();
-            String authcode = acct.getServerAuthCode();
-            showProgress();
-            startgoogleLoginLoader(authcode);
-        } else {
-            //ToastUtil.show(this, R.string.login_error);
-        }
-
-    }
+//    private void handleSignInResult(GoogleSignInResult result) {
+//        if (result.isSuccess()) {
+//            GoogleSignInAccount acct = result.getSignInAccount();
+//            String authcode = acct.getServerAuthCode();
+//            showProgress();
+//            startgoogleLoginLoader(authcode);
+//        } else {
+//            //ToastUtil.show(this, R.string.login_error);
+//        }
+//
+//    }
 
     private void showProgress() {
         progressDialog = ProgressDialog.show(getActivity(), getString(R.string.please_wait), getString(R.string.logging_progress), true, true);
@@ -197,55 +182,55 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void startgoogleLoginLoader(String token) {
-        Bundle bundle = new Bundle();
-        bundle.putString("token", token);
-        getLoaderManager().restartLoader(LOADER_GOOGLE_LOGIN, bundle, googleLoginCallback);
-    }
+//    private void startgoogleLoginLoader(String token) {
+//        Bundle bundle = new Bundle();
+//        bundle.putString("token", token);
+//        getLoaderManager().restartLoader(LOADER_GOOGLE_LOGIN, bundle, googleLoginCallback);
+//    }
 
-    LoaderManager.LoaderCallbacks<TaskResponse<LoginResponse>> googleLoginCallback =
-            new LoaderManager.LoaderCallbacks<TaskResponse<LoginResponse>>() {
-
-                @Override
-                public Loader<TaskResponse<LoginResponse>> onCreateLoader(int i, Bundle bundle) {
-                    String token = bundle.getString("token");
-                    return new GoogleLoginLoader(getActivity(), token);
-                }
-
-                @Override
-                public void onLoadFinished(Loader<TaskResponse<LoginResponse>> loader, TaskResponse<LoginResponse> data) {
-                    hideProgress();
-                    if (data != null) {
-                        BottomBarManager.setBottomBarState(data.data.getUserMetaData(), getContext());
-                        handleGoogleLoginResponse(data.data);
-                    } else {
-                        googleSignOut();
-                        showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
-                    }
-                    getLoaderManager().destroyLoader(loader.getId());
-
-                }
-
-                @Override
-                public void onLoaderReset(Loader<TaskResponse<LoginResponse>> taskResponseLoader) {
-
-                }
-            };
-
-    private void handleGoogleLoginResponse(LoginResponse data) {
-        if (data != null) {
-            if (data.isSucceeded()) {
-                UserNameManager.setUserData(data);
-                setResultandFinish();
-                trackMixPanelEvent(MixpanelEventName.EVENT_LOGIN_SUCCESS);
-            } else {
-                handleGoogleLoginError(data);
-            }
-        } else {
-            googleSignOut();
-            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
-        }
-    }
+//    LoaderManager.LoaderCallbacks<TaskResponse<LoginResponse>> googleLoginCallback =
+//            new LoaderManager.LoaderCallbacks<TaskResponse<LoginResponse>>() {
+//
+//                @Override
+//                public Loader<TaskResponse<LoginResponse>> onCreateLoader(int i, Bundle bundle) {
+//                    String token = bundle.getString("token");
+//                    return new GoogleLoginLoader(getActivity(), token);
+//                }
+//
+//                @Override
+//                public void onLoadFinished(Loader<TaskResponse<LoginResponse>> loader, TaskResponse<LoginResponse> data) {
+//                    hideProgress();
+//                    if (data != null) {
+//                        BottomBarManager.setBottomBarState(data.data.getUserMetaData(), getContext());
+//                        handleGoogleLoginResponse(data.data);
+//                    } else {
+//                        googleSignOut();
+//                        showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
+//                    }
+//                    getLoaderManager().destroyLoader(loader.getId());
+//
+//                }
+//
+//                @Override
+//                public void onLoaderReset(Loader<TaskResponse<LoginResponse>> taskResponseLoader) {
+//
+//                }
+//            };
+//
+//    private void handleGoogleLoginResponse(LoginResponse data) {
+//        if (data != null) {
+//            if (data.isSucceeded()) {
+//                UserNameManager.setUserData(data);
+//                setResultandFinish();
+//                trackMixPanelEvent(MixpanelEventName.EVENT_LOGIN_SUCCESS);
+//            } else {
+//                handleGoogleLoginError(data);
+//            }
+//        } else {
+//            googleSignOut();
+//            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
+//        }
+//    }
 
     private void setResultandFinish() {
         getActivity().setResult(Activity.RESULT_OK);
@@ -258,34 +243,34 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 //        Mixpanel.track(getActivity(), event, map);
 //    }
 
-    private void handleGoogleLoginError(LoginResponse data) {
-        //Trackers.trackEvent(getActivity(), Trackers.EVENT_GP_LOGIN_ERROR);
-        googleSignOut();
-        Map<String, Object> formErrors = data.getFormErrors();
-        if (formErrors != null && formErrors.size() > 0) {
-            Set<String> keyset = formErrors.keySet();
-            Iterator<String> it = keyset.iterator();
+//    private void handleGoogleLoginError(LoginResponse data) {
+//        //Trackers.trackEvent(getActivity(), Trackers.EVENT_GP_LOGIN_ERROR);
+//        googleSignOut();
+//        Map<String, Object> formErrors = data.getFormErrors();
+//        if (formErrors != null && formErrors.size() > 0) {
+//            Set<String> keyset = formErrors.keySet();
+//            Iterator<String> it = keyset.iterator();
+//
+//            while (it.hasNext()) {
+//                String key = it.next();
+//                ToastUtil.show(getActivity(), formErrors.get(key).toString());
+//                break;
+//            }
+//        }
+//    }
 
-            while (it.hasNext()) {
-                String key = it.next();
-                ToastUtil.show(getActivity(), formErrors.get(key).toString());
-                break;
-            }
-        }
-    }
-
-    private void performFacebookLogin() {
-        if (Connectivity.isConnected(getActivity()))
-            startFacebookLogin();
-        else
-            showSnackBar(getString(R.string.no_internet_new), FACEBOOK_LOGIN_RETRY);
-    }
-
-    private void displayWeb(String url, String title) {
-        String displayUrl = Config.getBaseUrl() + url;
-        Logger.push(Logger.LogType.LOG_DEBUG, TAG, "Displaying url: " + displayUrl);
-        WebViewActivity.startWebViewActivity(getActivity(), displayUrl, title);
-    }
+//    private void performFacebookLogin() {
+//        if (Connectivity.isConnected(getActivity()))
+//            startFacebookLogin();
+//        else
+//            showSnackBar(getString(R.string.no_internet_new), FACEBOOK_LOGIN_RETRY);
+//    }
+//
+//    private void displayWeb(String url, String title) {
+//        String displayUrl = Config.getBaseUrl() + url;
+//        Logger.push(Logger.LogType.LOG_DEBUG, TAG, "Displaying url: " + displayUrl);
+//        WebViewActivity.startWebViewActivity(getActivity(), displayUrl, title);
+//    }
 
     @Override
     public void onResume() {
@@ -294,40 +279,40 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     }
 
     private void startLoginActivity() {
-        SignInTabActivity.startSignInActivityForResult(this);
+        //SignInTabActivity.startSignInActivityForResult(this);
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_LOGIN_NOW_TAP);
     }
 
     private void startRegisterActivity() {
-        RegisterActivity.startActivityForResult(this, mLaunchSource);
+        //RegisterActivity.startActivityForResult(this, mLaunchSource);
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_MOBILE_REGISTER_TAP);
     }
 
     private void startFacebookLogin() {
-        Intent intent = new Intent(getActivity(), FacebookLoginActivity.class);
-        startActivityForResult(intent, FacebookLoginActivity.REQUEST_CODE);
+        //Intent intent = new Intent(getActivity(), FacebookLoginActivity.class);
+        //startActivityForResult(intent, FacebookLoginActivity.REQUEST_CODE);
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_FB_CONNECT_TAP);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == FacebookLoginActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (data != null && data.hasExtra(FacebookLoginActivity.FB_TOKEN)) {
-                if (!TextUtils.isEmpty(FacebookLoginActivity.FB_TOKEN))
-                    informLoginSuccess();
-            } else {
-                showSnackBar(getString(R.string.something_not_right), FACEBOOK_LOGIN_RETRY);
-            }
-        } else if (requestCode == RegisterActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            informLoginSuccess();
-        } else if (requestCode == SignInTabActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            informLoginSuccess();
-        }
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
+//        if (requestCode == FacebookLoginActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            if (data != null && data.hasExtra(FacebookLoginActivity.FB_TOKEN)) {
+//                if (!TextUtils.isEmpty(FacebookLoginActivity.FB_TOKEN))
+//                    informLoginSuccess();
+//            } else {
+//                showSnackBar(getString(R.string.something_not_right), FACEBOOK_LOGIN_RETRY);
+//            }
+//        } else if (requestCode == RegisterActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            informLoginSuccess();
+//        } else if (requestCode == SignInTabActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            informLoginSuccess();
+//        }
+//        if (requestCode == RC_SIGN_IN) {
+//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            handleSignInResult(result);
+//        }
     }
 
     private void informLoginSuccess() {
@@ -353,10 +338,10 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
             public void onClick(View v) {
                 switch (retryAction) {
                     case FACEBOOK_LOGIN_RETRY:
-                        performFacebookLogin();
+                        //performFacebookLogin();
                         break;
                     case GOOGLE_LOGIN_RETRY:
-                        performGoogleLogin();
+                        //performGoogleLogin();
                         break;
                 }
             }

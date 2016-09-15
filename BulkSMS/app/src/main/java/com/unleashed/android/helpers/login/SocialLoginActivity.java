@@ -45,9 +45,9 @@ public class SocialLoginActivity extends BaseActivity implements SocialLoginFrag
             initFragments();
         }
 
-        if (getIntent() != null && getIntent().hasExtra(LAUNCH_CREATE_PASSWORD)) {
-            SetNewPasswordActivity.startActivityForResult(this, getIntent().getBundleExtra(LAUNCH_CREATE_PASSWORD));
-        }
+//        if (getIntent() != null && getIntent().hasExtra(LAUNCH_CREATE_PASSWORD)) {
+//            SetNewPasswordActivity.startActivityForResult(this, getIntent().getBundleExtra(LAUNCH_CREATE_PASSWORD));
+//        }
     }
 
     private void launchTaskStack() {
@@ -60,7 +60,8 @@ public class SocialLoginActivity extends BaseActivity implements SocialLoginFrag
     private void initFragments() {
         SocialLoginFragment socialLoginFragment = new SocialLoginFragment().newInstance("login");
         getSupportFragmentManager().beginTransaction()
-                .add(android.R.id.content, socialLoginFragment, LoginFragment.class.getSimpleName())
+                //ORIG CODE __  .add(android.R.id.content, socialLoginFragment, LoginFragment.class.getSimpleName())
+                .add(android.R.id.content, socialLoginFragment)
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                 .commit();
     }
@@ -93,9 +94,9 @@ public class SocialLoginActivity extends BaseActivity implements SocialLoginFrag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SetNewPasswordActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            setResultandFinish();
-        }
+//        if (requestCode == SetNewPasswordActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            setResultandFinish();
+//        }
     }
 
     private void setResultandFinish() {

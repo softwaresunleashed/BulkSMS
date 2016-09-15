@@ -74,11 +74,12 @@
     <string name="account_terms_use">By continuing, you agree to the Terms and Conditions</string>
     <string name="login_now">Login Now</string>
     <string name="login">Login</string>
-    <string name="login_required_message">You need to login or register to continue using OLX App</string>
+    <string name="login_required_message">You need to login or register to continue using BulkSMS</string>
     <string name="exit_app">Exit App</string>
     <string name="continue_btn">Continue</string>
     <string name="create_new_password">Create New Password</string>
-
+    <string name="please_wait">Please wait</string>
+    <string name="logging_progress">Logging you in...</string>
 
 
 </resources>

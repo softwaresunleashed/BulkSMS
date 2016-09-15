@@ -55,6 +55,16 @@ android {
         // Firebase Related Dependency Libs
         compile 'com.google.firebase:firebase-auth:9.4.0'
 
+        // Single target that includes all FirebaseUI libraries
+        //compile 'com.firebaseui:firebase-ui:0.5.3'
+
+        // FirebaseUI Database only
+        //compile 'com.firebaseui:firebase-ui-database:0.5.3'
+
+        // FirebaseUI Auth only
+        compile 'com.firebaseui:firebase-ui-auth:0.5.3'
+
+
     }
 
 apply plugin: 'com.google.gms.google-services'

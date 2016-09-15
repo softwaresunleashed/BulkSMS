@@ -25,13 +25,10 @@ import android.support.v7.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -51,6 +48,7 @@ import com.appszoom.appszoomsdk.AppsZoom;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
@@ -69,7 +67,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, View.OnClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -101,6 +99,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected static DateTimePicker dsdttmpick;// = new DateTimePicker(getApplicationContext());
     public DBHelper bulksmsdb;// = new DBHelper(this);
 
+    // Handles to UI Controls on "About App -  Bulk SMS Tab"
+    private TextView lbl_version_number;
+    private TextView lbl_version_history;
+    private TextView lbl_about_app;
+
+    // Handles to UI Controls on "Send Bulk SMS Tab"
+    private Button btn_bulksms;
+    private TextView lbl_sms_char_counter;
+    private ImageButton imgbtn_selectcontacts;
 
     /**
      * method is used for checking valid email id format.
@@ -556,6 +563,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //
 //        }
 
+
+
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -601,7 +610,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return new PlaceholderFragment().newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
@@ -627,744 +636,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-
-
-    public class PlaceholderFragment extends Fragment implements View.OnClickListener{
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        // Static Numbers assiged to Tab(s)
-        private static final int TAB_SEND_BULK_SMS = 1;
-        private static final int TAB_REMINDER_SMS = 2;
-        private static final int TAB_JOBS_SMS = 3;
-        private static final int TAB_ABOUT_APP = 4;
-
-        // Handles to UI Controls on "Send Bulk SMS Tab"
-        private Button btn_bulksms;
-        private TextView lbl_sms_char_counter;
-        private ImageButton imgbtn_selectcontacts;
-
-
-
-        // Handles to UI Controls on "About App -  Bulk SMS Tab"
-        private TextView lbl_version_number;
-        private TextView lbl_version_history;
-        private TextView lbl_about_app;
-
-
-        // protected ArrayList<PhoneBookRowItem> mContactsSelected;      // Holds the selected contacts from contact book
-        protected ArrayAdapter<String> mContactsSelectedAdapter;
-
-        // View obj variable to pass View instances
-        private View mView;
-
-
-
-
-        private void ComposeAndSendMessage(){
-            Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
-
-
-            String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
-            String smsMesg = et_sms_msg.getText().toString();       // Pull in the SMS text
-            final Context mContext = getApplicationContext();
-
-
-            int totalPhoneNumbers = lv_PhnNums.getCount();
-            if(totalPhoneNumbers == 0){
-                Toast.makeText(MainActivity.this, "Select minimum of one contact...", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if(smsMesg.length() == 0){
-                Toast.makeText(MainActivity.this, "Enter Text to Send...", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-               // Check if RadioButton "Set Reminder" is checked. Then store the mesg and recipient list along with time.
-            if(radbtn_set_reminder.isChecked() && dsdttmpick.isInitialized()) {
-
-                // Set Reminder is not available in Free Version of App
-//                if(getResources().getInteger(R.integer.free_version_code)==1){
-//                    alert_dialog_buy_bulk_sms();
-//                    return;
-//                }
-                
-                // Nothing needs to be done as of now. Just create a job and return.
-                String jobId = create_job_task(totalPhoneNumbers, smsMesg);
-
-                // Clean Phone Contacts list view after sending sms.
-                int count = mContactsSelectedList.size();
-                for(int itr=0; itr < count; itr++){
-                    mContactsSelectedList.remove(itr);
-                }
-                mContactsSelectedAdapter = getContactsSelectedAdapter();
-                mContactsSelectedAdapter.notifyDataSetChanged();
-                et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-                lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
-
-                // Select "Send Now" Radio button
-                radbtn_now.setChecked(true);
-                btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
-
-                display_toast("New Job # " + jobId + " created. \nSMS will be sent on the choosen Date and Time.");
-                return;
-            }
-
-
-
-            try{
-                String smsSent = "SMS_SENT";
-                String smsDelivered = "SMS_DELIVERED";
-
-                Intent smsSentIntent = new Intent(smsSent);
-                Intent smsDeliveredIntent = new Intent(smsDelivered);
-
-//            smsSentIntent.setAction("com.unleashed.android.bulksms");
-//            smsDeliveredIntent.setAction("com.unleashed.android.bulksms");
-
-                PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, smsSentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,smsDeliveredIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                mContext.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context arg0, Intent arg1) {
-                        switch (getResultCode()) {
-                            case Activity.RESULT_OK:
-                                Toast.makeText(mContext, "SMS sent", Toast.LENGTH_SHORT).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                                Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                Toast.makeText(mContext, "No service", Toast.LENGTH_SHORT).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_NULL_PDU:
-                                Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
-                                break;
-                            case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                Toast.makeText(mContext, "Radio off", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                }, new IntentFilter(smsSent));
-
-                // Receiver for Delivered SMS.
-                mContext.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context arg0, Intent arg1) {
-                        switch (getResultCode()) {
-                            case Activity.RESULT_OK:
-                                Toast.makeText(mContext, "SMS delivered", Toast.LENGTH_SHORT).show();
-                                break;
-
-                            case Activity.RESULT_CANCELED:
-                                Toast.makeText(mContext, "SMS Undelivered", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                }, new IntentFilter(smsDelivered));
-
-
-                // Get default SMS Manager's handler
-                SmsManager smsOperation = SmsManager.getDefault();
-
-
-                // Extract the phone numbers
-                for(int i=0; i < totalPhoneNumbers; i++ ){
-
-                    // Get first phone number string from List View
-                    phoneNumber = (String)lv_PhnNums.getItemAtPosition(i);
-
-
-                    // The phoneNumber string contains "Name <phone number>".
-                    // Hence we need to extract only the numbers between '<' & '>'
-                    int startIndex = phoneNumber.indexOf('<');
-                    int endIndex = phoneNumber.indexOf('>');
-                    // startIndex+1 , because we need to capture from next character after '<'
-                    phoneNumber = phoneNumber.substring(startIndex+1, endIndex);
-
-
-
-                    // Finally Send SMS to all numbers in list view
-                    smsOperation.sendTextMessage(phoneNumber, null, smsMesg, sentPI, deliveredPI);
-
-                    btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
-
-
-                    if(getResources().getInteger(R.integer.free_version_code)==1){
-                        // Show dialog box to request access to sending promotional email
-                        show_dialog_box_to_request_promotional_email();
-                    }
-
-                    // Display msg for "Sending SMS"
-//                    Toast tstmsg = new Toast(MainActivity.this);
-//                    tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                    tstmsg.makeText(MainActivity.this, "Sending Messages...Please Wait.", Toast.LENGTH_LONG);
-//                    tstmsg.show();
-
-                    Toast.makeText(MainActivity.this, "Sending SMS(s)...Please Wait.", Toast.LENGTH_LONG).show();
-
-
-                    final int MAX_AVAILABLE = 0;
-                    final Semaphore sms_sent = new Semaphore(MAX_AVAILABLE, true);
-                    Thread thrButtonEnable = new Thread(){
-                        @Override
-                        public void run() {
-                            super.run();
-
-                            try{
-                                sleep(3000);
-                                // release the semaphore
-                                sms_sent.release();
-                            }catch (Exception ex){
-                                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
-								ex.printStackTrace();
-                            }
-                        }
-                    };
-                    thrButtonEnable.start();        // Start the thread to clear sms text mesg and phone list.
-
-                    try {
-                        sms_sent.acquire();            // wait here till semaphore is released from thread
-
-                        btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
-
-                        // Clean Phone Contacts list view after sending sms.
-                        int count = mContactsSelectedList.size();
-                        for(int itr=0; itr < count; itr++){
-                            mContactsSelectedList.remove(itr);
-                        }
-                        mContactsSelectedAdapter = getContactsSelectedAdapter();
-                        mContactsSelectedAdapter.notifyDataSetChanged();
-                        et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-                        lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }catch (Exception ex){
-                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
-				ex.printStackTrace();
-                //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_send_bulk_sms, container, false);
-
-
-            int TabNumber;
-            Bundle args = getArguments();
-            TabNumber = args.getInt(ARG_SECTION_NUMBER);
-
-            switch(TabNumber){
-                case TAB_SEND_BULK_SMS:
-                    rootView = inflater.inflate(R.layout.fragment_send_bulk_sms, container, false);
-                    // Get all the handles
-                    mView = rootView;
-                    initSendBulkSMSTab(mView);
-                    break;
-
-                case TAB_REMINDER_SMS:
-                    rootView = inflater.inflate(R.layout.fragment_reminder_bulk_sms, container, false);
-                    mView = rootView;
-                    initSMSReminderTab(mView);
-                    break;
-
-                case TAB_JOBS_SMS:
-                    rootView = inflater.inflate(R.layout.fragment_jobs_sms, container, false);
-                    mView = rootView;
-                    initJobsSMSTab(mView);
-                    break;
-
-                case TAB_ABOUT_APP:
-                    rootView = inflater.inflate(R.layout.fragment_about_app, container, false);
-                    mView = rootView;
-                    initAboutAppTab(mView);
-                    break;
-            };
-
-            return rootView;
-        }
-
-
-        private ExpandableListAdapter listAdapter;
-        private ExpandableListView exLV;
-        private List<String> listDataHeader;
-        private HashMap<String, List<String>> listDataChild;
-        private int refresh_list_flag = 0;
-
-        private void initJobsSMSTab(View localView) {
-
-            //////////// Add to Fragment ///////////////
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            Fragment fragment = new Fragment();
-            transaction.add(R.id.container_jobs_list, fragment);
-            transaction.commit();
-            ////////////////////////////////////////////
-
-            if (getResources().getInteger(R.integer.host_ads) == 1) {
-                // Invoke AdView
-                AdView mAdView = (AdView) localView.findViewById(R.id.adView_jobs_sms_tab);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
-            }
-
-
-            // TODO  : implement an expandable list view to show JOBS
-            exLV = (ExpandableListView) localView.findViewById(R.id.expandableListView_smsjobs);
-            exLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    return false;
-                }
-            });
-
-
-            if (refresh_list_flag == 0) {
-                refresh_job_list();
-                refresh_list_flag = 1;
-            }
-
-            ImageButton getrec = (ImageButton) localView.findViewById(R.id.imgbtn_refresh_records);
-            getrec.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    display_toast("Refreshing List...Please Wait.");
-                    int number = refresh_job_list();
-
-                    if (number == 0)
-                        display_toast("No Pending Jobs to display.");
-
-                }
-            });
-
-
-
-            // TODO : Implement Delete All DB Records & Alarms
-//            ImageButton delete_all_rec = (ImageButton)localView.findViewById(R.id.imgbtn_cancel_all_records);
-//            delete_all_rec.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    display_toast("Deleting All Pending Records.");
-//                    delete_all_records();
-//                }
-//            });
-//
-//        }
-
-        // TODO : Implement Delete All DB Records & Alarms
-//        private void delete_all_records() {
-//
-//
-//            AlarmManager am = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-//            am.cancel();
-//
-//
-//        }
-//
-        }
-
-        private int refresh_job_list(){
-
-            int index =0;       // Keep track of number of records
-
-            try {
-                listDataHeader = new ArrayList<String>();
-                listDataChild = new HashMap<String, List<String>>();
-
-
-
-                // Get all pending Jobs
-                Cursor cur = bulksmsdb.retrieveAllJobs();
-                if (cur.moveToFirst()) {
-
-
-                    do {
-                        String jobId = cur.getString(1);        // Job ID
-                        String phnNum = cur.getString(2);       // Phone Numbers seperated by comma
-                        String smsMsg = cur.getString(3);       // SMS Mesg
-
-                        // preparing list data
-                        prepareListData(index, jobId,phnNum, smsMsg );
-
-                        index++;
-
-                        //Toast.makeText(this, "\nEmployee ID: " + c.getString(0) + "\nEmployee Name: " + c.getString(1) + "\nEmployee Salary: " + c.getString(2), Toast.LENGTH_LONG).show();
-                    }
-                    while (cur.moveToNext());
-
-                    // Create the list adapter
-                    listAdapter = new ExpandableListAdapter(MainActivity.this, exLV, listDataHeader, listDataChild);
-
-                    // setting list adapter
-                    exLV.setAdapter(listAdapter);
-                }
-
-
-            } catch (Exception ex) {
-                Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
-				ex.printStackTrace();
-            }
-
-            return index;
-
-        }
-        private void prepareListData(int index, String jobId, String phnNum, String smsMsg) {
-
-
-
-            // Adding child data
-            listDataHeader.add(jobId);
-
-            // Adding sub-child data
-            List<String> sub_child = new ArrayList<String>();
-            sub_child.add(smsMsg);
-            sub_child.add(phnNum);
-
-            listDataChild.put(listDataHeader.get(index), sub_child);
-
-        }
-
-        private void initSMSReminderTab(View localView) {
-
-
-            //////////// Add to Fragment ///////////////
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            Fragment fragment = new Fragment();
-            transaction.add(R.id.container_reminder_bulk_sms, fragment);
-            transaction.commit();
-            ////////////////////////////////////////////
-
-            if(getResources().getInteger(R.integer.host_ads)==1) {
-                // Invoke AdView
-                AdView mAdView = (AdView) localView.findViewById(R.id.adView_reminder_bulk_sms_tab);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
-            }
-
-            final DatePicker dtpicker = (DatePicker)localView.findViewById(R.id.datePicker);
-            final TimePicker timePicker = (TimePicker)localView.findViewById(R.id.timePicker);
-
-
-
-
-            Button btnSetScheduleDone = (Button)localView.findViewById(R.id.btn_setSchedule);
-            btnSetScheduleDone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    dsdttmpick.setMonth(dtpicker.getMonth());               // month is zero indexed
-                    dsdttmpick.setDay(dtpicker.getDayOfMonth());
-                    dsdttmpick.setYear(dtpicker.getYear());
-
-                    dsdttmpick.setHh(timePicker.getCurrentHour());
-                    dsdttmpick.setMm(timePicker.getCurrentMinute());
-
-                    dsdttmpick.setInitialized(true);
-
-                    try{
-                        String strBtnText = getResources().getString(R.string.btn_bulksms_set_reminder_text);
-                        strBtnText += String.valueOf(dsdttmpick.getDay()) + "-";
-                        strBtnText += String.valueOf(dsdttmpick.getMonth()) + "-";
-                        strBtnText += String.valueOf(dsdttmpick.getYear()) + ", ";
-                        strBtnText += String.valueOf(dsdttmpick.getHh()) + ":";
-                        strBtnText += String.valueOf(dsdttmpick.getMm());
-
-                        btn_bulksms = (Button)findViewById(R.id.imgbtn_SendBulkSMS);
-                        btn_bulksms.setText(strBtnText);
-
-
-                    }catch (Exception ex){
-                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
-						ex.printStackTrace();
-                    }
-
-                    radbtn_set_reminder.setChecked(true);                   // set the radio button as selected.
-                    getSupportActionBar().setSelectedNavigationItem(0);     // go to bulk sms tab
-                }
-            });
-
-
-            Button btnSetScheduleCancel = (Button)localView.findViewById(R.id.btn_cancelReminder);
-            btnSetScheduleCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getSupportActionBar().setSelectedNavigationItem(0);     // Return to Bulk SMS Tab
-                }
-            });
-
-
-        }
-
-        private void initAboutAppTab(View localView) {
-
-            //////////// Add to Fragment ///////////////
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            Fragment fragment = new Fragment();
-            transaction.add(R.id.container_about_app, fragment);
-            transaction.commit();
-            ////////////////////////////////////////////
-
-            if(getResources().getInteger(R.integer.host_ads)==1) {
-                // Invoke AdView
-                AdView mAdView = (AdView) localView.findViewById(R.id.adView_about_app_tab);
-                AdRequest adRequest = new AdRequest.Builder().build();
-                mAdView.loadAd(adRequest);
-            }
-
-            AboutApp objAbtApp = new AboutApp(MainActivity.this);
-
-            lbl_version_number = (TextView)localView.findViewById(R.id.lbl_app_version_number);
-            lbl_version_number.setText(objAbtApp.getVersionNumber());
-
-
-            lbl_version_history = (TextView)localView.findViewById(R.id.lbl_app_version_history);
-            lbl_version_history.setText(objAbtApp.getVersionHistory());
-
-            lbl_about_app = (TextView)localView.findViewById(R.id.lbl_app_about);
-            lbl_about_app.setText(objAbtApp.getAboutApp());
-
-        }
-
-
-        private void initSendBulkSMSTab(View localView) {
-
-            //////////// Add to Fragment ///////////////
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            Fragment fragment = new Fragment();
-            transaction.add(R.id.container_send_bulk_sms, fragment);
-            transaction.commit();
-            ////////////////////////////////////////////
-
-            if(getResources().getInteger(R.integer.host_ads)==1) {
-                // Invoke AdView
-                AdView mAdView = (AdView) localView.findViewById(R.id.adView_send_bulk_sms_tab);
-                AdRequest adRequest = new AdRequest.Builder()
-                        //.addTestDevice(String.valueOf(R.string.test_device_id))
-                        .build();
-                mAdView.loadAd(adRequest);
-            }
-
-
-            lv_PhnNums = (ListView)localView.findViewById(R.id.listView_PhnNums);
-            lv_PhnNums.setLongClickable(true);
-
-//            lv_PhnNums.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    invokeContactBookActivity();
-//                }
-//            });
-
-            // This code allows ListView to scroll even when ListView is inside a ScrollView
-            lv_PhnNums.setOnTouchListener(new View.OnTouchListener() {
-                // Setting on Touch Listener for handling the touch inside ScrollView
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    // Disallow the touch request for parent scroll on touch of child view
-                    v.getParent().requestDisallowInterceptTouchEvent(true);
-                    return false;
-                }
-            });
-
-            lv_PhnNums.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                @Override
-                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                    Context cntx = getActivity(); //getBaseContext(); //getApplication();
-                    final CharSequence[] items = {"Delete", "Cancel"};
-                    final int pos = position;
-
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                    builder.setIcon(R.drawable.bulksmsapplogo);
-                    builder.setCancelable(true);
-                    builder.setTitle("Action:");
-
-
-                    builder.setItems(items, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int item) {
-                            //String strPhnRec = (String) lv_PhnNums.getItemAtPosition(position);
-
-                            switch (item) {
-
-                                case 0: // "Delete"
-                                    mContactsSelectedList.remove(pos);
-                                    mContactsSelectedAdapter = getContactsSelectedAdapter();
-                                    mContactsSelectedAdapter.notifyDataSetChanged();
-                                    //lv_PhnNums.setAdapter(mContactsSelectedAdapter);
-                                    //mContactsSelectedAdapter.notifyDataSetChanged();
-                                    break;
-
-                                case 1: // "Cancel"
-                                    closeContextMenu();
-                                    break;
-                            }
-                        }
-                    });
-
-                    AlertDialog alert = builder.create();
-                    alert.show();
-
-                    return false;
-                }
-            });
-
-
-            // Send bulk sms button
-            btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
-            btn_bulksms.setOnClickListener(this);
-
-            // Select contacts button
-            imgbtn_selectcontacts = (ImageButton)localView.findViewById(R.id.imgbtn_SelectContacts);
-            imgbtn_selectcontacts.setOnClickListener(this);
-
-
-            lbl_sms_char_counter = (TextView)localView.findViewById(R.id.lbl_SMSCharCount);
-
-            // Adding a text watcher to SMS text box
-            // (How text changes in text box should behave).
-            et_sms_msg = (EditText) localView.findViewById(R.id.et_SMS_msg);
-            et_sms_msg.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    //This sets a textview to the current length
-                    String smsNo;
-                    if(charSequence.length() == 0)
-                        smsNo = "0";
-                    else
-                        smsNo = String.valueOf(charSequence.length()/160 + 1);
-
-                    String smsLength = String.valueOf(160-(charSequence.length()%160));
-                    lbl_sms_char_counter.setText(smsLength+"/"+smsNo);
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
-
-            // Radio Button Group and its member radio buttons
-            radgrp = (RadioGroup)localView.findViewById(R.id.radgrp_reminder);
-            radbtn_set_reminder = (RadioButton)localView.findViewById(R.id.radbtn_setreminder);
-            radbtn_set_reminder.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    // Code to shift to 'Set Reminder' tab.
-                    radbtn_set_reminder.setChecked(true);
-                    getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
-                }
-            });
-
-            radbtn_now = (RadioButton)localView.findViewById(R.id.radbtn_sendnow);
-            radbtn_now.setChecked(true);
-            radbtn_now.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    // Nothing needs to be done i guess for this
-                    radbtn_now.setChecked(true);
-                    btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
-                }
-            });
-
-
-
-
-//            radgrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(RadioGroup radioGroup, int checked_id) {
-//                    switch (checked_id){
-//                        case R.id.radbtn_sendnow:
-//                            // Nothing needs to be done i guess for this
-//                            radbtn_now.setChecked(true);
-//                            break;
-//
-//                        case R.id.radbtn_setreminder:
-//                            // Code to shift to 'Set Reminder' tab.
-//                            radbtn_set_reminder.setChecked(true);
-//                            getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
-//
-//                            break;
-//                    }
-//                }
-//            });
-
-        }
-
-        @Override
-        public void onClick(View view) {
-            int id = view.getId();
-
-            switch (id){
-
-                case R.id.imgbtn_SelectContacts:
-                    // Display msg for "Loading Contact Details..."
-//                    try{
-//                        LayoutInflater inflater = getLayoutInflater(new Bundle());
-//
-//                        View layout = inflater.inflate(R.layout.custom_toast_msg,
-//                                (ViewGroup) findViewById(R.id.LinearLayout_ToastMsg));
-//
-//                        Toast tstmsg = new Toast(MainActivity.this);
-//                        tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                        tstmsg.setView(layout);
-//                        tstmsg.makeText(getBaseContext(), "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG);
-//                        tstmsg.show();
-//                    }catch (Exception ex){
-//                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
-//					ex.printStackTrace();
-//                    }
-
-                    //Toast.makeText(MainActivity.this, "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG).show();
-                    invokeContactBookActivity();
-                    break;
-
-                case R.id.imgbtn_SendBulkSMS:
-                    ComposeAndSendMessage();
-                    break;
-
-            }
-        }
-    }
 
     private String create_job_task(int totalPhoneNumbers, String smsMesg) {
 
@@ -1465,5 +736,649 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         Intent startContactBookAct = new Intent(this, ContactBook.class);
         startActivityForResult(startContactBookAct, RC_OPEN_CONTACTBOOK_ACT);
     }
+
+    private void ComposeAndSendMessage(){
+        Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
+
+
+        String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
+        String smsMesg = et_sms_msg.getText().toString();       // Pull in the SMS text
+        final Context mContext = SUApplication.getContext();
+
+
+        int totalPhoneNumbers = lv_PhnNums.getCount();
+        if(totalPhoneNumbers == 0){
+            Toast.makeText(MainActivity.this, "Select minimum of one contact...", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(smsMesg.length() == 0){
+            Toast.makeText(MainActivity.this, "Enter Text to Send...", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Check if RadioButton "Set Reminder" is checked. Then store the mesg and recipient list along with time.
+        if(radbtn_set_reminder.isChecked() && dsdttmpick.isInitialized()) {
+
+            // Set Reminder is not available in Free Version of App
+//                if(getResources().getInteger(R.integer.free_version_code)==1){
+//                    alert_dialog_buy_bulk_sms();
+//                    return;
+//                }
+
+            // Nothing needs to be done as of now. Just create a job and return.
+            String jobId = create_job_task(totalPhoneNumbers, smsMesg);
+
+            // Clean Phone Contacts list view after sending sms.
+            int count = mContactsSelectedList.size();
+            for(int itr=0; itr < count; itr++){
+                mContactsSelectedList.remove(itr);
+            }
+            mContactsSelectedAdapter = getContactsSelectedAdapter();
+            mContactsSelectedAdapter.notifyDataSetChanged();
+            et_sms_msg.setText("");        // clear Edit box ,holding sms message.
+            lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
+
+            // Select "Send Now" Radio button
+            radbtn_now.setChecked(true);
+            btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
+
+            display_toast("New Job # " + jobId + " created. \nSMS will be sent on the choosen Date and Time.");
+            return;
+        }
+
+
+
+        try{
+            String smsSent = "SMS_SENT";
+            String smsDelivered = "SMS_DELIVERED";
+
+            Intent smsSentIntent = new Intent(smsSent);
+            Intent smsDeliveredIntent = new Intent(smsDelivered);
+
+//            smsSentIntent.setAction("com.unleashed.android.bulksms");
+//            smsDeliveredIntent.setAction("com.unleashed.android.bulksms");
+
+            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, smsSentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,smsDeliveredIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            mContext.registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context arg0, Intent arg1) {
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(mContext, "SMS sent", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            Toast.makeText(mContext, "No service", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            Toast.makeText(mContext, "Radio off", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            }, new IntentFilter(smsSent));
+
+            // Receiver for Delivered SMS.
+            mContext.registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context arg0, Intent arg1) {
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(mContext, "SMS delivered", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        case Activity.RESULT_CANCELED:
+                            Toast.makeText(mContext, "SMS Undelivered", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            }, new IntentFilter(smsDelivered));
+
+
+            // Get default SMS Manager's handler
+            SmsManager smsOperation = SmsManager.getDefault();
+
+
+            // Extract the phone numbers
+            for(int i=0; i < totalPhoneNumbers; i++ ){
+
+                // Get first phone number string from List View
+                phoneNumber = (String)lv_PhnNums.getItemAtPosition(i);
+
+
+                // The phoneNumber string contains "Name <phone number>".
+                // Hence we need to extract only the numbers between '<' & '>'
+                int startIndex = phoneNumber.indexOf('<');
+                int endIndex = phoneNumber.indexOf('>');
+                // startIndex+1 , because we need to capture from next character after '<'
+                phoneNumber = phoneNumber.substring(startIndex+1, endIndex);
+
+
+
+                // Finally Send SMS to all numbers in list view
+                smsOperation.sendTextMessage(phoneNumber, null, smsMesg, sentPI, deliveredPI);
+
+                btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
+
+
+                if(getResources().getInteger(R.integer.free_version_code)==1){
+                    // Show dialog box to request access to sending promotional email
+                    show_dialog_box_to_request_promotional_email();
+                }
+
+                // Display msg for "Sending SMS"
+//                    Toast tstmsg = new Toast(MainActivity.this);
+//                    tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+//                    tstmsg.makeText(MainActivity.this, "Sending Messages...Please Wait.", Toast.LENGTH_LONG);
+//                    tstmsg.show();
+
+                Toast.makeText(MainActivity.this, "Sending SMS(s)...Please Wait.", Toast.LENGTH_LONG).show();
+
+
+                final int MAX_AVAILABLE = 0;
+                final Semaphore sms_sent = new Semaphore(MAX_AVAILABLE, true);
+                Thread thrButtonEnable = new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+
+                        try{
+                            sleep(3000);
+                            // release the semaphore
+                            sms_sent.release();
+                        }catch (Exception ex){
+                            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
+                            ex.printStackTrace();
+                        }
+                    }
+                };
+                thrButtonEnable.start();        // Start the thread to clear sms text mesg and phone list.
+
+                try {
+                    sms_sent.acquire();            // wait here till semaphore is released from thread
+
+                    btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
+
+                    // Clean Phone Contacts list view after sending sms.
+                    int count = mContactsSelectedList.size();
+                    for(int itr=0; itr < count; itr++){
+                        mContactsSelectedList.remove(itr);
+                    }
+                    mContactsSelectedAdapter = getContactsSelectedAdapter();
+                    mContactsSelectedAdapter.notifyDataSetChanged();
+                    et_sms_msg.setText("");        // clear Edit box ,holding sms message.
+                    lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }catch (Exception ex){
+            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
+            ex.printStackTrace();
+            //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private ExpandableListAdapter listAdapter;
+    private ExpandableListView exLV;
+    private List<String> listDataHeader;
+    private HashMap<String, List<String>> listDataChild;
+    private int refresh_list_flag = 0;
+
+    private void initJobsSMSTab(View localView) {
+
+        //////////// Add to Fragment ///////////////
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = new Fragment();
+        transaction.add(R.id.container_jobs_list, fragment);
+        transaction.commit();
+        ////////////////////////////////////////////
+
+        if (getResources().getInteger(R.integer.host_ads) == 1) {
+            // Invoke AdView
+            AdView mAdView = (AdView) localView.findViewById(R.id.adView_jobs_sms_tab);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
+
+        // TODO  : implement an expandable list view to show JOBS
+        exLV = (ExpandableListView) localView.findViewById(R.id.expandableListView_smsjobs);
+        exLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                return false;
+            }
+        });
+
+
+        if (refresh_list_flag == 0) {
+            refresh_job_list();
+            refresh_list_flag = 1;
+        }
+
+        ImageButton getrec = (ImageButton) localView.findViewById(R.id.imgbtn_refresh_records);
+        getrec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                display_toast("Refreshing List...Please Wait.");
+                int number = refresh_job_list();
+
+                if (number == 0)
+                    display_toast("No Pending Jobs to display.");
+
+            }
+        });
+
+
+
+        // TODO : Implement Delete All DB Records & Alarms
+//            ImageButton delete_all_rec = (ImageButton)localView.findViewById(R.id.imgbtn_cancel_all_records);
+//            delete_all_rec.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    display_toast("Deleting All Pending Records.");
+//                    delete_all_records();
+//                }
+//            });
+//
+//        }
+
+        // TODO : Implement Delete All DB Records & Alarms
+//        private void delete_all_records() {
+//
+//
+//            AlarmManager am = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
+//            am.cancel();
+//
+//
+//        }
+//
+    }
+
+    private int refresh_job_list(){
+
+        int index =0;       // Keep track of number of records
+
+        try {
+            listDataHeader = new ArrayList<String>();
+            listDataChild = new HashMap<String, List<String>>();
+
+
+
+            // Get all pending Jobs
+            Cursor cur = bulksmsdb.retrieveAllJobs();
+            if (cur.moveToFirst()) {
+
+
+                do {
+                    String jobId = cur.getString(1);        // Job ID
+                    String phnNum = cur.getString(2);       // Phone Numbers seperated by comma
+                    String smsMsg = cur.getString(3);       // SMS Mesg
+
+                    // preparing list data
+                    prepareListData(index, jobId,phnNum, smsMsg );
+
+                    index++;
+
+                    //Toast.makeText(this, "\nEmployee ID: " + c.getString(0) + "\nEmployee Name: " + c.getString(1) + "\nEmployee Salary: " + c.getString(2), Toast.LENGTH_LONG).show();
+                }
+                while (cur.moveToNext());
+
+                // Create the list adapter
+                listAdapter = new ExpandableListAdapter(MainActivity.this, exLV, listDataHeader, listDataChild);
+
+                // setting list adapter
+                exLV.setAdapter(listAdapter);
+            }
+
+
+        } catch (Exception ex) {
+            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
+            ex.printStackTrace();
+        }
+
+        return index;
+
+    }
+    private void prepareListData(int index, String jobId, String phnNum, String smsMsg) {
+
+
+
+        // Adding child data
+        listDataHeader.add(jobId);
+
+        // Adding sub-child data
+        List<String> sub_child = new ArrayList<String>();
+        sub_child.add(smsMsg);
+        sub_child.add(phnNum);
+
+        listDataChild.put(listDataHeader.get(index), sub_child);
+
+    }
+
+    private void initSMSReminderTab(View localView) {
+
+
+        //////////// Add to Fragment ///////////////
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = new Fragment();
+        transaction.add(R.id.container_reminder_bulk_sms, fragment);
+        transaction.commit();
+        ////////////////////////////////////////////
+
+        if(getResources().getInteger(R.integer.host_ads)==1) {
+            // Invoke AdView
+            AdView mAdView = (AdView) localView.findViewById(R.id.adView_reminder_bulk_sms_tab);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
+        final DatePicker dtpicker = (DatePicker)localView.findViewById(R.id.datePicker);
+        final TimePicker timePicker = (TimePicker)localView.findViewById(R.id.timePicker);
+
+
+
+
+        Button btnSetScheduleDone = (Button)localView.findViewById(R.id.btn_setSchedule);
+        btnSetScheduleDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dsdttmpick.setMonth(dtpicker.getMonth());               // month is zero indexed
+                dsdttmpick.setDay(dtpicker.getDayOfMonth());
+                dsdttmpick.setYear(dtpicker.getYear());
+
+                dsdttmpick.setHh(timePicker.getCurrentHour());
+                dsdttmpick.setMm(timePicker.getCurrentMinute());
+
+                dsdttmpick.setInitialized(true);
+
+                try{
+                    String strBtnText = getResources().getString(R.string.btn_bulksms_set_reminder_text);
+                    strBtnText += String.valueOf(dsdttmpick.getDay()) + "-";
+                    strBtnText += String.valueOf(dsdttmpick.getMonth()) + "-";
+                    strBtnText += String.valueOf(dsdttmpick.getYear()) + ", ";
+                    strBtnText += String.valueOf(dsdttmpick.getHh()) + ":";
+                    strBtnText += String.valueOf(dsdttmpick.getMm());
+
+                    btn_bulksms = (Button)findViewById(R.id.imgbtn_SendBulkSMS);
+                    btn_bulksms.setText(strBtnText);
+
+
+                }catch (Exception ex){
+                    Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
+                    ex.printStackTrace();
+                }
+
+                radbtn_set_reminder.setChecked(true);                   // set the radio button as selected.
+                getSupportActionBar().setSelectedNavigationItem(0);     // go to bulk sms tab
+            }
+        });
+
+
+        Button btnSetScheduleCancel = (Button)localView.findViewById(R.id.btn_cancelReminder);
+        btnSetScheduleCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSupportActionBar().setSelectedNavigationItem(0);     // Return to Bulk SMS Tab
+            }
+        });
+
+
+    }
+
+    private void initAboutAppTab(View localView) {
+
+        //////////// Add to Fragment ///////////////
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = new Fragment();
+        transaction.add(R.id.container_about_app, fragment);
+        transaction.commit();
+        ////////////////////////////////////////////
+
+        if(getResources().getInteger(R.integer.host_ads)==1) {
+            // Invoke AdView
+            AdView mAdView = (AdView) localView.findViewById(R.id.adView_about_app_tab);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }
+
+        AboutApp objAbtApp = new AboutApp(MainActivity.this);
+
+        lbl_version_number = (TextView)localView.findViewById(R.id.lbl_app_version_number);
+        lbl_version_number.setText(objAbtApp.getVersionNumber());
+
+
+        lbl_version_history = (TextView)localView.findViewById(R.id.lbl_app_version_history);
+        lbl_version_history.setText(objAbtApp.getVersionHistory());
+
+        lbl_about_app = (TextView)localView.findViewById(R.id.lbl_app_about);
+        lbl_about_app.setText(objAbtApp.getAboutApp());
+
+    }
+
+
+    private void initSendBulkSMSTab(View localView) {
+
+        //////////// Add to Fragment ///////////////
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = new Fragment();
+        transaction.add(R.id.container_send_bulk_sms, fragment);
+        transaction.commit();
+        ////////////////////////////////////////////
+
+        if(getResources().getInteger(R.integer.host_ads)==1) {
+            // Invoke AdView
+            AdView mAdView = (AdView) localView.findViewById(R.id.adView_send_bulk_sms_tab);
+            AdRequest adRequest = new AdRequest.Builder()
+                    //.addTestDevice(String.valueOf(R.string.test_device_id))
+                    .build();
+            mAdView.loadAd(adRequest);
+        }
+
+
+        lv_PhnNums = (ListView)localView.findViewById(R.id.listView_PhnNums);
+        lv_PhnNums.setLongClickable(true);
+
+//            lv_PhnNums.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    invokeContactBookActivity();
+//                }
+//            });
+
+        // This code allows ListView to scroll even when ListView is inside a ScrollView
+        lv_PhnNums.setOnTouchListener(new View.OnTouchListener() {
+            // Setting on Touch Listener for handling the touch inside ScrollView
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Disallow the touch request for parent scroll on touch of child view
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        lv_PhnNums.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Context cntx = getActivity(); //getBaseContext(); //getApplication();
+                final CharSequence[] items = {"Delete", "Cancel"};
+                final int pos = position;
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+                builder.setIcon(R.drawable.bulksmsapplogo);
+                builder.setCancelable(true);
+                builder.setTitle("Action:");
+
+
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        //String strPhnRec = (String) lv_PhnNums.getItemAtPosition(position);
+
+                        switch (item) {
+
+                            case 0: // "Delete"
+                                mContactsSelectedList.remove(pos);
+                                mContactsSelectedAdapter = getContactsSelectedAdapter();
+                                mContactsSelectedAdapter.notifyDataSetChanged();
+                                //lv_PhnNums.setAdapter(mContactsSelectedAdapter);
+                                //mContactsSelectedAdapter.notifyDataSetChanged();
+                                break;
+
+                            case 1: // "Cancel"
+                                closeContextMenu();
+                                break;
+                        }
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                return false;
+            }
+        });
+
+
+        // Send bulk sms button
+        btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
+        btn_bulksms.setOnClickListener(this);
+
+        // Select contacts button
+        imgbtn_selectcontacts = (ImageButton)localView.findViewById(R.id.imgbtn_SelectContacts);
+        imgbtn_selectcontacts.setOnClickListener(this);
+
+
+        lbl_sms_char_counter = (TextView)localView.findViewById(R.id.lbl_SMSCharCount);
+
+        // Adding a text watcher to SMS text box
+        // (How text changes in text box should behave).
+        et_sms_msg = (EditText) localView.findViewById(R.id.et_SMS_msg);
+        et_sms_msg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //This sets a textview to the current length
+                String smsNo;
+                if(charSequence.length() == 0)
+                    smsNo = "0";
+                else
+                    smsNo = String.valueOf(charSequence.length()/160 + 1);
+
+                String smsLength = String.valueOf(160-(charSequence.length()%160));
+                lbl_sms_char_counter.setText(smsLength+"/"+smsNo);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        // Radio Button Group and its member radio buttons
+        radgrp = (RadioGroup)localView.findViewById(R.id.radgrp_reminder);
+        radbtn_set_reminder = (RadioButton)localView.findViewById(R.id.radbtn_setreminder);
+        radbtn_set_reminder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Code to shift to 'Set Reminder' tab.
+                radbtn_set_reminder.setChecked(true);
+                getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
+            }
+        });
+
+        radbtn_now = (RadioButton)localView.findViewById(R.id.radbtn_sendnow);
+        radbtn_now.setChecked(true);
+        radbtn_now.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Nothing needs to be done i guess for this
+                radbtn_now.setChecked(true);
+                btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
+            }
+        });
+
+
+
+
+//            radgrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(RadioGroup radioGroup, int checked_id) {
+//                    switch (checked_id){
+//                        case R.id.radbtn_sendnow:
+//                            // Nothing needs to be done i guess for this
+//                            radbtn_now.setChecked(true);
+//                            break;
+//
+//                        case R.id.radbtn_setreminder:
+//                            // Code to shift to 'Set Reminder' tab.
+//                            radbtn_set_reminder.setChecked(true);
+//                            getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
+//
+//                            break;
+//                    }
+//                }
+//            });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        switch (id){
+
+            case R.id.imgbtn_SelectContacts:
+                // Display msg for "Loading Contact Details..."
+//                    try{
+//                        LayoutInflater inflater = getLayoutInflater(new Bundle());
+//
+//                        View layout = inflater.inflate(R.layout.custom_toast_msg,
+//                                (ViewGroup) findViewById(R.id.LinearLayout_ToastMsg));
+//
+//                        Toast tstmsg = new Toast(MainActivity.this);
+//                        tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+//                        tstmsg.setView(layout);
+//                        tstmsg.makeText(getBaseContext(), "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG);
+//                        tstmsg.show();
+//                    }catch (Exception ex){
+//                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
+//					ex.printStackTrace();
+//                    }
+
+                //Toast.makeText(MainActivity.this, "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG).show();
+                invokeContactBookActivity();
+                break;
+
+            case R.id.imgbtn_SendBulkSMS:
+                ComposeAndSendMessage();
+                break;
+
+        }
+    }
+
 }
 
