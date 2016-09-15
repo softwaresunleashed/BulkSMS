@@ -8,4 +8,6 @@ public class Config extends AppConfig {
 
     public static Boolean isRateDialogDisplayed = false;
 
+    public static boolean isLogged = false;
+
 }

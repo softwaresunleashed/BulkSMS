@@ -92,6 +92,12 @@
             android:theme="@android:style/Theme.Translucent" />
 
         <activity
+            android:name="com.unleashed.android.helpers.login.SocialLoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_contact_book"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
             android:name="com.unleashed.android.helpers.apprating.RateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_contact_book"

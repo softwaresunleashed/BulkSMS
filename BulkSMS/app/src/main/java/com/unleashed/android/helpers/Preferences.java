@@ -14,6 +14,17 @@ public class Preferences {
     public static final String RATING_PROMPT_TIME_STAMP = "remind_rating_prompt_time_stamp";
     public static final String SHARED_PREF_RATE_INSTALL_TIME = "instalation_time";
 
+    // UserManager
+    public static final String SHARED_PREF_USERNAME = "userName";
+    public static final String SHARED_PREF_USER_ID = "user_id";
+    public static final String SHARED_PREF_USER_TYPE = "user_type";
+    public static final String SHARED_PREF_USER_STATUS = "user_status";
+    public static final String SHARED_PREF_USER_PHONE = "user_phone";
+    public static final String SHARED_PREF_USER_PHONE_CONFIRMED = "user_phone_confirmed";
+    public static final String SHARED_PREF_USER_EMAIL = "user_email";
+    public static final String SHARED_PREF_MISSED_CALL_NO = "missed_call_no";
+    public static final String SHARED_PREF_ALREADY_FACEBOOK = "already_facebook";
+
 
     public static String getLocationPreference(Context context) {
         if (context != null) {

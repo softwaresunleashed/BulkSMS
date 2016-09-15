@@ -25,6 +25,7 @@ import android.support.v7.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -58,6 +59,7 @@ import com.unleashed.android.expandablelistview.ExpandableListAdapter;
 import com.unleashed.android.helpers.Logger;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
+import com.unleashed.android.helpers.login.SocialLoginActivity;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
@@ -305,6 +307,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         // Display Splash Screen on Application Load
         display_splash_screen();
+
+        // Mandate User Login
+        showLoginActivity();
 
         setContentView(R.layout.activity_main);
 
@@ -1123,9 +1128,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         final DatePicker dtpicker = (DatePicker)localView.findViewById(R.id.datePicker);
         final TimePicker timePicker = (TimePicker)localView.findViewById(R.id.timePicker);
 
-
-
-
         Button btnSetScheduleDone = (Button)localView.findViewById(R.id.btn_setSchedule);
         btnSetScheduleDone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1171,7 +1173,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
         });
 
-
     }
 
     private void initAboutAppTab(View localView) {
@@ -1196,13 +1197,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         lbl_version_number = (TextView)localView.findViewById(R.id.lbl_app_version_number);
         lbl_version_number.setText(objAbtApp.getVersionNumber());
 
-
         lbl_version_history = (TextView)localView.findViewById(R.id.lbl_app_version_history);
         lbl_version_history.setText(objAbtApp.getVersionHistory());
 
         lbl_about_app = (TextView)localView.findViewById(R.id.lbl_app_about);
         lbl_about_app.setText(objAbtApp.getAboutApp());
-
     }
 
 
@@ -1353,29 +1352,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
             }
         });
-
-
-
-
-//            radgrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(RadioGroup radioGroup, int checked_id) {
-//                    switch (checked_id){
-//                        case R.id.radbtn_sendnow:
-//                            // Nothing needs to be done i guess for this
-//                            radbtn_now.setChecked(true);
-//                            break;
-//
-//                        case R.id.radbtn_setreminder:
-//                            // Code to shift to 'Set Reminder' tab.
-//                            radbtn_set_reminder.setChecked(true);
-//                            getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
-//
-//                            break;
-//                    }
-//                }
-//            });
-
     }
 
     @Override
@@ -1385,24 +1361,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         switch (id){
 
             case R.id.imgbtn_SelectContacts:
-                // Display msg for "Loading Contact Details..."
-//                    try{
-//                        LayoutInflater inflater = getLayoutInflater(new Bundle());
-//
-//                        View layout = inflater.inflate(R.layout.custom_toast_msg,
-//                                (ViewGroup) findViewById(R.id.LinearLayout_ToastMsg));
-//
-//                        Toast tstmsg = new Toast(MainActivity.this);
-//                        tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                        tstmsg.setView(layout);
-//                        tstmsg.makeText(getBaseContext(), "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG);
-//                        tstmsg.show();
-//                    }catch (Exception ex){
-//                        Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:onClick() - case R.id.imgbtn_SelectContacts caught exception");
-//					ex.printStackTrace();
-//                    }
-
-                //Toast.makeText(MainActivity.this, "Reading Contact Records...Please Wait.", Toast.LENGTH_LONG).show();
                 invokeContactBookActivity();
                 break;
 
@@ -1411,6 +1369,13 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                 break;
 
         }
+    }
+
+
+
+    private void showLoginActivity() {
+
+        SocialLoginActivity.startActivityForResult(this);
     }
 
 }
