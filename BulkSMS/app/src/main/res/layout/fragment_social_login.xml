@@ -22,7 +22,7 @@
             android:layout_height="80dp"
             android:layout_marginTop="90dp"
             android:background="@drawable/black_border"
-            app:srcCompat="@drawable/img_olx_login" />
+            android:src="@drawable/bulksmsapplogo" />
 
         <!--<TextView-->
             <!--style="@style/SubheadRegular"-->

@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.Utils.ViewUtils;
 import com.unleashed.android.helpers.widgets.inputs.validators.InputTextEditValidator;
 
@@ -354,12 +355,12 @@ public class InputBase extends LinearLayout {
             mTitle.setText(title);
     }
 
-    protected String getLabel() {
-        if (this.field != null) {
-            return this.field.label + (this.field.suffix != null && !this.field.suffix.equals("") ? (" (" + this.field.suffix + ")") : "");
-        }
-        return "";
-    }
+//    protected String getLabel() {
+//        if (this.field != null) {
+//            return this.field.label + (this.field.suffix != null && !this.field.suffix.equals("") ? (" (" + this.field.suffix + ")") : "");
+//        }
+//        return "";
+//    }
 
 //    public ParameterField getParameterField() {
 //        return this.field;

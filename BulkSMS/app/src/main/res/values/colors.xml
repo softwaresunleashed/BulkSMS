@@ -3,10 +3,12 @@
 
     <!--Material Colors-->
     <color name="material_blue_800">#FF1565C0</color>
-    <color name="red_accent_700">#FFD50000</color>
+    <color name="material_light_blue_accent_700">#FF0091EA</color>
+    <color name="material_red_accent_700">#FFD50000</color>
     <color name="material_red_900">#FFB71C1C</color>
     <color name="material_amber_300">#FFFFD54F</color>
     <color name="material_amber_900">#FFFF6F00</color>
+    <color name="material_grey_800">#FF424242</color>
     <color name="material_light_green_500">#FF8BC34A</color>
 
 
@@ -24,6 +26,7 @@
     <color name="black_45">#40000000</color>
     <color name="black_38">#61000000</color>
     <color name="black_50">#666664</color>
+    <color name="black_54">#8a000000</color>
     <color name="black_56">#8f000000</color>
     <color name="black_67">#ad000000</color>
     <color name="black_87">#de000000</color>
@@ -31,6 +34,7 @@
 
     <!--Shades of Grey-->
     <color name="gray">#DDDDDD</color>
+    <color name="light_gray">#8C000000</color>
 
     <!--Misc Colors-->
     <color name="dark_sky_blue">#4A90E2</color>
@@ -53,14 +57,17 @@
     <color name="fb_blue_button_pressed">#2A457E</color>
     <color name="newadlist_link_pressed">#22007FFF</color>
     <color name="action_bar_button_background_hamburger">#FF7900</color>
-    <color name="olx_orange_selected">#88FF7700</color>
-    <color name="olx_orange">#ff7700</color>
+    <color name="orange_selected">#88FF7700</color>
+    <color name="orange">#FF7700</color>
     <color name="border_color">#aabb00</color>
-    <color name="red_error">@color/red_accent_700</color>
+    <color name="red_error">@color/material_red_accent_700</color>
     <color name="field_error">@color/material_red_900</color>
     <color name="input_icon_valid">@color/material_light_green_500</color>
     <color name="input_icon_invalid">@color/material_red_900</color>
     <color name="input_icon_neutral">@color/transparent</color>
+    <color name="prefix_divider_color">#D1D1D1</color>
+    <color name="prefix_color">#888888</color>
+
 
 
 

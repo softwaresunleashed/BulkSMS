@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 
+import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.activities.BaseActivity;
 
 import java.util.Arrays;
@@ -23,7 +24,8 @@ public class SignInTabActivity extends BaseActivity {
 
     private SignInPagerAdapter pagerAdapter;
 
-    private static String[] signInOptions = new String[]{"Mobile Number", "Email"};
+    private static String[] signInOptions = new String[]{"Email"};
+    //private static String[] signInOptions = new String[]{"Mobile Number", "Email"};
 
     public static void startSignInActivityForResult(Fragment fragment) {
         Intent intent = new Intent(fragment.getActivity(), SignInTabActivity.class);

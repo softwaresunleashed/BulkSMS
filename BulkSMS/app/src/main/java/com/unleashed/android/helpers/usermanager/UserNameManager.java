@@ -3,8 +3,6 @@ package com.unleashed.android.helpers.usermanager;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.facebook.AccessToken;
-import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.helpers.Preferences;
 import com.unleashed.android.helpers.config.Config;
 
@@ -160,9 +158,9 @@ public class UserNameManager {
         return UserType.email.toString().equals(UserNameManager.getUserType());
     }
 
-    public static synchronized boolean isFacebookAccount() {
-        return AccessToken.getCurrentAccessToken() != null || isAlreadyFacebookUser();
-    }
+//    public static synchronized boolean isFacebookAccount() {
+//        return AccessToken.getCurrentAccessToken() != null || isAlreadyFacebookUser();
+//    }
 
     public static int getPendingAdsCount() {
         return pendingAdsCount;

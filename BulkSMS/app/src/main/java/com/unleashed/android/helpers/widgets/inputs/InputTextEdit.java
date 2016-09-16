@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Utils.NumberUtils;
 import com.unleashed.android.helpers.widgets.inputs.validators.InputTextEditValidator;
+import com.unleashed.android.helpers.widgets.inputs.validators.ValidationException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -157,7 +158,7 @@ public class InputTextEdit extends InputBase {
 
     protected void fillViews() {
         super.fillViews();
-        String hint=getHint(field);
+        String hint="";//Sudhanshu ORIG --> getHint(field);
         if(!TextUtils.isEmpty(hint)){
             mValue.setHint(hint);
             //mValue.setContentDescription(hint);
@@ -193,7 +194,7 @@ public class InputTextEdit extends InputBase {
                 mCounter.setVisibility(View.VISIBLE);
                 mCounter.setText(length + " / " + mMaxCharacters);
                 mCounter.setTextColor(length > 0 && length < mMinCharacters ? getContext().getResources().getColor(R
-                        .color.red_error) : getContext().getResources().getColor(R.color.light_grey));
+                        .color.red_error) : getContext().getResources().getColor(R.color.light_gray));
             } else {
                 mCounter.setVisibility(View.GONE);
             }
@@ -329,12 +330,9 @@ public class InputTextEdit extends InputBase {
      */
     public void hideErrorTintOnEditText() {
         if (mValue != null && mValue.getBackground() != null) {
-            mValue.getBackground().setColorFilter(getResources().getColor(R.color.black_1), PorterDuff.Mode.SRC_ATOP);
+            mValue.getBackground().setColorFilter(getResources().getColor(R.color.black_54), PorterDuff.Mode.SRC_ATOP);
         }
     }
-
-
-
 
     @Override
     public boolean validate() {
@@ -363,16 +361,16 @@ public class InputTextEdit extends InputBase {
             String value = v.getValue();
             if (key.equals("min")) {
                 int num = NumberUtils.parseWithDefault(value, 0);
-                fieldValidatorBuilder.withMin(num, String.format(res.getString(R.string.validation_min_value), num));
+                //fieldValidatorBuilder.withMin(num, String.format(res.getString(R.string.validation_min_value), num));
             } else if (key.equals("max")) {
                 int num = NumberUtils.parseWithDefault(value, Integer.MAX_VALUE);
-                fieldValidatorBuilder.withMax(num, String.format(res.getString(R.string.validation_max_value), num));
+                //fieldValidatorBuilder.withMax(num, String.format(res.getString(R.string.validation_max_value), num));
             } else if (key.equals("maxlength")) {
                 int num = NumberUtils.parseWithDefault(value, Integer.MAX_VALUE);
                 InputFilter[] filterArray = new InputFilter[1];
                 filterArray[0] = new InputFilter.LengthFilter(num);
                 mValue.setFilters(filterArray);
-                fieldValidatorBuilder.withMaxLength(num, String.format(res.getString(R.string.validation_max_length), num));
+                //fieldValidatorBuilder.withMaxLength(num, String.format(res.getString(R.string.validation_max_length), num));
             } else if (key.equals("digits")) {
                 fieldValidatorBuilder.withDigits(res.getString(R.string.validation_field_digits));
                 setInputType(InputMethod.DIGIT);
@@ -419,18 +417,18 @@ public class InputTextEdit extends InputBase {
         });
     }
 
-    @Override
-    public void setParameterField(ParameterField field) {
-        if (field instanceof PriceParameterField) {
-            field.value = ((PriceParameterField) field).value.get("1");
-        }else if (field instanceof RangeParameterField) {
-            field.value = ((RangeParameterField) field).value.containsKey("from") ? ((RangeParameterField) field).value.get("from") : ((RangeParameterField) field).value.get("");
-        }
-        super.setParameterField(field);
-        if (field.value != null && !field.value.equals("")) {
-            validate();
-        }
-    }
+//    @Override
+//    public void setParameterField(ParameterField field) {
+//        if (field instanceof PriceParameterField) {
+//            field.value = ((PriceParameterField) field).value.get("1");
+//        }else if (field instanceof RangeParameterField) {
+//            field.value = ((RangeParameterField) field).value.containsKey("from") ? ((RangeParameterField) field).value.get("from") : ((RangeParameterField) field).value.get("");
+//        }
+//        super.setParameterField(field);
+//        if (field.value != null && !field.value.equals("")) {
+//            validate();
+//        }
+//    }
 
     public void setTitle(String title) {
         mValue.setHint(title);
@@ -442,7 +440,7 @@ public class InputTextEdit extends InputBase {
         mValue.setHint(title);
         mTitle.setVisibility(View.VISIBLE);
         mTitle.setText(title);
-        mTitle.setTextColor(getResources().getColor(R.color.Material_54_Black));
+        mTitle.setTextColor(getResources().getColor(R.color.black_54));
         mTitle.setTextSize(12);
     }
 

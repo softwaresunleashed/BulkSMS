@@ -29,6 +29,7 @@
 
     <string name="title_activity_contact_book">Select Contacts</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_emaillogin">Email Login</string>
     <string name="title_set_date_time">Set Date and Time</string>
     <string name="name">Name</string>
     <string name="number">Phone Number</string>
@@ -64,6 +65,8 @@
 
 
     <!--Login strings-->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="no_internet_new">Oops! No internet.Check your connection</string>
     <string name="retry">Retry</string>
     <string name="connect_with_facebook">Connect with Facebook</string>
@@ -82,5 +85,26 @@
     <string name="please_wait">Please wait</string>
     <string name="logging_progress">Logging you in...</string>
     <string name="forgot_password">Forgot Password</string>
+
+
+    <!--Validation Strings-->
+    <string name="validation_caps_lock">Up to {0} characters can be capitalised</string>
+    <string name="validation_future_date">Enter current or future date </string>
+    <string name="validation_disallow_email">Invalid field value. Email address cannot be entered</string>
+    <string name="validation_disallow_www">Invalid field value. www address cannot be entered</string>
+    <string name="validation_disallow_phone">Field is not valid. Phone numbers are not allowed</string>
+    <string name="validation_too_many_special_chars">Too many special characters. Like -,#,&amp;,%,etc.</string>
+    <string name="validation_illegal_symbols">Title can include characters and numbers only</string>
+    <string name="validation_disallow_seeking">Impermissible phrase entered</string>
+    <string name="validation_min_value" formatted="false">Minimum value required is %s</string>
+    <string name="validation_max_value" formatted="false">Maximum value required is %s</string>
+    <string name="validation_min_length" formatted="false">Minimum %s characters</string>
+    <string name="validation_max_length" formatted="false">This cannot exceed %s characters</string>
+    <string name="validation_category_read_only">Category for your active ad cannot be changed.</string>
+    <string name="validation_read_only">This field cannot be changed</string>
+    <string name="validation_field_digits">This field can contain only numbers</string>
+    <string name="validation_phone_less_than_10">Phone number must be of 10-digits</string>
+    <string name="validation_field_required">This field is required</string>
+
 
 </resources>

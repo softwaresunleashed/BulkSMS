@@ -13,7 +13,7 @@
         android:elevation="4dp"
         app:tabBackground="@drawable/action_bar_button_bg_hamburger"
         app:tabGravity="fill"
-        app:tabIndicatorColor="@color/olx_orange"
+        app:tabIndicatorColor="@color/orange"
         app:tabIndicatorHeight="@dimen/md_2dp_margin"
         app:tabMaxWidth="0dp"
         app:tabPaddingEnd="20dp"

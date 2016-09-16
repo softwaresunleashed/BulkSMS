@@ -9,6 +9,7 @@ import android.support.v4.app.TaskStackBuilder;
 
 import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
+import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.constants.Constants;

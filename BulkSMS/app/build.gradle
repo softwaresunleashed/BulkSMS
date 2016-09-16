@@ -64,6 +64,10 @@ android {
         // FirebaseUI Auth only
         //compile 'com.firebaseui:firebase-ui-auth:0.5.3'
 
+        // Firebase Analytics
+        compile 'com.google.firebase:firebase-core:9.4.0'
+
+        compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 
     }
 

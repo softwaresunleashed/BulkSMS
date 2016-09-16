@@ -41,4 +41,18 @@
         <item name="android:textColor">@color/red_error</item>
     </style>
 
+    <style name="EditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/black_87</item>
+        <item name="android:textColorHint">@color/black_54</item>
+        <item name="android:textCursorDrawable" tools:targetApi="12">@color/material_light_blue_accent_700</item>
+        <item name="android:background">@drawable/edit_text_custom_selector</item>
+        <item name="backgroundTint">@color/material_grey_800</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:textSize">16sp</item>
+        <!--
+                <item name="android:textStyle">bold</item>
+        -->
+    </style>
+
+
 </resources>

@@ -60,6 +60,7 @@ import com.unleashed.android.helpers.Logger;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.login.SocialLoginActivity;
+import com.unleashed.android.helpers.trackers.Trackers;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
@@ -304,6 +305,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initiate Firebase Trackers (Analytics)
+        Trackers.init(SUApplication.getContext());
+
 
         // Display Splash Screen on Application Load
         display_splash_screen();

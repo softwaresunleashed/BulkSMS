@@ -2,6 +2,10 @@ package com.unleashed.android.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Typeface;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by sudhanshu on 10/09/16.
@@ -9,6 +13,14 @@ import android.content.Context;
 
 public class SUApplication extends Application {
     private static Context context;
+    public static final String DEFAULT_FONT = "Roboto-Regular.ttf";
+
+
+    private static Map<String, Typeface> sTypefaces = new HashMap<String, Typeface>();
+    public static Map<String, Typeface> getTypefaces() {
+        return sTypefaces;
+    }
+
 
 
     public SUApplication() {

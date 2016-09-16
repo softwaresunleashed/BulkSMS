@@ -279,7 +279,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     }
 
     private void startLoginActivity() {
-        //SignInTabActivity.startSignInActivityForResult(this);
+        SignInTabActivity.startSignInActivityForResult(this);
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_LOGIN_NOW_TAP);
     }
 

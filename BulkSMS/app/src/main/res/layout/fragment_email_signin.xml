@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tablica="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent_container"
@@ -23,14 +22,12 @@
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/md_8dp_margin"
-                app:IconDisabled="true" />
+                android:layout_marginTop="@dimen/md_8dp_margin" />
 
             <com.unleashed.android.helpers.widgets.inputs.InputTextEdit
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:IconDisabled="true" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tv_forgot_password"
