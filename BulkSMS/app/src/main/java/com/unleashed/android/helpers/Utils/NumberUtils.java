@@ -4,6 +4,8 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+
 import java.text.DecimalFormat;
 
 public class NumberUtils {
@@ -23,6 +25,7 @@ public class NumberUtils {
             //sp.setSpan(new StrikethroughSpan(), 0, 1, 0);
             return sp;
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return new SpannableString("");
         }
     }
@@ -38,6 +41,7 @@ public class NumberUtils {
             //sp.setSpan(new StrikethroughSpan(), 0, 1, 0);
             return sp;
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return new SpannableString("");
         }
     }
@@ -47,6 +51,7 @@ public class NumberUtils {
             DecimalFormat formatter = new DecimalFormat("#,##0");
             return formatter.format(value);
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return "";
         }
     }
@@ -56,6 +61,7 @@ public class NumberUtils {
             DecimalFormat formatter = new DecimalFormat("#,##0.00");
             return formatter.format(Float.parseFloat(value));
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return "";
         }
     }
@@ -66,6 +72,7 @@ public class NumberUtils {
             DecimalFormat formatter = new DecimalFormat("#,##0.00");
             return formatter.format(value);
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return "";
         }
     }
@@ -75,6 +82,7 @@ public class NumberUtils {
             DecimalFormat formatter = new DecimalFormat("#.#########");
             return formatter.format(value);
         } catch (Exception e) {
+            CrashReportBase.sendCrashReport(e);
             return "";
         }
     }

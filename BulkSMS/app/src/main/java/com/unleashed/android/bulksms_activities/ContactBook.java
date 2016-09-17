@@ -25,7 +25,8 @@ import com.google.android.gms.ads.AdView;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.customadapter.CustomListViewAdapter;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -98,7 +99,8 @@ public class ContactBook extends Activity
 
                     } catch (Exception ex) {
                         Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:onCreate()");
-						ex.printStackTrace();
+						//ex.printStackTrace();
+                        CrashReportBase.sendCrashReport(ex);
                     }
                 }
             };
@@ -126,7 +128,8 @@ public class ContactBook extends Activity
                 try {
                     available.acquire();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    CrashReportBase.sendCrashReport(e);
+                    // e.printStackTrace();
                 }
 
                 if(phoneBookRowItems == null){
@@ -145,7 +148,8 @@ public class ContactBook extends Activity
         try {
             available.acquire();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            CrashReportBase.sendCrashReport(e);
+            //e.printStackTrace();
         }
 
         // This code is moved to thread implementation.
@@ -323,7 +327,8 @@ public class ContactBook extends Activity
             }
         }catch (Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:populateAdapter()");
-			ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
+			//ex.printStackTrace();
         }
 
 
@@ -414,7 +419,8 @@ public class ContactBook extends Activity
            sizeOfSelectedContacts = selectedContacts.size();
        }catch (Exception ex){
            Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:selectAllContactBookEntries()");
-		   ex.printStackTrace();
+		   //ex.printStackTrace();
+           CrashReportBase.sendCrashReport(ex);
        }
 
     }
@@ -495,12 +501,10 @@ public class ContactBook extends Activity
 
                 view.setBackgroundColor(Color.WHITE);       //Color.TRANSPARENT
                 chkbox_phnEntrySelected.setChecked(false);
-
             }
-
-
         }catch (Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, ex.getStackTrace().toString());
+            CrashReportBase.sendCrashReport(ex);
         }
 
     }

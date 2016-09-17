@@ -25,7 +25,6 @@ import android.support.v7.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -56,7 +55,8 @@ import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.login.SocialLoginActivity;
@@ -196,8 +196,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                         // Exception : android.os.NetworkOnMainThreadException
                         mail.send();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         Toast.makeText(getBaseContext(), "Error:" + e.toString(), Toast.LENGTH_LONG).show();
+                        CrashReportBase.sendCrashReport(e);
                     }
                 }
             };
@@ -205,7 +206,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         } catch (Exception e) {
             Logger.push(Logger.LogType.LOG_ERROR, "sendAnonymousMail() caught exception.");
-			e.printStackTrace();
+            CrashReportBase.sendCrashReport(e);
+            //e.printStackTrace();
         }
 
     }
@@ -365,7 +367,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             }
                             toggle = !toggle;
                         } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            CrashReportBase.sendCrashReport(e);
+                            //e.printStackTrace();
                         }
                     }
                 }
@@ -442,7 +445,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     try {
                         sleep(3000);        // Let the dialog be displayed for 3 secs
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        CrashReportBase.sendCrashReport(e);
+                        //e.printStackTrace();
                     }
                     dialog.dismiss();
                     }
@@ -456,7 +460,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         }catch (Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:display_splash_screen()");
-			ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
+            //ex.printStackTrace();
         }
     }
 
@@ -938,7 +943,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                             sms_sent.release();
                         }catch (Exception ex){
                             Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
-                            ex.printStackTrace();
+                            CrashReportBase.sendCrashReport(ex);
+                            //ex.printStackTrace();
                         }
                     }
                 };
@@ -960,12 +966,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
                     lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
 
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    CrashReportBase.sendCrashReport(e);
+                    //e.printStackTrace();
                 }
             }
         }catch (Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
-            ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
+            //ex.printStackTrace();
             //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -1090,7 +1098,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         } catch (Exception ex) {
             Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
-            ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
+            //ex.printStackTrace();
         }
 
         return index;
@@ -1161,7 +1170,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
                 }catch (Exception ex){
                     Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
-                    ex.printStackTrace();
+                    CrashReportBase.sendCrashReport(ex);
+                    //ex.printStackTrace();
                 }
 
                 radbtn_set_reminder.setChecked(true);                   // set the radio button as selected.

@@ -2,7 +2,8 @@ package com.unleashed.android.datetimepicker;
 
 import android.content.Context;
 
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.Calendar;
 
@@ -52,7 +53,8 @@ public class DateTimePicker {
 
         }catch (Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, "DateTimePicker.java:setMessageReminder()");
-			ex.printStackTrace();
+			//ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
         }
 
 

@@ -8,7 +8,7 @@ import android.os.IBinder;
 import com.unleashed.android.datetimepicker.AlarmTask;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 import java.util.Calendar;

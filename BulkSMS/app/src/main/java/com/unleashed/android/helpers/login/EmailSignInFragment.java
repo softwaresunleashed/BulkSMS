@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,8 +23,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unleashed.android.bulksms1.R;
-import com.unleashed.android.helpers.Connectivity;
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.networkops.Connectivity;
+import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.trackers.Trackers;
 import com.unleashed.android.helpers.widgets.inputs.InputTextEdit;
 

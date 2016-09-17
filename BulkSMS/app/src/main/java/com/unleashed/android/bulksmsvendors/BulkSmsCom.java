@@ -1,5 +1,7 @@
 package com.unleashed.android.bulksmsvendors;
 
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -50,7 +52,8 @@ public class BulkSmsCom {
             wr.close();
             rd.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            CrashReportBase.sendCrashReport(e);
+            //e.printStackTrace();
         }
     }
 

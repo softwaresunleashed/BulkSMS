@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+
 import java.sql.SQLException;
 
 /**
@@ -69,7 +71,8 @@ public class DBHelper {
         try {
             this.connect();
         } catch (SQLException e) {
-            e.printStackTrace();
+            CrashReportBase.sendCrashReport(e);
+            //e.printStackTrace();
         }
 
         return database.insert(tablename, null, cv);
@@ -82,7 +85,8 @@ public class DBHelper {
         try{
             this.connect();
         }catch (SQLException sqlex){
-            sqlex.printStackTrace();
+            CrashReportBase.sendCrashReport(sqlex);
+            //sqlex.printStackTrace();
         }
 
         return database.query(tablename, new String[]{Id, JobId, PhnNums, Msg}, null, null, null, null, null);
@@ -94,7 +98,8 @@ public class DBHelper {
         try{
             this.connect();
         }catch (SQLException sqlex){
-            sqlex.printStackTrace();
+            CrashReportBase.sendCrashReport(sqlex);
+            //sqlex.printStackTrace();
         }
 
         Cursor c = database.query(true, tablename, new String[]{Id, JobId, PhnNums, Msg}, JobId + "=" + "\"" + jobid + "\"", null, null, null, null, null);
@@ -113,7 +118,8 @@ public class DBHelper {
         try{
             this.connect();
         }catch (SQLException sqlex){
-            sqlex.printStackTrace();
+            CrashReportBase.sendCrashReport(sqlex);
+            //sqlex.printStackTrace();
         }
 
         return database.delete(tablename, JobId + "=" + "\"" + jobid + "\"", null) > 0;

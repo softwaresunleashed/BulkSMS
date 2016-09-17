@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,9 @@ public class SUApplication extends Application {
 
     public synchronized void init() {
         SUApplication.context = getApplicationContext();
+
+        // Init Crash Report Sub-System
+        CrashReportBase.initCrashReportModule();
 
     }
 

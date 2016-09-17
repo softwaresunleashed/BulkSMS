@@ -11,6 +11,7 @@ import android.util.Pair;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Helpers;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.io.IOException;
 
@@ -116,7 +117,8 @@ public class BitmapUtils {
             exifReader = new ExifInterface(filePath);
             orientation = exifReader.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            CrashReportBase.sendCrashReport(e);
         }
 
         return orientation;

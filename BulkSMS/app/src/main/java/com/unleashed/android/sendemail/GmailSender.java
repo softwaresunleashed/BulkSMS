@@ -3,7 +3,8 @@ package com.unleashed.android.sendemail;
 
 
 
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -74,7 +75,8 @@ public class GmailSender extends javax.mail.Authenticator {
 
         }catch(Exception ex){
             Logger.push(Logger.LogType.LOG_ERROR, "GmailSender.java:sendMail() caught exception");
-			ex.printStackTrace();
+            CrashReportBase.sendCrashReport(ex);
+            //ex.printStackTrace();
         }
     }
 

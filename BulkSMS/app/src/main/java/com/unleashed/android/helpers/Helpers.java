@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -386,6 +387,8 @@ public class Helpers {
                         fileName = getContentPathFromDocument(context, uri);
                     } catch (Exception e) {
 
+                        CrashReportBase.sendCrashReport(e);
+
                         if (fileName == null) {
                             fileName = getFilePathFromMediaStoreContentResolver(context, uri);
                         }
@@ -398,7 +401,7 @@ public class Helpers {
                     fileName = getFilePathFromMediaStoreContentResolver(context, uri);
                 }
             } catch (Exception e) {
-
+                CrashReportBase.sendCrashReport(e);
                 fileName = null;
             }
 
@@ -559,6 +562,7 @@ public class Helpers {
             Date date = dateFormatIn.parse(timeIn);
             return dateFormatOut.format(date).replace("AM", " am").replace("PM", " pm");
         } catch (ParseException e) {
+            CrashReportBase.sendCrashReport(e);
             return timeIn;//returning input itself for now
         }
     }
@@ -570,6 +574,7 @@ public class Helpers {
             Date date = dateFormatIn.parse(timeIn);
             return dateFormatOut.format(date).replace("AM", " am").replace("PM", " pm");
         } catch (ParseException e) {
+            CrashReportBase.sendCrashReport(e);
             return timeIn;//returning input itself for now
         }
     }
@@ -583,6 +588,7 @@ public class Helpers {
             String[] split = dateTime.split(",");
             return split[1].trim();
         } catch (ParseException e) {
+            CrashReportBase.sendCrashReport(e);
             return timeIn;//returning input itself for now
         }
     }
@@ -702,6 +708,7 @@ public class Helpers {
             context.startActivity(aIntent);
             return true;
         } catch (ActivityNotFoundException e) {
+            CrashReportBase.sendCrashReport(e);
             return false;
         }
     }

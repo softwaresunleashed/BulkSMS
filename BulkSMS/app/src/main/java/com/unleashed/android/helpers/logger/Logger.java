@@ -1,4 +1,4 @@
-package com.unleashed.android.helpers;
+package com.unleashed.android.helpers.logger;
 
 import android.util.Log;
 

@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.logger.Logger;
 
 public class BootupReceiver extends BroadcastReceiver {
 

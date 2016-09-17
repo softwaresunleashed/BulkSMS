@@ -21,7 +21,8 @@ import android.widget.Toast;
 
 import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 
 
@@ -184,7 +185,8 @@ public class NotifyService extends Service {
                         }
                 } catch (Exception e) {
                     Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java - process_job_id(): caught exception");
-                    e.printStackTrace();
+                    CrashReportBase.sendCrashReport(e);
+                    //e.printStackTrace();
                 }
             }
         };
@@ -281,8 +283,9 @@ public class NotifyService extends Service {
             }
         }catch (Exception e){
             Logger.push(Logger.LogType.LOG_ERROR, "NotifyService.java:delegateMessageSending() caught exception");
-            e.printStackTrace();
+            //.printStackTrace();
             //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
+            CrashReportBase.sendCrashReport(e);
         }
 
     }

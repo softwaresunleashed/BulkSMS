@@ -17,6 +17,7 @@ import com.avast.android.dialogs.iface.ISimpleDialogListener;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.Preferences;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.util.Date;
 
@@ -131,6 +132,7 @@ public class RateFragment extends Fragment implements View.OnClickListener, Rati
             try {
                 //CommunicationV2.sendRate(strings[0], description);
             } catch (Exception e) {
+                CrashReportBase.sendCrashReport(e);
 
             }
 

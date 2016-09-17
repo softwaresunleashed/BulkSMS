@@ -8,7 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.unleashed.android.helpers.Logger;
+import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.Calendar;
 

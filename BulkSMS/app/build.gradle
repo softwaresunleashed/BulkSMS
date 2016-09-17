@@ -52,22 +52,18 @@ android {
             exclude group: 'com.google.android.gms', module: 'play-services-base'
         }
 
+        compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+
         // Firebase Related Dependency Libs
         compile 'com.google.firebase:firebase-auth:9.4.0'
-
-        // Single target that includes all FirebaseUI libraries
-        //compile 'com.firebaseui:firebase-ui:0.5.3'
-
-        // FirebaseUI Database only
-        //compile 'com.firebaseui:firebase-ui-database:0.5.3'
-
-        // FirebaseUI Auth only
-        //compile 'com.firebaseui:firebase-ui-auth:0.5.3'
 
         // Firebase Analytics
         compile 'com.google.firebase:firebase-core:9.4.0'
 
-        compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+        // Firebase Crash Reporting
+        compile 'com.google.firebase:firebase-crash:9.4.0'
+
+
 
     }
 

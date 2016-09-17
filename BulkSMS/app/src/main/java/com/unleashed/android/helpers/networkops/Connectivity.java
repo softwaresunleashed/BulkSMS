@@ -1,4 +1,4 @@
-package com.unleashed.android.helpers;
+package com.unleashed.android.helpers.networkops;
 
 
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
 import com.unleashed.android.bulksms1.BuildConfig;
+import com.unleashed.android.helpers.logger.Logger;
 
 
 public class Connectivity {
