@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.unleashed.android.bulksms1.BuildConfig;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
@@ -723,6 +724,15 @@ public class Helpers {
             return Preferences.getAppPreference(context, Preferences.SHARED_PREF_MAND_REG, false);
         return false;*/
         return true;
+    }
+
+
+    public static boolean isDebugModeBinary(){
+        return (BuildConfig.DEBUG == true);
+    }
+
+    public static boolean isReleaseModeBinary(){
+        return !(BuildConfig.DEBUG == true);
     }
 
 }

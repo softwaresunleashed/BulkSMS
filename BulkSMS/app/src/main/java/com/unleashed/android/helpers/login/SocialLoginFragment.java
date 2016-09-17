@@ -20,7 +20,8 @@ import android.widget.TextView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.unleashed.android.bulksms1.R;
-
+import com.unleashed.android.helpers.networkops.Connectivity;
+import com.unleashed.android.helpers.trackers.Trackers;
 
 
 /**
@@ -106,7 +107,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_fb:
-                //performFacebookLogin();
+                performFacebookLogin();
                 break;
             case R.id.btn_google:
                 //performGoogleLogin();
@@ -259,12 +260,12 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 //        }
 //    }
 
-//    private void performFacebookLogin() {
-//        if (Connectivity.isConnected(getActivity()))
-//            startFacebookLogin();
-//        else
-//            showSnackBar(getString(R.string.no_internet_new), FACEBOOK_LOGIN_RETRY);
-//    }
+    private void performFacebookLogin() {
+        if (Connectivity.isConnected(getActivity()))
+            startFacebookLogin();
+        else
+            showSnackBar(getString(R.string.no_internet_new), FACEBOOK_LOGIN_RETRY);
+    }
 //
 //    private void displayWeb(String url, String title) {
 //        String displayUrl = Config.getBaseUrl() + url;
@@ -289,9 +290,10 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     }
 
     private void startFacebookLogin() {
-        //Intent intent = new Intent(getActivity(), FacebookLoginActivity.class);
-        //startActivityForResult(intent, FacebookLoginActivity.REQUEST_CODE);
-        //Trackers.trackEvent(getActivity(), Trackers.EVENT_FB_CONNECT_TAP);
+        Intent intent = new Intent(getActivity(), FacebookLoginActivity.class);
+        startActivityForResult(intent, FacebookLoginActivity.REQUEST_CODE);
+
+        Trackers.trackEvent(Trackers.EVENT_FB_CONNECT_TAP);
     }
 
     @Override
@@ -338,7 +340,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
             public void onClick(View v) {
                 switch (retryAction) {
                     case FACEBOOK_LOGIN_RETRY:
-                        //performFacebookLogin();
+                        performFacebookLogin();
                         break;
                     case GOOGLE_LOGIN_RETRY:
                         //performGoogleLogin();

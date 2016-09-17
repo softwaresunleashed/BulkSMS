@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.trackers.Trackers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +40,12 @@ public class SUApplication extends Application {
     public synchronized void init() {
         SUApplication.context = getApplicationContext();
 
-        // Init Crash Report Sub-System
+        // Init Crash Report Sub-System - Firebase
         CrashReportBase.initCrashReportModule();
+
+        // Initiate Firebase Trackers (Analytics)
+        Trackers.init(SUApplication.getContext());
+
 
     }
 

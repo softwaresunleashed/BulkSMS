@@ -15,4 +15,11 @@ public class Constants {
     public static final String FINISH_APP = "finish_app";
 
     public static final String ACTION_GOOGLE_PLUG_LOGIN_SUCCESS = "ACTION_GOOGLE_PLUG_LOGIN_SUCCESS";
+
+
+
+    public static final String FACEBOOK_APPLICATION_ID = "320072385010322";
+    public static final String FACEBOOK_APP_SECRET = "3488300c87c910ed4db66c6965889b89";
+
+
 }

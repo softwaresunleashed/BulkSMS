@@ -1,7 +1,6 @@
 package com.unleashed.android.bulksms1;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
@@ -55,12 +54,12 @@ import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
-import com.unleashed.android.helpers.crashreporting.CrashReportBase;
-import com.unleashed.android.helpers.logger.Logger;
+import com.unleashed.android.helpers.SplashScreen.SplashScreen;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
+import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
-import com.unleashed.android.helpers.login.SocialLoginActivity;
-import com.unleashed.android.helpers.trackers.Trackers;
+import com.unleashed.android.helpers.logger.Logger;
+import com.unleashed.android.helpers.login.LoginScreen;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
@@ -308,15 +307,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initiate Firebase Trackers (Analytics)
-        Trackers.init(SUApplication.getContext());
-
-
         // Display Splash Screen on Application Load
-        display_splash_screen();
+        SplashScreen.display_splash_screen(MainActivity.this);
 
         // Mandate User Login
-        showLoginActivity();
+        LoginScreen.showLoginActivity(MainActivity.this);
 
         setContentView(R.layout.activity_main);
 
@@ -426,44 +421,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    private void display_splash_screen() {
-
-        try{
-            // custom dialog
-            final Dialog dialog = new Dialog(MainActivity.this);
-            dialog.setContentView(R.layout.welcome_splash_screen);
-            dialog.setTitle("Bulk SMS");
-            dialog.setCancelable(true);
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialogInterface) {
-                Thread thrDialogClose = new Thread(){
-                    @Override
-                    public void run() {
-                    super.run();
-
-                    try {
-                        sleep(3000);        // Let the dialog be displayed for 3 secs
-                    } catch (InterruptedException e) {
-                        CrashReportBase.sendCrashReport(e);
-                        //e.printStackTrace();
-                    }
-                    dialog.dismiss();
-                    }
-                };
-                thrDialogClose.start();
-                }
-            });
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
-
-
-        }catch (Exception ex){
-            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:display_splash_screen()");
-            CrashReportBase.sendCrashReport(ex);
-            //ex.printStackTrace();
-        }
-    }
 
 
     @Override
@@ -1388,10 +1345,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
 
-    private void showLoginActivity() {
-
-        SocialLoginActivity.startActivityForResult(this);
-    }
+//    private void showLoginActivity() {
+//
+//        SocialLoginActivity.startActivityForResult(this);
+//    }
 
 }
 

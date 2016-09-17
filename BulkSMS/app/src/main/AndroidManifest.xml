@@ -102,10 +102,21 @@
             android:label="@string/title_activity_emaillogin"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
+            android:name="com.unleashed.android.helpers.login.FacebookLoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/title_activity_fblogin"
+            android:theme="@style/AppTheme.NoActionBar.Transparent" />
+        <activity
             android:name="com.unleashed.android.helpers.apprating.RateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_contact_book"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/FACEBOOK_APPLICATION_ID"/>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@style/AppTheme.NoActionBar.Transparent"
+            android:label="@string/logging_progress" />
+
 
 
         <!-- AppsZoom Ad: Detect app installs. Necessary to control the installs your app generates (avoid using it if you are only tracking) -->

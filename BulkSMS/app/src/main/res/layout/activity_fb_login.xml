@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?><!--<com.facebook.widget.LoginButton xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnFacebookLogin"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="@dimen/login_screen_login_button_margin_bottom"
+    android:layout_marginTop="20dp"
+    android:minHeight="@dimen/login_screen_button_min_height"
+    android:minWidth="@dimen/login_screen_button_min_width"
+    android:textSize="14sp"
+    android:visibility="invisible" />-->
+
+<com.facebook.login.widget.LoginButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btnFacebookLogin"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="30dp"
+    android:visibility="invisible"
+    android:layout_marginTop="30dp" />

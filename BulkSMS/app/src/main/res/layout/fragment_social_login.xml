@@ -20,17 +20,17 @@
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="90dp"
+            android:layout_marginTop="60dp"
             android:background="@drawable/black_border"
             android:src="@drawable/bulksmsapplogo" />
 
-        <!--<TextView-->
-            <!--style="@style/SubheadRegular"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="@dimen/md_12dp_margin"-->
-            <!--android:text="@string/start_buying_selling"-->
-            <!--android:textColor="@color/white" />-->
+        <TextView
+            style="@style/SubheadRegular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/md_12dp_margin"
+            android:text="@string/business_tag_line"
+            android:textColor="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,18 +86,27 @@
                     android:drawableLeft="@drawable/login_icon_layer_list"
                     android:paddingLeft="@dimen/login_btn_padding"
                     android:paddingRight="@dimen/login_btn_padding"
-                    android:text="@string/mobile" />
+                    android:text="@string/mobile"
+                    android:visibility="gone"/>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/md_1dp_margin"
+                android:background="@color/black_50"
+                android:layout_marginLeft="@dimen/md_44dp_margin"
+                android:layout_marginRight="@dimen/md_44dp_margin"
+                android:layout_marginTop="@dimen/md_44dp_margin"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/md_8dp_margin"
-                android:layout_marginTop="@dimen/md_56dp_margin"
+                android:layout_marginTop="@dimen/md_16dp_margin"
                 android:text="@string/already_have_account"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btn_legacy_login"
@@ -119,7 +128,7 @@
                 android:layout_marginBottom="@dimen/md_8dp_margin"
                 android:layout_marginTop="@dimen/md_16dp_margin"
                 android:text="@string/account_terms_use"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

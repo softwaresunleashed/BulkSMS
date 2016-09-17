@@ -269,7 +269,7 @@ public class TrackerEvents {
 
 
     //Mandatory Registration Experiment
-    public static final String VIEW_LOGIN_PAGE = "login_page_open";
+    public static final String EVENT_LOGIN_PAGE_OPEN = "login_page_open";
 
     public static final String EVENT_LOGIN_NOW_TAP = "login_now_tap";
     public static final String EVENT_LOGIN_SUCCESS = "login_success";
