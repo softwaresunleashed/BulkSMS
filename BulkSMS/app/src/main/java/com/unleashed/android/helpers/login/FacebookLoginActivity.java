@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Utils.ToastUtil;
 import com.unleashed.android.helpers.activities.BaseActivity;
+import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.trackers.TrackerEvents;
 import com.unleashed.android.helpers.trackers.Trackers;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class FacebookLoginActivity extends BaseActivity {
 
-    public static final int REQUEST_CODE = 1004;
+    public static final int REQUEST_CODE = Constants.FACEBOOK_REQUEST_CODE;
     public static final String FB_TOKEN = "fb_token";
     public static final String FB_USERNAME = "fb_name";
     public static final String FB_EMAIL = "fb_email";
@@ -383,13 +384,6 @@ public class FacebookLoginActivity extends BaseActivity {
         finish();
     }
 
-//    private HashMap<String, String> preparePageParams(boolean isSuccess) {
-//        XtraAtInternetParams.Builder paramBuilder = new XtraAtInternetParams.Builder();
-//        paramBuilder.setActionType(isSuccess ? Trackers.EVENT_FB_LOGIN_SUCCESS : Trackers.EVENT_FB_LOGIN_FAILURE);
-//        paramBuilder.setUserLocationParams(TablicaApplication.getCurrentParametersController());
-//        paramBuilder.setSource(mLaunchSource);
-//        paramBuilder.setOrigin(mLaunchSource);
-//        return paramBuilder.build();
-//    }
+
 
 }

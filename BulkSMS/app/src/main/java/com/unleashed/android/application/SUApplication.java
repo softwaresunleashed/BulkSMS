@@ -46,7 +46,6 @@ public class SUApplication extends Application {
         // Initiate Firebase Trackers (Analytics)
         Trackers.init(SUApplication.getContext());
 
-
     }
 
     public static Context getContext() {

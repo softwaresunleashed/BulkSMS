@@ -22,4 +22,10 @@ public class Constants {
     public static final String FACEBOOK_APP_SECRET = "3488300c87c910ed4db66c6965889b89";
 
 
+    // Request Codes
+    public static final int FACEBOOK_REQUEST_CODE = 1000;
+    public static final int GOOGLEPLUS_REQUEST_CODE = 1001;
+
+
+
 }

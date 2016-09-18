@@ -1,6 +1,7 @@
 <resources>
 
     <string name="FACEBOOK_APPLICATION_ID">320072385010322</string>
+    <string name="GOOGLEPLUS_WEBCLIENT_ID">218106236410-tmh1pqkpabkdh1s2bc13frohbn8fi87i.apps.googleusercontent.com</string>
 
 
     <string name="title_section1">Bulk SMS</string>
@@ -90,6 +91,7 @@
     <string name="logging_progress">Logging you in...</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="already_facebook_loggedin">Already Facebook Logged in</string>
+    <string name="already_googleplus_loggedin">Already Google Plus Logged in</string>
     <string name="login_cancel">Login Cancelled</string>
     <string name="login_error">Login Error</string>
 

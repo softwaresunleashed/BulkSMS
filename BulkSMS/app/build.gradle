@@ -48,14 +48,9 @@ android {
         compile('com.google.android.gms:play-services-ads:9.4.0'){
             exclude group: 'com.google.android.gms', module: 'play-services-base'
         }
-        compile('com.google.android.gms:play-services-auth:9.4.0') {
-            exclude group: 'com.google.android.gms', module: 'play-services-base'
-        }
+
 
         compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
-
-        // Firebase Related Dependency Libs
-        compile 'com.google.firebase:firebase-auth:9.4.0'
 
         // Firebase Analytics
         compile 'com.google.firebase:firebase-core:9.4.0'
@@ -63,9 +58,19 @@ android {
         // Firebase Crash Reporting
         compile 'com.google.firebase:firebase-crash:9.4.0'
 
+        // Firebase Authorization Related Dependency Libs
+        compile 'com.google.firebase:firebase-auth:9.4.0'
 
-        // Facebook SDK
+
+        // Facebook Login SDK
         compile 'com.facebook.android:facebook-android-sdk:4.10.1'
+
+        // Google Login SDK
+        compile('com.google.android.gms:play-services-auth:9.4.0') {
+            exclude group: 'com.google.android.gms', module: 'play-services-base'
+        }
+
+
 
     }
 

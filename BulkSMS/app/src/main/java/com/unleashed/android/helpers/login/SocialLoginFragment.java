@@ -24,18 +24,15 @@ import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.trackers.Trackers;
 
 
-/**
- * Created by OLX - Gaurav on 11-08-2016.
- */
 public class SocialLoginFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public static final String TAG = SocialLoginFragment.class.getSimpleName();
     private static final String LAUNCH_SOURCE = "launch_source";
     private static final int FACEBOOK_LOGIN_RETRY = 1;
     private static final int GOOGLE_LOGIN_RETRY = 2;
-    private static final int RC_SIGN_IN = 123;
+//    private static final int RC_SIGN_IN = 123;
     private static final int LOADER_GOOGLE_LOGIN = 1;
-    //private GoogleApiClient mGoogleApiClient;
+//    private GoogleApiClient mGoogleApiClient;
 
     private ProgressDialog progressDialog;
     private String mLaunchSource = "";
@@ -49,6 +46,11 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     private LinearLayout parentContainer;
 
     private SocialLoginListener mSocialLoginListener;
+
+
+//    private FirebaseAuth mAuth;
+//    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
     public static SocialLoginFragment newInstance(String source) {
         SocialLoginFragment fragment = new SocialLoginFragment();
@@ -93,6 +95,22 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
         getActivity().supportInvalidateOptionsMenu();
+
+//        mAuth = FirebaseAuth.getInstance();
+//        mAuthListener = new FirebaseAuth.AuthStateListener() {
+//            @Override
+//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser user = firebaseAuth.getCurrentUser();
+//                if (user != null) {
+//                    // User is signed in
+//                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + "onAuthStateChanged:signed_in:" + user.getUid());
+//                } else {
+//                    // User is signed out
+//                    Logger.push(Logger.LogType.LOG_DEBUG, TAG +"onAuthStateChanged:signed_out");
+//                }
+//                // ...
+//            }
+//        };
     }
 
     @Override
@@ -110,7 +128,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
                 performFacebookLogin();
                 break;
             case R.id.btn_google:
-                //performGoogleLogin();
+                performGoogleLogin();
                 break;
             case R.id.btn_legacy_login:
                 startLoginActivity();
@@ -124,25 +142,42 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         }
     }
 
+//    private static boolean isGoogleLoginClientInitialized = false;
 //    private void buildGoogleLoginClient() {
+//
+//        if(isGoogleLoginClientInitialized == true)
+//            return;
+//
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestEmail()
-//                .requestServerAuthCode("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com", false)
-//                .requestIdToken("856918512908-tvkneuio593kjfpsgebi8o7t5c25rp05.apps.googleusercontent.com")
+//                .requestServerAuthCode(getString(R.string.GOOGLEPLUS_WEBCLIENT_ID), false)
+//                .requestIdToken(getString(R.string.GOOGLEPLUS_WEBCLIENT_ID))
 //                .build();
 //
 //        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
 //                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
 //                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
 //                .build();
-//    }
 //
-//    public void googleSignIn() {
+//        isGoogleLoginClientInitialized = true;
+//    }
+
+    public void googleSignIn() {
+
+        Intent intent = new Intent(getActivity(), GooglePlusLoginActivity.class);
+        startActivityForResult(intent, GooglePlusLoginActivity.REQUEST_CODE);
+
+        Trackers.trackEvent(Trackers.EVENT_GP_CONNECT_TAP);
+
+
+        //buildGoogleLoginClient();
+
+//        showProgress();
 //
 //        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
 //        startActivityForResult(signInIntent, RC_SIGN_IN);
-//    }
-//
+    }
+
 //    public void googleSignOut() {
 //        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
 //                new ResultCallback<Status>() {
@@ -152,25 +187,49 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 //                    }
 //                });
 //    }
-//
-//    private void performGoogleLogin() {
-//        if (Connectivity.isConnected(getActivity())) {
-//            googleSignIn();
-//        } else {
-//            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
-//        }
-//    }
+
+    private void performGoogleLogin() {
+        if (Connectivity.isConnected(getActivity())) {
+            googleSignIn();
+        } else {
+            showSnackBar(getString(R.string.no_internet_new), GOOGLE_LOGIN_RETRY);
+        }
+    }
 
 //    private void handleSignInResult(GoogleSignInResult result) {
 //        if (result.isSuccess()) {
 //            GoogleSignInAccount acct = result.getSignInAccount();
+//            firebaseAuthWithGoogle(acct);
 //            String authcode = acct.getServerAuthCode();
 //            showProgress();
-//            startgoogleLoginLoader(authcode);
+//            //startgoogleLoginLoader(authcode);
+//
+//            setResultandFinish();
 //        } else {
 //            //ToastUtil.show(this, R.string.login_error);
 //        }
 //
+//    }
+
+//    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+//        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " firebaseAuthWithGoogle:" + acct.getId());
+//
+//        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
+//
+//                        // If sign in fails, display a message to the user. If sign in succeeds
+//                        // the auth state listener will be notified and logic to handle the
+//                        // signed in user can be handled in the listener.
+//                        if (!task.isSuccessful()) {
+//                            Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential " + task.getException());
+//                            // TODO: Toast.makeText(GoogleSignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
 //    }
 
     private void showProgress() {
@@ -238,11 +297,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         getActivity().finish();
     }
 
-//    private void trackMixPanelEvent(String event) {
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put(MixpanelPropertyName.SOURCE, MixpanelPropertyName.Sources.GOOGLE);
-//        Mixpanel.track(getActivity(), event, map);
-//    }
+
 
 //    private void handleGoogleLoginError(LoginResponse data) {
 //        //Trackers.trackEvent(getActivity(), Trackers.EVENT_GP_LOGIN_ERROR);
@@ -314,6 +369,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 //        if (requestCode == RC_SIGN_IN) {
 //            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
 //            handleSignInResult(result);
+//            hideProgress();
 //        }
     }
 
@@ -343,7 +399,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
                         performFacebookLogin();
                         break;
                     case GOOGLE_LOGIN_RETRY:
-                        //performGoogleLogin();
+                        performGoogleLogin();
                         break;
                 }
             }

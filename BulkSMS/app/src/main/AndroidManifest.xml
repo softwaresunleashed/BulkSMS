@@ -107,6 +107,12 @@
             android:label="@string/title_activity_fblogin"
             android:theme="@style/AppTheme.NoActionBar.Transparent" />
         <activity
+            android:name="com.unleashed.android.helpers.login.GooglePlusLoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/title_activity_fblogin"
+            android:theme="@style/AppTheme.NoActionBar.Transparent" />
+
+        <activity
             android:name="com.unleashed.android.helpers.apprating.RateActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/title_activity_contact_book"
