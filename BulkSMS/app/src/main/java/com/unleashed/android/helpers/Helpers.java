@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,10 +34,13 @@ import android.widget.Toast;
 import com.unleashed.android.bulksms1.BuildConfig;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.logger.Logger;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -733,6 +738,33 @@ public class Helpers {
 
     public static boolean isReleaseModeBinary(){
         return !(BuildConfig.DEBUG == true);
+    }
+
+    /*
+    * Add Hash Key to Facebook Developers Page ::
+    * https://developers.facebook.com/apps/APP_id/settings/  --> Scroll down a little to "Key Hashes"
+    * */
+    public static void printAppSignatures(Context context){
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (android.content.pm.Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String sign = Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                Logger.push(Logger.LogType.LOG_INFO, "HASH KEY [" + sign + " ]");
+                //  Toast.makeText(getApplicationContext(),sign,     Toast.LENGTH_LONG).show();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+        } catch (NoSuchAlgorithmException e) {
+        }
+    }
+
+
+    public static String getAppPackageName(Context appContext){
+        if(appContext == null)
+            return null;
+
+        return appContext.getPackageName();
     }
 
 }

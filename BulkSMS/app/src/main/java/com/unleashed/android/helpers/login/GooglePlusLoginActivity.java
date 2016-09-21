@@ -114,16 +114,16 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
     }
 
     private void performGooglePlusLogin() {
-        if (!UserNameManager.isFacebookAccount()) {
+//        if (!UserNameManager.isFacebookAccount()) {
             showProgress();
 
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, REQUEST_CODE);
-
-        } else {
-            ToastUtil.show(this, R.string.already_googleplus_loggedin);
-            setResultAndFinish();
-        }
+//
+//        } else {
+//            ToastUtil.show(this, R.string.already_googleplus_loggedin);
+//            setResultAndFinish();
+//        }
 
         Trackers.trackEvent(Trackers.EVENT_GP_CONNECT_TAP);
     }

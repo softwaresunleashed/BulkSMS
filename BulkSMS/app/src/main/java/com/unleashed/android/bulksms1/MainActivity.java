@@ -54,6 +54,7 @@ import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
+import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.SplashScreen.SplashScreen;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
@@ -306,6 +307,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Helpers.printAppSignatures(SUApplication.getContext());
 
         // Display Splash Screen on Application Load
         SplashScreen.display_splash_screen(MainActivity.this);
