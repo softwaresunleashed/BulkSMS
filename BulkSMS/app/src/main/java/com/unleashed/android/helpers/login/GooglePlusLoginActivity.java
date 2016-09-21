@@ -241,7 +241,7 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Logger.push(Logger.LogType.LOG_DEBUG, TAG + "onConnectionFailed()...result = " + connectionResult.getErrorMessage());
     }
 
 //    private void showToast(String message) {
