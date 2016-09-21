@@ -354,4 +354,5 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 //                }
 //            };
 
+
 }
