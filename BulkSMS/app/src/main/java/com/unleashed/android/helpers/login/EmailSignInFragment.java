@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -36,8 +37,8 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
     private static final int LOADER_EMAIL_LOGIN = 1;
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
-    private InputTextEdit edtEmail;
-    private InputTextEdit edtPassword;
+    private EditText edtEmail;
+    private EditText edtPassword;
 
     private TextView tv_forgot_password;
     private TextView tv_login;
@@ -55,7 +56,7 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 // User is signed in
-                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_in:" + user.getUid());
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_in: " + user.getUid());
             } else {
                 // User is signed out
                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_out");
@@ -96,20 +97,20 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_email_signin, null, false);
 
         parentLayout = (FrameLayout) view.findViewById(R.id.parent_container);
-        edtEmail = (InputTextEdit) view.findViewById(R.id.edt_email);
-        edtPassword = (InputTextEdit) view.findViewById(R.id.edt_password);
+        edtEmail = (EditText) view.findViewById(R.id.edt_email);
+        edtPassword = (EditText) view.findViewById(R.id.edt_password);
         tv_forgot_password = (TextView) view.findViewById(R.id.tv_forgot_password);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
 
         //edtEmail.setValidator(PostadValidators.getEmailValidator(getActivity()));
-        edtEmail.setInputType(InputTextEdit.InputMethod.EMAIL);
+        //edtEmail.setInputType(InputTextEdit.InputMethod.EMAIL);
         edtEmail.setHint(getString(R.string.email));
 
-        edtPassword.setInputType(InputTextEdit.InputMethod.EMAIL);
-        edtPassword.getView().setTransformationMethod(new PasswordTransformationMethod());
+        //edtPassword.setInputType(InputTextEdit.InputMethod.EMAIL);
+        //edtPassword.getView().setTransformationMethod(new PasswordTransformationMethod());
         //edtPassword.setValidator(PostadValidators.getPasswordValidator(getActivity()));
         edtPassword.setHint(getString(R.string.password));
-        edtPassword.setIsPasswordUI(true);
+        //edtPassword.setIsPasswordUI(true);
 
         tv_forgot_password.setOnClickListener(this);
         tv_login.setOnClickListener(this);
@@ -123,12 +124,12 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
     public void resetViews() {
         if (edtPassword != null) {
             edtPassword.clearFocus();
-            edtPassword.hideError();
+            //edtPassword.hideError();
         }
 
         if (edtEmail != null) {
             edtEmail.clearFocus();
-            edtEmail.hideError();
+            //edtEmail.hideError();
         }
 
         hideSnackBar();
@@ -181,13 +182,16 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
     private void performEmailLogin() {
 
-        String email = edtEmail.getValue().trim();
-        String passwd = edtPassword.getValue().trim();
+        //String email = edtEmail.getValue().trim();
+        //String passwd = edtPassword.getValue().trim();
+        String email = edtEmail.getText().toString().trim();
+        String passwd = edtPassword.getText().toString().trim();
 
-        boolean emailIsvalid = edtEmail.validate();
-        boolean passwordIsValid = edtPassword.validate();
+//        boolean emailIsvalid = edtEmail.validate();
+//        boolean passwordIsValid = edtPassword.validate();
 
-        if (emailIsvalid && passwordIsValid) {
+//        if (emailIsvalid && passwordIsValid) {
+        if (true) {
             Trackers.trackEvent(Trackers.EVENT_LOGIN_EMAIL_SUBMIT);
             Bundle b = new Bundle();
             b.putString(EMAIL, email);

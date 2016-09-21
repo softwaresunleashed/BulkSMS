@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tablica="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/parent_container"
@@ -18,13 +18,13 @@
             android:layout_marginRight="@dimen/md_16dp_margin"
             android:orientation="vertical">
 
-            <com.unleashed.android.helpers.widgets.inputs.InputTextEdit
+            <EditText
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/md_8dp_margin" />
 
-            <com.unleashed.android.helpers.widgets.inputs.InputTextEdit
+            <EditText
                 android:id="@+id/edt_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -57,3 +57,4 @@
         android:visibility="visible" />
 
 </FrameLayout>
+
