@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
@@ -17,30 +18,34 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.trackers.Trackers;
 import com.unleashed.android.helpers.widgets.inputs.InputTextEdit;
 
-import static com.unleashed.android.helpers.login.SocialLoginFragment.TAG;
+
 
 
 public class EmailSignInFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = EmailSignInFragment.class.getSimpleName();
 
     private static final int LOADER_EMAIL_LOGIN = 1;
     private static final String EMAIL = "email";
     private static final String PASSWORD = "password";
-    private EditText edtEmail;
-    private EditText edtPassword;
+    private TextInputEditText edtEmail;
+    private TextInputEditText edtPassword;
 
     private TextView tv_forgot_password;
+    private TextView tv_register_new_user;
     private TextView tv_login;
     private Snackbar mInfoSnackbar;
     private FrameLayout parentLayout;
@@ -95,25 +100,23 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         // Sudhanshu ORIG
         //View view = inflater.inflate(R.layout.fragment_email_signin, container, false);
         View view = inflater.inflate(R.layout.fragment_email_signin, null, false);
-
         parentLayout = (FrameLayout) view.findViewById(R.id.parent_container);
-        edtEmail = (EditText) view.findViewById(R.id.edt_email);
-        edtPassword = (EditText) view.findViewById(R.id.edt_password);
-        tv_forgot_password = (TextView) view.findViewById(R.id.tv_forgot_password);
-        tv_login = (TextView) view.findViewById(R.id.tv_login);
 
-        //edtEmail.setValidator(PostadValidators.getEmailValidator(getActivity()));
-        //edtEmail.setInputType(InputTextEdit.InputMethod.EMAIL);
+        edtEmail = (TextInputEditText) view.findViewById(R.id.edt_email);
         edtEmail.setHint(getString(R.string.email));
 
-        //edtPassword.setInputType(InputTextEdit.InputMethod.EMAIL);
-        //edtPassword.getView().setTransformationMethod(new PasswordTransformationMethod());
-        //edtPassword.setValidator(PostadValidators.getPasswordValidator(getActivity()));
+        edtPassword = (TextInputEditText) view.findViewById(R.id.edt_password);
         edtPassword.setHint(getString(R.string.password));
-        //edtPassword.setIsPasswordUI(true);
 
+        tv_forgot_password = (TextView) view.findViewById(R.id.tv_forgot_password);
         tv_forgot_password.setOnClickListener(this);
+
+        tv_register_new_user = (TextView) view.findViewById(R.id.tv_register_newuser);
+        tv_register_new_user.setOnClickListener(this);
+
+        tv_login = (TextView) view.findViewById(R.id.tv_login);
         tv_login.setOnClickListener(this);
+
 
         // Get Firebase Auth handler
         mAuth = FirebaseAuth.getInstance();
@@ -152,6 +155,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             case R.id.tv_login:
                 startLogin();
                 break;
+            case R.id.tv_register_newuser:
+                registerUser();
+                break;
         }
 
     }
@@ -161,7 +167,25 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         if (Connectivity.isConnected(getActivity()))
             performEmailLogin();
         else
-            showSnackbarMessage(getString(R.string.no_internet_new));
+            showSnackbarMessage(getString(R.string.no_internet_new), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startLogin();
+                }
+            });
+    }
+
+    private void registerUser() {
+        hideKeyboard();
+        if (Connectivity.isConnected(getActivity()))
+            registerNewUser();
+        else
+            showSnackbarMessage(getString(R.string.no_internet_new), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    registerUser();
+                }
+            });
     }
 
     private void hideKeyboard() {
@@ -182,16 +206,12 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
     private void performEmailLogin() {
 
-        //String email = edtEmail.getValue().trim();
-        //String passwd = edtPassword.getValue().trim();
         String email = edtEmail.getText().toString().trim();
         String passwd = edtPassword.getText().toString().trim();
+        boolean emailIsValid = validateEmailAddress(email);
+        boolean passwordIsValid = validatePassword(passwd);
 
-//        boolean emailIsvalid = edtEmail.validate();
-//        boolean passwordIsValid = edtPassword.validate();
-
-//        if (emailIsvalid && passwordIsValid) {
-        if (true) {
+        if (emailIsValid && passwordIsValid) {
             Trackers.trackEvent(Trackers.EVENT_LOGIN_EMAIL_SUBMIT);
             Bundle b = new Bundle();
             b.putString(EMAIL, email);
@@ -201,7 +221,8 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
             showProgress();
 
-            mAuth.createUserWithEmailAndPassword(email, passwd)
+            // THIS IS THE SIGNIN METHOD
+            mAuth.signInWithEmailAndPassword(email, passwd)
                     .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -210,18 +231,69 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
-//                            if (!task.isSuccessful()) {
-//                                Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
-//                            }
+                            if (!task.isSuccessful()) {
+                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmail:failed exception" + task.getException().toString());
+                                //Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
+                            }
                             hideProgress();
                         }
                     });
 
-
-
-
         }
 
+    }
+
+    private void registerNewUser() {
+        String email = edtEmail.getText().toString().trim();
+        String passwd = edtPassword.getText().toString().trim();
+        boolean emailIsValid = validateEmailAddress(email);
+        boolean passwordIsValid = validatePassword(passwd);
+
+        if (emailIsValid && passwordIsValid) {
+            Trackers.trackEvent(Trackers.EVENT_LOGIN_EMAIL_SUBMIT);
+            Bundle b = new Bundle();
+            b.putString(EMAIL, email);
+            b.putString(PASSWORD, passwd);
+
+            showProgress();
+
+            // THIS IS THE REGISTER METHOD
+            mAuth.createUserWithEmailAndPassword(email, passwd)
+                    .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " Entered mAuth.createUserWithEmailAndPassword():onComplete = " + task.isSuccessful());
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():failed exception => " + task.getException().toString());
+                                //Toast.makeText(SUApplication.getContext(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
+                                showSnackbarMessage(getString(R.string.auth_failed), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dismissSnackbarMessage();
+                                    }
+                                });
+                            } else {
+                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():success => " + task.getResult().toString());
+                                Toast.makeText(SUApplication.getContext(), R.string.auth_success, Toast.LENGTH_SHORT).show();
+                            }
+                            hideProgress();
+                        }
+                    });
+        }
+    }
+
+    private boolean validatePassword(String passwd) {
+        // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
+        return true;
+    }
+
+    private boolean validateEmailAddress(String email) {
+        // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
+        return true;
     }
 
     private void showProgress() {
@@ -234,20 +306,21 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void showSnackbarMessage(String message) {
+    private void showSnackbarMessage(String message, View.OnClickListener _onClickListener) {
         if (parentLayout != null) {
             mInfoSnackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_INDEFINITE);
             mInfoSnackbar.setActionTextColor(getResources().getColor(R.color.orange));
-            mInfoSnackbar.setAction(R.string.retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startLogin();
-                }
-            });
+            mInfoSnackbar.setAction(R.string.retry, _onClickListener);
             View sbView = mInfoSnackbar.getView();
             TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
             textView.setTextColor(Color.WHITE);
             mInfoSnackbar.show();
+        }
+    }
+
+    private void dismissSnackbarMessage() {
+        if(mInfoSnackbar != null){
+            mInfoSnackbar.dismiss();
         }
     }
 

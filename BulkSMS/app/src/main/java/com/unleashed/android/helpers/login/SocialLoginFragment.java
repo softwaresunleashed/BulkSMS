@@ -26,7 +26,8 @@ import com.unleashed.android.helpers.trackers.Trackers;
 
 public class SocialLoginFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String TAG = SocialLoginFragment.class.getSimpleName();
+    private static final String TAG = SocialLoginFragment.class.getSimpleName();
+
     private static final String LAUNCH_SOURCE = "launch_source";
     private static final int FACEBOOK_LOGIN_RETRY = 1;
     private static final int GOOGLE_LOGIN_RETRY = 2;
