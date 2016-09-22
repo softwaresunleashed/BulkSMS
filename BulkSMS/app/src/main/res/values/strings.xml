@@ -74,6 +74,7 @@
     <string name="password">Password</string>
     <string name="no_internet_new">Oops! No internet.Check your connection</string>
     <string name="auth_failed">Oops! Authentication Failure. Try again with correct Username and Password</string>
+    <string name="new_user_registration_failed">Oops! New User Registration Failed. Try again with different Username. Or Password should be atleast 6 characters long.</string>
     <string name="auth_success">Yeehaw! Authentication Success.</string>
     <string name="retry">Retry</string>
     <string name="connect_with_facebook">Connect with Facebook</string>
@@ -95,6 +96,7 @@
     <string name="register_new_user">New User? Register Here</string>
     <string name="already_facebook_loggedin">Already Facebook Logged in</string>
     <string name="already_googleplus_loggedin">Already Google Plus Logged in</string>
+    <string name="login_success">Login Success</string>
     <string name="login_cancel">Login Cancelled</string>
     <string name="login_error">Login Error</string>
 

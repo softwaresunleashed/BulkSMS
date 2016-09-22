@@ -13,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -49,8 +51,23 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
 
     public static void callGooglePlusLogout(Context context) {
+
+        // TODO: Do we need to call google logout sequence here???
+
         FirebaseAuth.getInstance().signOut();
     }
+
+
+    public void googleSignOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+            new ResultCallback<Status>() {
+                @Override
+                public void onResult(Status status) {
+
+                }
+            });
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +91,7 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
             }
         };
 
-
         performGooglePlusLogin();
-
-
     }
 
 //    public static final void startFacebookLoginActivityResult(Fragment fragment, String source) {
@@ -114,16 +128,11 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
     }
 
     private void performGooglePlusLogin() {
-//        if (!UserNameManager.isFacebookAccount()) {
-            showProgress();
 
-            Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-            startActivityForResult(signInIntent, REQUEST_CODE);
-//
-//        } else {
-//            ToastUtil.show(this, R.string.already_googleplus_loggedin);
-//            setResultAndFinish();
-//        }
+        showProgress();
+
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, REQUEST_CODE);
 
         Trackers.trackEvent(Trackers.EVENT_GP_CONNECT_TAP);
     }
@@ -131,7 +140,7 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
     @Override
     public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == RESULT_CANCELED)
             finish();
 
@@ -140,8 +149,6 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
             handleSignInResult(result);
             hideProgress();
         }
-
-
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -203,30 +210,6 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
         isGoogleLoginClientInitialized = true;
     }
-
-
-
-//    private void handleFacebookAccessToken(AccessToken token) {
-//        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " handleFacebookAccessToken:" + token);
-//
-//        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
-//
-//                        // If sign in fails, display a message to the user. If sign in succeeds
-//                        // the auth state listener will be notified and logic to handle the
-//                        // signed in user can be handled in the listener.
-//                        if (!task.isSuccessful()) {
-//                            Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential : " +  task.getException());
-//                            Toast.makeText(GooglePlusLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    }
-//                });
-//    }
 
 
     private void showProgress() {

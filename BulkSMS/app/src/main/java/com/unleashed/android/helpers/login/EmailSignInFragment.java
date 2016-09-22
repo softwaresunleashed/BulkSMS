@@ -121,6 +121,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         // Get Firebase Auth handler
         mAuth = FirebaseAuth.getInstance();
 
+        // Set Title of Login via Email
+        this.getActivity().setTitle(getResources().getString(R.string.title_activity_emaillogin));
+
         return view;
     }
 
@@ -216,8 +219,6 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             Bundle b = new Bundle();
             b.putString(EMAIL, email);
             b.putString(PASSWORD, passwd);
-            // Sudhanshu
-            //getLoaderManager().restartLoader(LOADER_EMAIL_LOGIN, b, loginCallback);
 
             showProgress();
 
@@ -226,15 +227,27 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
                     .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " createUserWithEmail:onComplete:" + task.isSuccessful());
+                            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " mAuth.signInWithEmailAndPassword():onComplete: " + task.isSuccessful());
 
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
-                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmail:failed exception" + task.getException().toString());
-                                //Toast.makeText(EmailPasswordActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
+                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():failed exception" + task.getException().toString());
+                                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dismissSnackbarMessage();
+                                    }
+                                });
+                            } else {
+                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():success => " + task.getResult().toString());
+                                Toast.makeText(SUApplication.getContext(), R.string.login_success, Toast.LENGTH_SHORT).show();
+                                setResultandFinish();
                             }
+
                             hideProgress();
                         }
                     });
@@ -269,8 +282,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():failed exception => " + task.getException().toString());
-                                //Toast.makeText(SUApplication.getContext(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
-                                showSnackbarMessage(getString(R.string.auth_failed), new View.OnClickListener() {
+                                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
                                         dismissSnackbarMessage();

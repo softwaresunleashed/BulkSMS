@@ -143,51 +143,14 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         }
     }
 
-//    private static boolean isGoogleLoginClientInitialized = false;
-//    private void buildGoogleLoginClient() {
-//
-//        if(isGoogleLoginClientInitialized == true)
-//            return;
-//
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .requestServerAuthCode(getString(R.string.GOOGLEPLUS_WEBCLIENT_ID), false)
-//                .requestIdToken(getString(R.string.GOOGLEPLUS_WEBCLIENT_ID))
-//                .build();
-//
-//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-//                .enableAutoManage(getActivity() /* FragmentActivity */, this /* OnConnectionFailedListener */)
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-//
-//        isGoogleLoginClientInitialized = true;
-//    }
-
     public void googleSignIn() {
-
         Intent intent = new Intent(getActivity(), GooglePlusLoginActivity.class);
         startActivityForResult(intent, GooglePlusLoginActivity.REQUEST_CODE);
 
         Trackers.trackEvent(Trackers.EVENT_GP_CONNECT_TAP);
-
-
-        //buildGoogleLoginClient();
-
-//        showProgress();
-//
-//        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-//    public void googleSignOut() {
-//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                new ResultCallback<Status>() {
-//                    @Override
-//                    public void onResult(Status status) {
-//
-//                    }
-//                });
-//    }
+
 
     private void performGoogleLogin() {
         if (Connectivity.isConnected(getActivity())) {
