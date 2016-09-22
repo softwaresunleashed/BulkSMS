@@ -304,6 +304,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void display_toast(String Msg){
         Toast.makeText(MainActivity.this, Msg, Toast.LENGTH_SHORT).show();
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

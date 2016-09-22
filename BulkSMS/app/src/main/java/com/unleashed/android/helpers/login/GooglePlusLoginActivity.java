@@ -50,25 +50,6 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-    public static void callGooglePlusLogout(Context context) {
-
-        // TODO: Do we need to call google logout sequence here???
-
-        FirebaseAuth.getInstance().signOut();
-    }
-
-
-    public void googleSignOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-            new ResultCallback<Status>() {
-                @Override
-                public void onResult(Status status) {
-
-                }
-            });
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +106,24 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    public static void callGooglePlusLogout(Context context) {
+
+        // TODO: Do we need to call google logout sequence here???
+
+        FirebaseAuth.getInstance().signOut();
+    }
+
+
+    public void googleSignOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+
+                    }
+                });
     }
 
     private void performGooglePlusLogin() {
