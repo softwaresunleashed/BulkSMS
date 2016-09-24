@@ -20,4 +20,9 @@ public class CrashReportBase {
         e.printStackTrace();
     }
 
+    public static void sendLog(String msg){
+        // Firebase Crash SDK
+        FirebaseCrash.log(msg);
+    }
+
 }
