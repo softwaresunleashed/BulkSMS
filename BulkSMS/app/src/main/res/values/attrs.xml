@@ -176,4 +176,12 @@
         <attr name="triangleStrokeColor" format="color" />
         <attr name="triangleStrokeWidth" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="DrawableRatingBarItem">
+        <attr name="scaleIconFactor" format="float"/>
+        <attr name="iconBackgroundColor" format="color"/>
+        <attr name="iconForegroundColor" format="color"/>
+        <attr name="iconDrawable" format="reference"/>
+    </declare-styleable>
+
 </resources>

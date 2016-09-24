@@ -20,31 +20,31 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        CrashReportBase.sendLog("onCreate : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onCreate : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        CrashReportBase.sendLog("onResume : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onResume : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        CrashReportBase.sendLog("onPause : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onPause : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        CrashReportBase.sendLog("onDestroy : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onDestroy : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        CrashReportBase.sendLog("onRequestPermissionsResult : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onRequestPermissionsResult : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
 
         List<Fragment> childFragments = getSupportFragmentManager().getFragments();
         if (childFragments != null) {

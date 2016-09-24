@@ -30,12 +30,14 @@
     <dimen name="md_24dp_margin">24dp</dimen>
     <dimen name="md_32dp_margin">32dp</dimen>
     <dimen name="md_36dp_margin">36dp</dimen>
+    <dimen name="md_40dp_margin">40dp</dimen>
     <dimen name="md_42dp_margin">42dp</dimen>
     <dimen name="md_44dp_margin">44dp</dimen>
     <dimen name="md_48dp_margin">48dp</dimen>
     <dimen name="md_56dp_margin">56dp</dimen>
     <dimen name="md_60dp_margin">60dp</dimen>
     <dimen name="md_64dp_margin">64dp</dimen>
+    <dimen name="md_280dp_margin">280dp</dimen>
 
     <!--Paddings-->
     <dimen name="padding_2dp">2dp</dimen>
@@ -49,13 +51,20 @@
     <dimen name="padding_18dp">18dp</dimen>
     <dimen name="padding_20dp">20dp</dimen>
     <dimen name="padding_24dp">24dp</dimen>
+    <dimen name="padding_32dp">32dp</dimen>
     <dimen name="padding_36dp">36dp</dimen>
+    <dimen name="padding_48dp">48dp</dimen>
 
 
     <!--Text Sizes-->
     <dimen name="txt_size_14sp">14sp</dimen>
     <dimen name="txt_size_12sp">12sp</dimen>
     <dimen name="txt_size_10sp">10sp</dimen>
+
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_subhead">16sp</dimen>
+    <dimen name="text_size_standard">14sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
 
     <!--fb_login_widget-->
     <dimen name="fb_button_padding_left_right">@dimen/padding_36dp</dimen>

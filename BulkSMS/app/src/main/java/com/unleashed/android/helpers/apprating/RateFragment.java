@@ -8,46 +8,68 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.avast.android.dialogs.fragment.SimpleDialogFragment;
 import com.avast.android.dialogs.iface.ISimpleDialogListener;
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.Preferences;
+import com.unleashed.android.helpers.Utils.ToastUtil;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.fragments.BaseFragment;
+import com.unleashed.android.helpers.networkops.Connectivity;
+import com.unleashed.android.helpers.trackers.TrackerEvents;
+import com.unleashed.android.helpers.trackers.Trackers;
 
 import java.util.Date;
 
 
-public class RateFragment extends Fragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener, ISimpleDialogListener {
-    Context context;
+public class RateFragment extends BaseFragment implements View.OnClickListener, RatingBar.OnRatingBarChangeListener, ISimpleDialogListener {
+    private Context context;
+
+    private DrawableRatingBar ratingBar;
+    private Button btnSubmit;
+    private TextView rateEmail;
+    private TextView rateBody;
+    private LinearLayout rateForm;
+    private TextView rateDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rate, container, false);
-        ((RatingBar) view.findViewById(R.id.ratingBar)).setOnRatingBarChangeListener(this);
-        view.findViewById(R.id.rateCancel).setOnClickListener(this);
-        view.findViewById(R.id.rateCancel2).setOnClickListener(this);
-        view.findViewById(R.id.btnRate).setOnClickListener(this);
+        ratingBar = (DrawableRatingBar) view.findViewById(R.id.ratingBar);
+        btnSubmit = (Button) view.findViewById(R.id.btn_submit_rating);
+        rateEmail = (TextView) view.findViewById(R.id.rateEmail);
+        rateBody = (TextView) view.findViewById(R.id.rateBody);
+        rateForm = (LinearLayout) view.findViewById(R.id.rateForm);
+        rateDescription = (TextView) view.findViewById(R.id.rateDescription);
+
+        ratingBar.setOnRatingBarChangeListener(this);
+        btnSubmit.setOnClickListener(this);
         return view;
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.rateCancel:
-            case R.id.rateCancel2:
-                cancelView();
-                break;
-            case R.id.btnRate:
+            case R.id.btn_submit_rating:
+                if(Math.round(ratingBar.getRating()) == 0) {
+                    ToastUtil.show(getContext(), "Can't submit empty form. Please provide a rating");
+                } else {
+                    if(Connectivity.isConnected(getContext())) {
+                        new RateTask().execute(
+                                rateEmail.getText().toString(),
+                                rateBody.getText().toString(),
+                                Integer.toString(Math.round(ratingBar.getRating()))
+                        );
+                    } else {
+                        ToastUtil.show(getContext(), "No internet connection. Please check internet connectivity");
+                    }
+                }
 
-                new RateTask().execute(
-                        ((TextView) getView().findViewById(R.id.rateEmail)).getText().toString(),
-                        ((TextView) getView().findViewById(R.id.rateBody)).getText().toString(),
-                        Integer.toString(Math.round(((RatingBar) getView().findViewById(R.id.ratingBar)).getRating()))
-                );
                 break;
         }
     }
@@ -72,24 +94,8 @@ public class RateFragment extends Fragment implements View.OnClickListener, Rati
     }
 
     public void onRatingChanged(RatingBar rateBar, float rating, boolean fromUser) {
-        /*if (rating >= 4) {
-            showRateAppDialog();
-        }*/
-
-        getView().findViewById(R.id.rateCancel2).setVisibility(View.GONE);
-        getView().findViewById(R.id.rateForm).setVisibility(View.VISIBLE);
-        ((TextView) getView().findViewById(R.id.rateDescription)).setText(context.getString(R.string.review_thank_you_for_rating));
-    }
-
-    private void showRateAppDialog() {
-        SimpleDialogFragment.SimpleDialogBuilder builder = SimpleDialogFragment.createBuilder(getActivity(), getFragmentManager());
-        builder.setMessage(R.string.review_go_to_app_store);
-
-        builder.setPositiveButtonText(R.string.review_go);
-        builder.setNegativeButtonText(R.string.review_not_now);
-        builder.setTag("rateDialog");
-        builder.setTargetFragment(this, 0);
-        builder.show();
+        rateForm.setVisibility(View.VISIBLE);
+        rateDescription.setText(context.getString(R.string.review_thank_you_for_rating));
     }
 
     @Override
@@ -130,7 +136,7 @@ public class RateFragment extends Fragment implements View.OnClickListener, Rati
         protected String doInBackground(String... strings) {
             String description = "User rating is: " + strings[2] + "* \n" + strings[1];
             try {
-                //CommunicationV2.sendRate(strings[0], description);
+                CrashReportBase.sendLog(strings[0] + " " + description);
             } catch (Exception e) {
                 CrashReportBase.sendCrashReport(e);
 
@@ -141,9 +147,16 @@ public class RateFragment extends Fragment implements View.OnClickListener, Rati
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(context, context.getString(R.string.review_thank_you_for_feedback), Toast.LENGTH_SHORT).show();
-            closeView();
+            Context appContext = SUApplication.getContext();
+            Preferences.setAppPreference(appContext, Preferences.SHOW_RATING_PROMPT, false);
+
+            Trackers.trackEvent(TrackerEvents.EVENT_RATING_FEEDBACK_SUBMIT);
+
             super.onPostExecute(s);
+
+            ThanksPromptFragment thanksPromptFragment = ThanksPromptFragment.newInstance();
+            thanksPromptFragment.show(getFragmentManager(), ThanksPromptFragment.TAG);
+            thanksPromptFragment.setCancelable(false);
         }
     }
 }

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/md_280dp_margin"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@drawable/round_corner_full_white"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="title_enjoying_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <LinearLayout
+        android:id="@+id/priceInputContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_32dp"
+        android:paddingRight="@dimen/padding_32dp"
+        android:paddingTop="@dimen/padding_12dp"
+        android:paddingBottom="@dimen/padding_12dp">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/md_12dp_margin"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:paddingRight="@dimen/padding_8dp"
+            android:maxLines="1"
+            android:text="@string/title_enjoying_app"
+            android:textColor="@color/black_87"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialog_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/md_12dp_margin"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:text="@string/subtitle_enjoying_app"
+            android:textColor="@color/search_light_icon"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:layout_marginTop="@dimen/md_24dp_margin"
+            android:layout_marginBottom="@dimen/md_24dp_margin"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layout_no_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_chat_item"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/no_like"
+                    android:layout_width="@dimen/md_64dp_margin"
+                    android:layout_height="@dimen/md_64dp_margin"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/md_16dp_margin"
+                    app:srcCompat="@drawable/ic_play_store_sad_face" />
+
+                <TextView
+                    android:id="@+id/txt_no_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/md_12dp_margin"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@string/txt_no_like"
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_sky_blue"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_yes_like"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_chat_item"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/yes_like"
+                    android:layout_width="@dimen/md_64dp_margin"
+                    android:layout_height="@dimen/md_64dp_margin"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/md_16dp_margin"
+                    app:srcCompat="@drawable/ic_play_store_happy_face"/>
+
+                <TextView
+                    android:id="@+id/txt_yes_like"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/md_12dp_margin"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:text="@string/txt_yes_like"
+                    android:textAllCaps="true"
+                    android:textColor="@color/dark_sky_blue"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -11,30 +11,30 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CrashReportBase.sendLog("onCreate : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onCreate : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        CrashReportBase.sendLog("onResume : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onResume : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        CrashReportBase.sendLog("onPause : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onPause : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        CrashReportBase.sendLog("onActivityCreated : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onActivityCreated : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        CrashReportBase.sendLog("onDestroy : "+this.getClass().getSimpleName() + " hash : "+this.hashCode());
+        CrashReportBase.sendLog("onDestroy : " + this.getClass().getSimpleName() + " hash : " + this.hashCode());
     }
 }

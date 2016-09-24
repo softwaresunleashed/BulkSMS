@@ -9,10 +9,16 @@ public class Preferences {
     public static final String SHARED_PREF_NAME = "BulkSMSPrefs";
 
     //Rating
+    public static final String SHARED_PREF_RATE_INSTALL_TIME = "instalation_time";
     public static final String SHOW_RATING_PROMPT = "show_rating_prompt";
+    public static final String SHOW_FIRST_RATING_PROMPT = "show_first_rating_prompt";
     public static final String REMIND_RATING_PROMPT_LATER = "remind_rating_prompt_later";
     public static final String RATING_PROMPT_TIME_STAMP = "remind_rating_prompt_time_stamp";
-    public static final String SHARED_PREF_RATE_INSTALL_TIME = "instalation_time";
+    public static final String FIRST_RATING_PROMPT_TIME_STAMP = "first_rating_prompt_time_stamp";
+    public static final String SHOW_RATING_FROM_SHARE = "show_rating_from_share";
+    public static final String CHAT_RATING_PROMPT_TIME_STAMP = "chat_rating_prompt_time_stamp";
+    public static final String SHARED_PREF_OTP_LOGIN = "account_otp_login";
+    public static final String SHARED_PREF_MAND_REG = "madatory_reg_enabled";
 
     // UserManager
     public static final String SHARED_PREF_USERNAME = "userName";
@@ -24,6 +30,7 @@ public class Preferences {
     public static final String SHARED_PREF_USER_EMAIL = "user_email";
     public static final String SHARED_PREF_MISSED_CALL_NO = "missed_call_no";
     public static final String SHARED_PREF_ALREADY_FACEBOOK = "already_facebook";
+
 
 
     public static String getLocationPreference(Context context) {

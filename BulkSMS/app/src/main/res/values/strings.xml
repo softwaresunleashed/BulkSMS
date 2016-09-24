@@ -57,7 +57,7 @@
     <string name="play_app_not_found">Google Play App not found</string>
     <string name="rate">Rate App</string>
     <string name="review_rate_our_application">We\'d love to get feedback from you on our app. The more details you can provide, the better.</string>
-    <string name="review_tap_on_the_star">Tap on the star to rate</string>
+    <string name="review_tap_on_the_star">Tap on the rating bar to rate</string>
     <string name="review_no_thanks">No, thank you. I will assess later</string>
     <string name="review_thank_you_for_rating">Thank you for rating!</string>
     <string name="review_go_to_app_store">We are pleased that you like our app! Go to the App Store to share your opinion with other users.</string>
@@ -66,8 +66,20 @@
     <string name="review_thank_you_for_feedback">Thank you! Your feedback has been sent.</string>
     <string name="review_write_us_detailed_comment">Send us your views</string>
     <string name="review_your_email">Your e-mail (optional)</string>
-    <string name="review_send">Send</string>
-
+    <string name="submit">SUBMIT</string>
+    <string name="love_to_hear">We would love to hear from you about our app</string>
+    <string name="thanks">Thanks!</string>
+    <string name="thanks_feedback">Thanks for your feedback, we will definitely improve.</string>
+    <string name="ok_got_it">Ok, got it</string>
+    <string name="action_no_thanks">No thanks</string>
+    <string name="rate_us">Rate Us!</string>
+    <string name="rate_us_msg">Happy to hear that you love our app! Will you take out a moment and rate us on playstore.</string>
+    <string name="action_rate_us">Rate this App on play store</string>
+    <string name="action_remind_later">Remind me later</string>
+    <string name="title_enjoying_app">Enjoying BulkSMS!</string>
+    <string name="subtitle_enjoying_app">How was your experience with BulkSMS?</string>
+    <string name="txt_no_like">Ahh!</string>
+    <string name="txt_yes_like">Loved it</string>
 
     <!--Login strings-->
     <string name="email">Email</string>
@@ -120,6 +132,7 @@
     <string name="validation_field_digits">This field can contain only numbers</string>
     <string name="validation_phone_less_than_10">Phone number must be of 10-digits</string>
     <string name="validation_field_required">This field is required</string>
+
 
 
 </resources>

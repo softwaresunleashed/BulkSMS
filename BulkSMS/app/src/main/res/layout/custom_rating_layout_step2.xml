@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/md_280dp_margin"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/round_corner_full_white"
+    android:focusableInTouchMode="true"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/priceInputContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/padding_32dp"
+        android:paddingRight="@dimen/padding_32dp"
+        android:paddingTop="@dimen/padding_12dp"
+        android:paddingBottom="@dimen/padding_12dp">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/md_12dp_margin"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:paddingRight="@dimen/padding_48dp"
+            android:maxLines="1"
+            android:text="@string/rate_us"
+            android:textColor="@color/black_87"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialog_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="@dimen/md_12dp_margin"
+            android:gravity="left"
+            android:includeFontPadding="false"
+            android:text="@string/rate_us_msg"
+            android:textColor="@color/search_light_icon"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/md_24dp_margin"
+            android:layout_marginBottom="@dimen/md_16dp_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_rate_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/md_12dp_margin"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAllCaps="true"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:background="@drawable/selector_rate_us_button"
+                android:includeFontPadding="false"
+                android:text="@string/action_rate_us"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_remind_later"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/md_12dp_margin"
+                android:gravity="center"
+                android:textAllCaps="true"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_16dp"
+                android:paddingBottom="@dimen/padding_16dp"
+                android:background="@drawable/selector_remind_later_button"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="@string/action_remind_later"
+                android:textColor="@color/orange"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/dialog_no_thanks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/md_12dp_margin"
+                android:gravity="center"
+                android:paddingLeft="@dimen/padding_8dp"
+                android:paddingRight="@dimen/padding_8dp"
+                android:paddingTop="@dimen/padding_8dp"
+                android:paddingBottom="@dimen/padding_8dp"
+                android:background="@drawable/selector_chat_item"
+                android:textAllCaps="true"
+                android:layout_weight="1"
+                android:includeFontPadding="false"
+                android:text="@string/action_no_thanks"
+                android:textColor="@color/black_56"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

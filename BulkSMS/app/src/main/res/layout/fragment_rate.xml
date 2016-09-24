@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:fillViewport="true">
 
         <LinearLayout
@@ -20,32 +20,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingBottom="10dp">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="30dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_margin="@dimen/md_12dp_margin"
-                    android:text="@string/review_rate_our_application" />
-
-                <RatingBar
+                <com.unleashed.android.helpers.apprating.DrawableRatingBar
                     android:id="@+id/ratingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="@dimen/md_8dp_margin"
+                    android:layout_marginTop="@dimen/md_36dp_margin"
+                    android:visibility="visible"
+                    android:numStars="5"
                     android:max="5"
                     android:stepSize="1" />
 
@@ -53,6 +38,7 @@
                     android:id="@+id/rateDescription"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+		            android:textColor="@color/black_56"
                     android:text="@string/review_tap_on_the_star" />
             </LinearLayout>
 
@@ -60,120 +46,90 @@
                 android:id="@+id/rateForm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:background="@color/gray"
+                android:layout_marginTop="@dimen/md_40dp_margin"
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical"
-                android:padding="10dp"
                 android:visibility="visible">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/love_to_hear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:background="@drawable/search_background"
-                    android:gravity="top">
-
-                    <EditText
-                        android:id="@+id/rateBody"
-                        android:layout_width="wrap_content"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:gravity="top"
-                        android:hint="@string/review_write_us_detailed_comment"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:text=""
-                        android:textSize="15dp" />
-                </LinearLayout>
+                    android:textColor="@color/black_87"
+                    android:layout_marginLeft="@dimen/md_16dp_margin"
+                    android:layout_marginRight="@dimen/md_16dp_margin"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_subhead"
+                    android:text="@string/love_to_hear" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="@dimen/md_8dp_margin"
                     android:background="@drawable/search_background"
                     android:gravity="center_vertical">
 
                     <EditText
                         android:id="@+id/rateEmail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/md_48dp_margin"
+                        android:layout_marginLeft="@dimen/md_12dp_margin"
+                        android:layout_marginRight="@dimen/md_12dp_margin"
                         android:layout_weight="1"
                         android:background="@color/white"
                         android:hint="@string/review_your_email"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:text=""
-                        android:textSize="15dp" />
+                        android:textSize="@dimen/text_size_subhead" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/btnRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/ad_button"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center_vertical"
-                        android:text="@string/review_send"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/md_1dp_margin"
+                    android:layout_marginLeft="@dimen/md_16dp_margin"
+                    android:layout_marginRight="@dimen/md_16dp_margin"
+                    android:background="@color/black_12"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="gone"
-                    android:gravity="center_horizontal">
-
-                    <TextView
-                        android:id="@+id/rateCancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="10dp"
-                        android:gravity="bottom"
-                        android:minHeight="50dp"
-                        android:text="@string/review_no_thanks"
-                        android:textColor="@color/material_blue_800" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:baselineAligned="false"
-                android:visibility="gone"
-                android:clickable="false"
-                android:gravity="center_horizontal|bottom">
-
-                <TextView
-                    android:id="@+id/rateCancel2"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="bottom"
-                    android:minHeight="30dp"
-                    android:visibility="gone"
-                    android:text="@string/review_no_thanks"
-                    android:textColor="@color/material_blue_800" />
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/md_8dp_margin"
+                    android:background="@drawable/search_background"
+                    android:gravity="top">
 
+                    <EditText
+                        android:id="@+id/rateBody"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/md_48dp_margin"
+                        android:layout_marginLeft="@dimen/md_12dp_margin"
+                        android:layout_marginRight="@dimen/md_12dp_margin"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:hint="@string/review_write_us_detailed_comment"
+                        android:text=""
+                        android:textSize="@dimen/text_size_subhead" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/md_1dp_margin"
+                    android:layout_marginLeft="@dimen/md_16dp_margin"
+                    android:layout_marginRight="@dimen/md_16dp_margin"
+                    android:background="@color/black_12"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btn_submit_rating"
+        android:background="@drawable/submit_button"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/md_48dp_margin"
+        android:text="@string/submit"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_size_standard"
+        android:visibility="visible" />
 </LinearLayout>

@@ -8,12 +8,16 @@
     <color name="material_red_900">#FFB71C1C</color>
     <color name="material_amber_300">#FFFFD54F</color>
     <color name="material_amber_900">#FFFF6F00</color>
+    <color name="material_orange_700">#FFF57C00</color>
+    <color name="material_orange_800">#FFEF6C00</color>
+    <color name="material_grey_400">#FFBDBDBD</color>
     <color name="material_grey_800">#FF424242</color>
     <color name="material_light_green_500">#FF8BC34A</color>
 
 
     <!--Shaded of White-->
     <color name="white">#FFFFFF</color>
+    <color name="white_selector">#50E3E3E3</color>
     <color name="white_40">#66FFFFFF</color>
     <color name="white_56">#90FFFFFF</color>
     <color name="white_100">#FFFFFFFF</color>
@@ -22,6 +26,7 @@
     <!--Shades of Black-->
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
+    <color name="black_12">#05000000</color>
     <color name="black_24">#3D000000</color>
     <color name="black_45">#40000000</color>
     <color name="black_38">#61000000</color>
@@ -57,7 +62,9 @@
     <color name="fb_blue_button_pressed">#2A457E</color>
     <color name="newadlist_link_pressed">#22007FFF</color>
     <color name="action_bar_button_background_hamburger">#FF7900</color>
+    <color name="action_bar_button_background_hamburger_pressed">#E26E05</color>
     <color name="orange_selected">#88FF7700</color>
+    <color name="orange_new_selected">#50FF7700</color>
     <color name="orange">#FF7700</color>
     <color name="border_color">#aabb00</color>
     <color name="red_error">@color/material_red_accent_700</color>
@@ -69,7 +76,19 @@
     <color name="prefix_color">#888888</color>
 
 
+    <!-- Light Theme -->
+    <color name="search_light_background">#fffafafa</color>
+    <color name="search_light_icon">#8a000000</color>
+    <color name="search_light_text">#de000000</color>
+    <color name="search_light_hint">#80000000</color>
+    <color name="search_light_text_highlight">#62000000</color>
 
+    <!-- Dark Theme -->
+    <color name="search_dark_background">#ff303030</color>
+    <color name="search_dark_icon">#b3ffffff</color>
+    <color name="search_dark_text">#ffffffff</color>
+    <color name="search_dark_hint">#80ffffff</color>
+    <color name="search_dark_text_highlight">#62ffffff</color>
 
 
 

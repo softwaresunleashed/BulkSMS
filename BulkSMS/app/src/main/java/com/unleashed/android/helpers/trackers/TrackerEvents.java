@@ -1,7 +1,7 @@
 package com.unleashed.android.helpers.trackers;
 
 /**
- * Created by OLX - Sudhanshu on 16-09-2016.
+ * Created by Sudhanshu on 16-09-2016.
  */
 
 public class TrackerEvents {
@@ -144,6 +144,16 @@ public class TrackerEvents {
     public static final String EVENT_MY_CONTACTS_SHARE_SELECT = "my_contacts_share_select";
     public static final String EVENT_MY_CONTACTS_SHARE_SUCCESS = "my_contacts_share_success";
     public static final String EVENT_MY_CONTACTS_SHARE_FAILURE = "my_contacts_share_failure";
+
+    // App Rating
+    public static final String EVENT_RATING_FEEDBACK_SUBMIT = "rating_feedback_sent";
+    public static final String RATING_PROMPT_RATE = "rating_rated";
+    public static final String RATING_PROMPT_REMIND_LATER = "rating_remind_later_clicked";
+    public static final String RATING_PROMPT_DONT_RATE = "rating_rate_denied";
+    public static final String RATING_PROMPT_SHOWN = "rating_dialog_shown";
+    public static final String RATING_PROMPT_LIKE_YES = "rating_l1_yes_clicked";
+    public static final String RATING_PROMPT_LIKE_NO = "rating_l1_no_clikced";
+    public static final String RATING_FEEDBACK_SUBMIT = "rating_feedback_sent";
 
     //Phone Privacy
     public static final String EVENT_HIDE_PHONE_CHECKED = "hide_phone_checked";
