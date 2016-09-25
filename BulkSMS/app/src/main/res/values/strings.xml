@@ -96,7 +96,7 @@
     <string name="google">Google</string>
     <string name="already_have_account">Already have an account ?</string>
     <string name="account_terms_use">By continuing, you agree to the Terms and Conditions</string>
-    <string name="login_now">Login Now</string>
+    <string name="login_now">Email Login</string>
     <string name="login">Login</string>
     <string name="login_required_message">You need to login or register to continue using BulkSMS</string>
     <string name="exit_app">Exit App</string>
@@ -109,6 +109,7 @@
     <string name="already_facebook_loggedin">Already Facebook Logged in</string>
     <string name="already_googleplus_loggedin">Already Google Plus Logged in</string>
     <string name="login_success">Login Success</string>
+    <string name="uname_passwd_error">Try again with a proper Username and Password</string>
     <string name="login_cancel">Login Cancelled</string>
     <string name="login_error">Login Error</string>
 

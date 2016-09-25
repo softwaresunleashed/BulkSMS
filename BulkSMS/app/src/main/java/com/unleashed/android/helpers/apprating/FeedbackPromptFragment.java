@@ -18,7 +18,7 @@ public class FeedbackPromptFragment extends SimpleDialogFragment{
 
     public static final String TAG = FeedbackPromptFragment.class.getSimpleName();
     private static final int THRESHOLD = 7 * 24 * 60 * 60 * 1000; // 7days
-    public static final int FIRST_THRESHOLD = 3 * 24 * 60 * 60 * 1000; // 7 days, for first time rating prompt
+    public static final int FIRST_THRESHOLD = 3 * 24 * 60 * 60 * 1000; // 3 days, for first time rating prompt
 
     public static boolean showFeedbackPromptIfPossible(Context context, FragmentManager fragmentManager){
         boolean showPrompt = Preferences.getAppPreference(context, Preferences.SHOW_RATING_PROMPT, true);

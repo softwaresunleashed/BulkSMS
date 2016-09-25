@@ -494,12 +494,12 @@ public class ContactBook extends Activity
         try{
             if(current_state){
                 // The item has been selected
-                view.setBackgroundColor(Color.LTGRAY);
+                //view.setBackgroundColor(Color.LTGRAY);
                 chkbox_phnEntrySelected.setChecked(true);
 
             }else{
 
-                view.setBackgroundColor(Color.WHITE);       //Color.TRANSPARENT
+                //view.setBackgroundColor(Color.WHITE);       //Color.TRANSPARENT
                 chkbox_phnEntrySelected.setChecked(false);
             }
         }catch (Exception ex){

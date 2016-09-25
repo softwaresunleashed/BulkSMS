@@ -21,7 +21,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginTop="60dp"
-            android:background="@drawable/black_border"
+            android:background="@drawable/black_border_oval"
             android:src="@drawable/bulksmsapplogo" />
 
         <TextView
@@ -91,20 +91,14 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/md_1dp_margin"
-                android:background="@color/black_50"
-                android:layout_marginLeft="@dimen/md_44dp_margin"
-                android:layout_marginRight="@dimen/md_44dp_margin"
-                android:layout_marginTop="@dimen/md_44dp_margin"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/md_8dp_margin"
-                android:layout_marginTop="@dimen/md_16dp_margin"
+                android:layout_marginTop="@dimen/md_60dp_margin"
                 android:text="@string/already_have_account"
                 android:textColor="@color/black" />
 
@@ -115,6 +109,9 @@
                 android:layout_margin="@dimen/md_4dp_margin"
                 android:background="@drawable/google_signin_bg"
                 android:text="@string/login_now"
+                android:paddingLeft="@dimen/email_login_btn_padding"
+                android:paddingRight="@dimen/email_login_btn_padding"
+                android:drawableLeft="@drawable/login_icon_layer_list"
                 android:textColor="@color/login_now_grey" />
 
             <TextView

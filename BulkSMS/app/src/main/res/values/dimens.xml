@@ -68,7 +68,8 @@
 
     <!--fb_login_widget-->
     <dimen name="fb_button_padding_left_right">@dimen/padding_36dp</dimen>
-    <dimen name="login_btn_padding">@dimen/padding_16dp</dimen>
+    <dimen name="login_btn_padding">@dimen/padding_36dp</dimen>
+    <dimen name="email_login_btn_padding">@dimen/padding_36dp</dimen>
 
     <dimen name="action_bar_height">@dimen/md_60dp_margin</dimen>
 

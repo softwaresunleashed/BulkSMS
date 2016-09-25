@@ -10,12 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +25,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
-import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.logger.Logger;
+import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.trackers.Trackers;
-import com.unleashed.android.helpers.widgets.inputs.InputTextEdit;
 
 
 
@@ -252,6 +249,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
                         }
                     });
 
+        } else {
+            Logger.push(Logger.LogType.LOG_DEBUG, TAG + "email or password validation failed");
+            Toast.makeText(SUApplication.getContext(), R.string.uname_passwd_error, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -302,11 +302,17 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
     private boolean validatePassword(String passwd) {
         // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
+        if(passwd.length() == 0)
+            return false;
+
         return true;
     }
 
     private boolean validateEmailAddress(String email) {
         // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
+        if(email.length() == 0)
+            return false;
+
         return true;
     }
 

@@ -731,7 +731,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onResume();
 
         // Show Rate App Dialog
-        FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
+        FeedbackPromptFragment.showFirstTimeFeedbackPromptIfPossible(this, getSupportFragmentManager());
     }
 
     public ArrayAdapter<String> getContactsSelectedAdapter(){
@@ -1342,6 +1342,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
             case R.id.imgbtn_SendBulkSMS:
                 ComposeAndSendMessage();
+                FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
                 break;
 
         }

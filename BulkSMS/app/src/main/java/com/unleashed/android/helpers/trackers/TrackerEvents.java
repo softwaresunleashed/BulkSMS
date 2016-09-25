@@ -144,6 +144,9 @@ public class TrackerEvents {
     public static final String EVENT_MY_CONTACTS_SHARE_SELECT = "my_contacts_share_select";
     public static final String EVENT_MY_CONTACTS_SHARE_SUCCESS = "my_contacts_share_success";
     public static final String EVENT_MY_CONTACTS_SHARE_FAILURE = "my_contacts_share_failure";
+    public static final String FB_LOGIN_CLICKED = "FB Login Btn Clicked";
+    public static final String FB_LOGIN_SKIPPED = "FB Login Skipped";
+    public static final String FB_LOGIN_SUCCESS = "FB Login Success";
 
     // App Rating
     public static final String EVENT_RATING_FEEDBACK_SUBMIT = "rating_feedback_sent";

@@ -47,11 +47,6 @@ public class FacebookLoginActivity extends BaseActivity {
     public static final String FB_LOGIN_ERROR = "fb_login_error";
     public static final String SHOWING_SNACK_BAR = "showing_snack_bar";
 
-    //Apptimize Tracking Constants
-    public static final String FB_LOGIN_CLICKED = "FB Login Btn Clicked";
-    public static final String FB_LOGIN_SKIPPED = "FB Login Skipped";
-    public static final String FB_LOGIN_SUCCESS = "FB Login Success";
-
     private static final List<String> FB_PERMISSIONS = Arrays.asList("user_friends", "email", "public_profile");
     private static final String TAG = FacebookLoginActivity.class.getSimpleName();
     private static final int LOADER_FB_SESSION = 2;
@@ -143,7 +138,7 @@ public class FacebookLoginActivity extends BaseActivity {
 
     private void performFacebookLogin() {
         if (!UserNameManager.isFacebookAccount()) {
-            showProgress();
+            //showProgress();
             mLoginButton.performClick();
         } else {
             ToastUtil.show(this, R.string.already_facebook_loggedin);
@@ -175,7 +170,7 @@ public class FacebookLoginActivity extends BaseActivity {
                 Trackers.trackEvent(TrackerEvents.EVENT_FB_LOGIN_SUCCESS);
 
                 handleFacebookAccessToken(loginResult.getAccessToken());
-                hideProgress();
+                //hideProgress();
 
             }
 
@@ -184,7 +179,7 @@ public class FacebookLoginActivity extends BaseActivity {
                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + " facebook:onCancel()");
                 Trackers.trackEvent(TrackerEvents.EVENT_FB_LOGIN_DISMISS);
 
-                hideProgress();
+//                hideProgress();
                 showToast(getResources().getString(R.string.login_cancel));
                 setResultAndFinish();
 
@@ -195,7 +190,7 @@ public class FacebookLoginActivity extends BaseActivity {
                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + " facebook:onError():" + exception.toString());
                 Trackers.trackEvent(TrackerEvents.EVENT_FB_LOGIN_FAILURE);
 
-                hideProgress();
+//                hideProgress();
                 showToast(getResources().getString(R.string.login_error));
                 setResultAndFinish();
             }
