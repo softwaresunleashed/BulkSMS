@@ -112,6 +112,8 @@
     <string name="uname_passwd_error">Try again with a proper Username and Password</string>
     <string name="login_cancel">Login Cancelled</string>
     <string name="login_error">Login Error</string>
+    <string name="something_not_right">Oops! Something is not right. Unable to login.</string>
+
 
 
 

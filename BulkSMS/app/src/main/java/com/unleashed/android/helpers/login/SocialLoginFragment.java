@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -318,14 +319,17 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == FacebookLoginActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-//            if (data != null && data.hasExtra(FacebookLoginActivity.FB_TOKEN)) {
-//                if (!TextUtils.isEmpty(FacebookLoginActivity.FB_TOKEN))
-//                    informLoginSuccess();
-//            } else {
-//                showSnackBar(getString(R.string.something_not_right), FACEBOOK_LOGIN_RETRY);
-//            }
-//        } else if (requestCode == RegisterActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+
+        if (requestCode == FacebookLoginActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null && data.hasExtra(FacebookLoginActivity.FB_TOKEN)) {
+                if (!TextUtils.isEmpty(FacebookLoginActivity.FB_TOKEN))
+                    informLoginSuccess();
+            } else {
+                showSnackBar(getString(R.string.something_not_right), FACEBOOK_LOGIN_RETRY);
+            }
+        }
+
+//        else if (requestCode == RegisterActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 //            informLoginSuccess();
 //        } else if (requestCode == SignInTabActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 //            informLoginSuccess();
@@ -335,6 +339,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 //            handleSignInResult(result);
 //            hideProgress();
 //        }
+
     }
 
     private void informLoginSuccess() {

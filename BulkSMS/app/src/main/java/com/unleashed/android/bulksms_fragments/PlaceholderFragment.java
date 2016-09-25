@@ -84,13 +84,13 @@ public class PlaceholderFragment extends Fragment{
                 if(callbackListener != null)
                     callbackListener.initCallbacks(rootView, TAB_ABOUT_APP);
                 break;
-        };
+        }
 
         return rootView;
     }
 
     public interface IInitCallbacks{
-        public void initCallbacks(View view, int fragment_number);
+        void initCallbacks(View view, int fragment_number);
     }
 
 

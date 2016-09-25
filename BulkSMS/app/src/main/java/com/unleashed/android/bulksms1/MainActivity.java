@@ -598,7 +598,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             case TAB_ABOUT_APP:
                 initAboutAppTab(view);
                 break;
-        };
+        }
     }
 
 
