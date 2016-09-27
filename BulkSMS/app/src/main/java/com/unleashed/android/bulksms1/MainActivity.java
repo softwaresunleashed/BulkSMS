@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -61,6 +62,7 @@ import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.login.LoginScreen;
+import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
@@ -305,6 +307,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         Toast.makeText(MainActivity.this, Msg, Toast.LENGTH_SHORT).show();
     }
 
+
+    private Toolbar toolbar;
+    private NavDrawer navDrawer;
+    private View rootView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,6 +325,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         LoginScreen.showLoginActivity(MainActivity.this);
 
         setContentView(R.layout.activity_main);
+
+        ////////////////////////////Navigation Drawer Code ////////////////////////////////////////
+        // Invoke Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Invoke Navigation Drawer
+        rootView = findViewById(R.id.drawer_layout);
+        navDrawer = NavDrawer.getInstance();
+        navDrawer.initNavigationDrawer(SUApplication.getContext(), rootView);
+        ///////////////////////////////////////////////////////////////////////////////////////////
+
 
         // Invoke Database
         bulksmsdb = new DBHelper(getApplicationContext());

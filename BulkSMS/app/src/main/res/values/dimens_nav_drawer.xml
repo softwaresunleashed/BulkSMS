@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">@dimen/md_16dp_margin</dimen>
+    <dimen name="nav_header_height">@dimen/md_160dp_margin</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="fab_margin">@dimen/md_16dp_margin</dimen>
+    <dimen name="profile_width">@dimen/md_75dp_margin</dimen>
+    <dimen name="profile_height">@dimen/md_75dp_margin</dimen>
+
+
+</resources>

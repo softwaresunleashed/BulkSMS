@@ -19,7 +19,6 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-
     <style name="BottomActionTextPosting" parent="@style/TextAppearance.AppCompat.Body2">
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:textColor">@color/white</item>
@@ -29,7 +28,6 @@
         <item name="android:background">@color/action_bar_button_background_hamburger</item>
         <item name="android:fontFamily" tools:targetApi="16">sans-serif-medium</item>
     </style>
-
 
     <style name="input_text_caption_style" parent="TextAppearance.AppCompat.Caption">
         <item name="android:textSize">16sp</item>
@@ -60,6 +58,10 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>
