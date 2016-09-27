@@ -329,6 +329,16 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
             }
         }
 
+        if (requestCode == GooglePlusLoginActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            informLoginSuccess();
+        }
+
+        if (requestCode == EmailSignInFragment.REQUEST_CODE && resultCode == Activity.RESULT_OK){
+            informLoginSuccess();
+        }
+
+
+
 //        else if (requestCode == RegisterActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
 //            informLoginSuccess();
 //        } else if (requestCode == SignInTabActivity.REQUEST_CODE && resultCode == Activity.RESULT_OK) {

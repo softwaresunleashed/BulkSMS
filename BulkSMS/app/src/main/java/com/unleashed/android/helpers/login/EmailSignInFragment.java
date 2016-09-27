@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.trackers.Trackers;
@@ -34,6 +35,8 @@ import com.unleashed.android.helpers.trackers.Trackers;
 
 public class EmailSignInFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = EmailSignInFragment.class.getSimpleName();
+
+    public static final int REQUEST_CODE = Constants.EMAILLOGIN_REQUEST_CODE;
 
     private static final int LOADER_EMAIL_LOGIN = 1;
     private static final String EMAIL = "email";
@@ -292,7 +295,7 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
                                 });
                             } else {
                                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():success => " + task.getResult().toString());
-                                Toast.makeText(SUApplication.getContext(), R.string.auth_success, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SUApplication.getContext(), R.string.new_user_registration_success, Toast.LENGTH_SHORT).show();
                             }
                             hideProgress();
                         }

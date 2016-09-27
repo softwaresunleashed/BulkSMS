@@ -86,6 +86,7 @@
     <string name="password">Password</string>
     <string name="no_internet_new">Oops! No internet.Check your connection</string>
     <string name="auth_failed">Oops! Authentication Failure. Try again with correct Username and Password</string>
+    <string name="new_user_registration_success">Yeehaw! Your profile has been created.</string>
     <string name="new_user_registration_failed">Oops! New User Registration Failed. Try again with different Username. Or Password should be atleast 6 characters long.</string>
     <string name="auth_success">Yeehaw! Authentication Success.</string>
     <string name="retry">Retry</string>

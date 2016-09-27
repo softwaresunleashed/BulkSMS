@@ -18,13 +18,13 @@ import java.util.Arrays;
 
 public class SignInTabActivity extends BaseActivity {
 
-    public static final int REQUEST_CODE = 201;
+    public static final int REQUEST_CODE = EmailSignInFragment.REQUEST_CODE;
     private TabLayout signInTabLayout;
     private ViewPager signInPager;
 
     private SignInPagerAdapter pagerAdapter;
 
-    private static String[] signInOptions = new String[]{"Email"};
+    private static String[] signInOptions = new String[]{"Email Login"};
     //private static String[] signInOptions = new String[]{"Mobile Number", "Email"};
 
     public static void startSignInActivityForResult(Fragment fragment) {
@@ -76,7 +76,7 @@ public class SignInTabActivity extends BaseActivity {
         });
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.login);
+        actionBar.setTitle(R.string.login_now);
         actionBar.setElevation(0);
         actionBar.setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
