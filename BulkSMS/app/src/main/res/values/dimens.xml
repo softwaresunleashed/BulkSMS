@@ -15,6 +15,8 @@
     <dimen name="button_stroke_width_normal">2dp</dimen>
     <dimen name="button_stroke_width_pressed">4dp</dimen>
 
+    <!--Layouts-->
+    <dimen name="layout_border_radius">10dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="md_1dp_margin">1dp</dimen>

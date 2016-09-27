@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <corners
-        android:bottomLeftRadius="3dp"
-        android:bottomRightRadius="3dp"
-        android:radius="3dp"
-        android:topLeftRadius="3dp"
-        android:topRightRadius="3dp" />
+        android:bottomLeftRadius="@dimen/layout_border_radius"
+        android:bottomRightRadius="@dimen/layout_border_radius"
+        android:radius="@dimen/layout_border_radius"
+        android:topLeftRadius="@dimen/layout_border_radius"
+        android:topRightRadius="@dimen/layout_border_radius" />
 
     <solid android:color="@color/white" />
     

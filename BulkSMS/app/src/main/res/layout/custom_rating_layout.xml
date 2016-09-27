@@ -9,11 +9,11 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <TextView
-        android:text="title_enjoying_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+    <!--<TextView-->
+        <!--android:text="title_enjoying_app"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textView2" />-->
 
     <LinearLayout
         android:id="@+id/priceInputContainer"
