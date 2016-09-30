@@ -24,7 +24,7 @@
 
         <!-- Profile Photo -->
         <com.unleashed.android.helpers.widgets.images.CircularImageView
-            android:id="@+id/imgProfile"
+            android:id="@+id/img_profile"
             android:layout_width="@dimen/profile_width"
             android:layout_height="@dimen/profile_height"
             android:layout_gravity="center_horizontal"

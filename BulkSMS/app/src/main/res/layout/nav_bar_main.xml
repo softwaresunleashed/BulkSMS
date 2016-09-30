@@ -16,25 +16,29 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:theme="@style/AppTheme"
+            android:popupTheme="@android:style/ThemeOverlay.Material.Light"  />
+
+
+        <!-- Insert Other UI components that you wish to insert below Toolbar -->
+        <android.support.design.widget.TabLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:id="@+id/tabs_bulksms"
+            app:tabIndicatorColor="@color/orange"
+            app:tabIndicatorHeight="@dimen/md_2dp_margin"
+            app:tabMode="scrollable"
+            app:tabTextColor="@color/black"
+            android:elevation="4dp"
+            app:tabBackground="@drawable/action_bar_button_bg_hamburger"
+            app:tabGravity="center"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>-->
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:backgroundTint="@color/colorPrimary"-->
-        <!--app:srcCompat="@android:drawable/ic_dialog_email" />-->
 
 </android.support.design.widget.CoordinatorLayout>

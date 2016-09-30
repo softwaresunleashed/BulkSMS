@@ -66,12 +66,27 @@ public class FacebookLoginActivity extends BaseActivity {
 
     // Firebase related handlers
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                // User is signed in
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " FacebookLoginActivity::onAuthStateChanged:signed_in:" + user.getUid());
+            } else {
+                // User is signed out
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " FacebookLoginActivity::onAuthStateChanged:signed_out");
+            }
+        }
+    };;
 
 
     public static void callFacebookLogout(Context context) {
         if (LoginManager.getInstance() != null)
             LoginManager.getInstance().logOut();
+
+        // Also call firebase signout here
+        FirebaseAuthentication.signOut();
     }
 
     @Override
@@ -83,24 +98,11 @@ public class FacebookLoginActivity extends BaseActivity {
 
         setContentView(R.layout.activity_fb_login);
 
+        // Get Firebase Auth handler from Firebase single instance
+         mAuth = FirebaseAuthentication.getInstance().getAuth();
+
         initFacebookButton();
-
         performFacebookLogin();
-
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Logger.push(Logger.LogType.LOG_DEBUG, TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
 
     }
 
@@ -123,7 +125,8 @@ public class FacebookLoginActivity extends BaseActivity {
         super.onStart();
 
         // Register for Firebase User Session Callbacks
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseAuthentication.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -132,7 +135,8 @@ public class FacebookLoginActivity extends BaseActivity {
 
         // Un-Register for Firebase User Session Callbacks
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+            FirebaseAuthentication.removeAuthStateListener(mAuthListener);
+//            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -198,27 +202,29 @@ public class FacebookLoginActivity extends BaseActivity {
 
     }
 
+    private OnCompleteListener<AuthResult> credentialFacebookLoginOnCompleteListener = new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
+
+            // If sign in fails, display a message to the user. If sign in succeeds
+            // the auth state listener will be notified and logic to handle the
+            // signed in user can be handled in the listener.
+            if (!task.isSuccessful()) {
+                Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential : " +  task.getException());
+                Toast.makeText(FacebookLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+    };
 
     private void handleFacebookAccessToken(AccessToken token) {
         Logger.push(Logger.LogType.LOG_DEBUG, TAG + " handleFacebookAccessToken:" + token);
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential : " +  task.getException());
-                            Toast.makeText(FacebookLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                });
+        FirebaseAuthentication.signInWithCredential(this, credential, credentialFacebookLoginOnCompleteListener);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, credentialFacebookLoginOnCompleteListener);
     }
 
 //    private void loginWithFacebook() {

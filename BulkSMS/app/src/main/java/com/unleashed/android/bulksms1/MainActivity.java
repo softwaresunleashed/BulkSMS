@@ -13,6 +13,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -57,6 +60,7 @@ import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.SplashScreen.SplashScreen;
+import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
@@ -79,7 +83,7 @@ import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_RE
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_SEND_BULK_SMS;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener, View.OnClickListener, PlaceholderFragment.IInitCallbacks {
+public class MainActivity extends BaseActivity implements ActionBar.TabListener, View.OnClickListener, PlaceholderFragment.IInitCallbacks {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -308,9 +312,59 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
 
 
+    private int navItemIndex = 0;
     private Toolbar toolbar;
     private NavDrawer navDrawer;
+    private TabLayout tabLayout;
     private View rootView;
+    private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectListener = new NavigationView.OnNavigationItemSelectedListener(){
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            //Check to see which item was being clicked and perform appropriate action
+            switch (item.getItemId()) {
+                //Replacing the main content with ContentFragment Which is our Inbox View;
+                case R.id.nav_home:
+                    navItemIndex = 0;
+                    break;
+
+                case R.id.nav_tell_a_friend:
+                    navItemIndex = 1;
+                    break;
+
+                case R.id.nav_promote_app:
+                    navItemIndex = 2;
+                    break;
+
+                case R.id.nav_rate_us:
+                    navItemIndex = 3;
+                    break;
+
+                case R.id.nav_settings:
+                    navItemIndex = 4;
+                    break;
+
+                case R.id.nav_exit:
+                    navItemIndex = 4;
+                    break;
+
+                case R.id.nav_about_us:
+                    // launch new intent instead of loading fragment
+                    //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
+                    navDrawer.closeDrawers();
+                    return true;
+
+                case R.id.nav_privacy_policy:
+                    // launch new intent instead of loading fragment
+                    //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
+                    navDrawer.closeDrawers();
+                    return true;
+
+                default:
+                    navItemIndex = 0;
+            }
+            return true;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -327,25 +381,27 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         setContentView(R.layout.activity_main);
 
         ////////////////////////////Navigation Drawer Code ////////////////////////////////////////
-        // Invoke Toolbar
+        // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         // Invoke Navigation Drawer
         rootView = findViewById(R.id.drawer_layout);
         navDrawer = NavDrawer.getInstance();
         navDrawer.initNavigationDrawer(SUApplication.getContext(), rootView);
+        navDrawer.setUpNavigationView(navDrawerItemSelectListener);
         ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-        // Invoke Database
-        bulksmsdb = new DBHelper(getApplicationContext());
+        // Setup Database
+        bulksmsdb = new DBHelper(SUApplication.getContext());
 
         // Create a new service client and bind our activity to this service
         scheduleClient = new ScheduleClient(this);
         scheduleClient.doBindService();
 
-        dsdttmpick = new DateTimePicker(getApplicationContext());
+        dsdttmpick = new DateTimePicker(SUApplication.getContext());
 
         // Register for callbacks from the fragments
         PlaceholderFragment.registerFragmentCallbacks(this);
@@ -402,16 +458,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
 
         // Set up the action bar.
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
-        // To set icon for action bar
-        actionBar.setIcon(R.drawable.bulksmsapplogo);
-//        //To enable the back button in your app use
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        final ActionBar actionBar = getSupportActionBar();
+//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 //
+//
+//        // To set icon for action bar
+//        actionBar.setIcon(R.drawable.bulksmsapplogo);
+////        //To enable the back button in your app use
+////        actionBar.setHomeButtonEnabled(true);
+////        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -421,13 +479,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        // Create the TabLayout, And Fill the Tabs as per ViewPager
+        tabLayout = (TabLayout) findViewById(R.id.tabs_bulksms);
+        tabLayout.addOnTabSelectedListener(tabSelectedListener);
+        tabLayout.setupWithViewPager(mViewPager);
+
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
+//                actionBar.setSelectedNavigationItem(position);
             }
         });
 
@@ -437,13 +500,31 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-                            .setTabListener(this));
+
+//            actionBar.addTab(
+//                    actionBar.newTab()
+//                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+//                            .setTabListener(this));
         }
     }
 
+    TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            int position = tab.getPosition();
+            // Switch to view for this tab
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
 
 
     @Override
@@ -1374,5 +1455,14 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 //        SocialLoginActivity.startActivityForResult(this);
 //    }
 
+
+    @Override
+    public void onBackPressed() {
+
+        // Call Nav drawer onBackPressed to handle Nav Drawer related stuff
+        navDrawer.onBackPressed();
+
+        super.onBackPressed();
+    }
 }
 

@@ -61,10 +61,10 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
                 // User is signed in
-                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_in: " + user.getUid());
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " EmailSignIn::onAuthStateChanged:signed_in: " + user.getUid());
             } else {
                 // User is signed out
-                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_out");
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " EmailSignIn::onAuthStateChanged:signed_out");
             }
             // [START_EXCLUDE]
             //updateUI(user);
@@ -76,7 +76,8 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
 
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseAuthentication.addAuthStateListener(mAuthListener);
+        //mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -84,7 +85,8 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         super.onStop();
 
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+//            mAuth.removeAuthStateListener(mAuthListener);
+            FirebaseAuthentication.removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -118,8 +120,8 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         tv_login.setOnClickListener(this);
 
 
-        // Get Firebase Auth handler
-        mAuth = FirebaseAuth.getInstance();
+        // Get Firebase Auth handler from Firebase single instance
+        mAuth = FirebaseAuthentication.getInstance().getAuth();
 
         // Set Title of Login via Email
         this.getActivity().setTitle(getResources().getString(R.string.title_activity_emaillogin));
@@ -207,6 +209,41 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_FORGOT_PASSWORD_TAP);
     }
 
+
+    private OnCompleteListener<AuthResult> emailLoginOnCompleteListener  = new OnCompleteListener<AuthResult>(){
+
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " mAuth.signInWithEmailAndPassword():onComplete: " + task.isSuccessful());
+
+            // If sign in fails, display a message to the user. If sign in succeeds
+            // the auth state listener will be notified and logic to handle the
+            // signed in user can be handled in the listener.
+            if (!task.isSuccessful()) {
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():failed exception" + task.getException().toString());
+                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dismissSnackbarMessage();
+                    }
+                });
+            } else {
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():success => " + task.getResult().toString());
+                Toast.makeText(SUApplication.getContext(), R.string.login_success, Toast.LENGTH_SHORT).show();
+                setResultandFinish();
+            }
+
+            hideProgress();
+        }
+    };
+
+    private void performEmailLogout(){
+        // Call Firebase specific logout api
+        FirebaseAuthentication.signOut();
+    }
+
     private void performEmailLogin() {
 
         String email = edtEmail.getText().toString().trim();
@@ -223,34 +260,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             showProgress();
 
             // THIS IS THE SIGNIN METHOD
-            mAuth.signInWithEmailAndPassword(email, passwd)
-                    .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " mAuth.signInWithEmailAndPassword():onComplete: " + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():failed exception" + task.getException().toString());
-                                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dismissSnackbarMessage();
-                                    }
-                                });
-                            } else {
-                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "signInWithEmailAndPassword():success => " + task.getResult().toString());
-                                Toast.makeText(SUApplication.getContext(), R.string.login_success, Toast.LENGTH_SHORT).show();
-                                setResultandFinish();
-                            }
-
-                            hideProgress();
-                        }
-                    });
+            FirebaseAuthentication.signInWithEmailAndPassword(this.getActivity(), email, passwd, emailLoginOnCompleteListener);
+//            mAuth.signInWithEmailAndPassword(email, passwd)
+//                    .addOnCompleteListener(this.getActivity(), emailLoginOnCompleteListener);
 
         } else {
             Logger.push(Logger.LogType.LOG_DEBUG, TAG + "email or password validation failed");
@@ -259,7 +271,34 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
     }
 
-    private void registerNewUser() {
+
+    private OnCompleteListener<AuthResult> registerNewUserOnCompleteListener  = new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " Entered mAuth.createUserWithEmailAndPassword():onComplete = " + task.isSuccessful());
+
+            // If sign in fails, display a message to the user. If sign in succeeds
+            // the auth state listener will be notified and logic to handle the
+            // signed in user can be handled in the listener.
+            if (!task.isSuccessful()) {
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():failed exception => " + task.getException().toString());
+                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+
+                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dismissSnackbarMessage();
+                    }
+                });
+            } else {
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():success => " + task.getResult().toString());
+                Toast.makeText(SUApplication.getContext(), R.string.new_user_registration_success, Toast.LENGTH_SHORT).show();
+            }
+            hideProgress();
+        }
+    };
+
+        private void registerNewUser() {
         String email = edtEmail.getText().toString().trim();
         String passwd = edtPassword.getText().toString().trim();
         boolean emailIsValid = validateEmailAddress(email);
@@ -274,32 +313,9 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
             showProgress();
 
             // THIS IS THE REGISTER METHOD
-            mAuth.createUserWithEmailAndPassword(email, passwd)
-                    .addOnCompleteListener(this.getActivity(), new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " Entered mAuth.createUserWithEmailAndPassword():onComplete = " + task.isSuccessful());
-
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():failed exception => " + task.getException().toString());
-                                Toast.makeText(SUApplication.getContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-
-                                showSnackbarMessage(task.getException().getMessage(), new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dismissSnackbarMessage();
-                                    }
-                                });
-                            } else {
-                                Logger.push(Logger.LogType.LOG_DEBUG, TAG + "createUserWithEmailAndPassword():success => " + task.getResult().toString());
-                                Toast.makeText(SUApplication.getContext(), R.string.new_user_registration_success, Toast.LENGTH_SHORT).show();
-                            }
-                            hideProgress();
-                        }
-                    });
+            FirebaseAuthentication.createUserWithEmailAndPassword(this.getActivity(), email, passwd, registerNewUserOnCompleteListener);
+//            mAuth.createUserWithEmailAndPassword(email, passwd)
+//                    .addOnCompleteListener(this.getActivity(), registerNewUserOnCompleteListener);
         }
     }
 

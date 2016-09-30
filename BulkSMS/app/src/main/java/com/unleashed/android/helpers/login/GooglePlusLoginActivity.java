@@ -47,7 +47,20 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
     // Firebase related handlers
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                // User is signed in
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " GooglePlusLoginActivity::onAuthStateChanged:signed_in: " + user.getUid());
+            } else {
+                // User is signed out
+                Logger.push(Logger.LogType.LOG_DEBUG, TAG + " GooglePlusLoginActivity::onAuthStateChanged:signed_out");
+            }
+            // ...
+        }
+    };
 
 
     @Override
@@ -56,37 +69,11 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
         buildGoogleLoginClient();
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_in: " + user.getUid());
-                } else {
-                    // User is signed out
-                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + " onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };
+        // Get Firebase Auth handler from Firebase single instance
+        mAuth = FirebaseAuthentication.getInstance().getAuth();
 
         performGooglePlusLogin();
     }
-
-//    public static final void startFacebookLoginActivityResult(Fragment fragment, String source) {
-//        Intent intent = new Intent(fragment.getActivity(), GooglePlusLoginActivity.class);
-//        intent.putExtra(ARGS_LAUNCH_SOURCE, source);
-//        fragment.startActivityForResult(intent, REQUEST_CODE);
-//    }
-//
-//    public static final void startFacebookLoginActivityResult(Fragment fragment, String source, boolean showSnackBar) {
-//        Intent intent = new Intent(fragment.getActivity(), GooglePlusLoginActivity.class);
-//        intent.putExtra(ARGS_LAUNCH_SOURCE, source);
-//        intent.putExtra(GooglePlusLoginActivity.SHOWING_SNACK_BAR, showSnackBar);
-//        fragment.startActivityForResult(intent, REQUEST_CODE);
-//    }
 
 
 
@@ -95,7 +82,8 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
         super.onStart();
 
         // Register for Firebase User Session Callbacks
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseAuthentication.addAuthStateListener(mAuthListener);
+//        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -104,7 +92,8 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
         // Un-Register for Firebase User Session Callbacks
         if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+            FirebaseAuthentication.removeAuthStateListener(mAuthListener);
+//            mAuth.removeAuthStateListener(mAuthListener);
         }
     }
 
@@ -112,7 +101,7 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
         // TODO: Do we need to call google logout sequence here???
 
-        FirebaseAuth.getInstance().signOut();
+        FirebaseAuthentication.signOut();
     }
 
 
@@ -165,25 +154,28 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 
     }
 
+    private OnCompleteListener<AuthResult> credentialGooglePlusLoginOnCompleteListener = new OnCompleteListener<AuthResult>() {
+        @Override
+        public void onComplete(@NonNull Task<AuthResult> task) {
+            Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
+
+            // If sign in fails, display a message to the user. If sign in succeeds
+            // the auth state listener will be notified and logic to handle the
+            // signed in user can be handled in the listener.
+            if (!task.isSuccessful()) {
+                Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential " + task.getException());
+                Toast.makeText(GooglePlusLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Logger.push(Logger.LogType.LOG_DEBUG, TAG + " firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Logger.push(Logger.LogType.LOG_DEBUG, TAG + " signInWithCredential:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Logger.push(Logger.LogType.LOG_WARNING, TAG + " signInWithCredential " + task.getException());
-                            Toast.makeText(GooglePlusLoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        FirebaseAuthentication.signInWithCredential(this, credential, credentialGooglePlusLoginOnCompleteListener);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, credentialGooglePlusLoginOnCompleteListener);
     }
 
     private void setResultAndFinish() {
@@ -231,22 +223,5 @@ public class GooglePlusLoginActivity extends BaseActivity implements GoogleApiCl
 //        if (!mIsShowingSnackBar)
 //            Toast.makeText(GooglePlusLoginActivity.this, message, Toast.LENGTH_SHORT).show();
 //    }
-
-
-//    private void setResultAndFinish() {
-//        Intent result = new Intent();
-//        if (AccessToken.getCurrentAccessToken() != null)
-//            result.putExtra(FB_TOKEN, AccessToken.getCurrentAccessToken().getToken());
-//
-//        result.putExtra(FB_LOGIN_ERROR, mError);
-//        result.putExtra(FB_USERNAME, mUserName);
-//        result.putExtra(FB_EMAIL, mEmail);
-//        result.putExtra(FB_USERPHONE, mPhone);
-//        result.putExtra(FB_USERPHONE_CONFIRMED, mPhoneConfirmed);
-//        setResult(RESULT_OK, result);
-//        finish();
-//    }
-
-
 
 }
