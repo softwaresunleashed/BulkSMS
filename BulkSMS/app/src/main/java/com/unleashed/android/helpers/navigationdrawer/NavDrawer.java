@@ -35,25 +35,24 @@ public class NavDrawer {
     private NavDrawer() {
     }
 
-    public static void initNavigationDrawer(Context appContext, View rootView){
+    public void initNavigationDrawer(Context appContext, View rootView){
 
 
-        navDrawerInstance.drawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
-        navDrawerInstance.navigationView = (NavigationView) rootView.findViewById(R.id.nav_view);
+        drawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
+        navigationView = (NavigationView) rootView.findViewById(R.id.nav_view);
 
         // Navigation view header
-        navDrawerInstance.navHeader = navDrawerInstance.navigationView.getHeaderView(0);
-        navDrawerInstance.txtName = (TextView) navDrawerInstance.navHeader.findViewById(R.id.name);
-        navDrawerInstance.txtWebsite = (TextView) navDrawerInstance.navHeader.findViewById(R.id.website);
-        navDrawerInstance.imgNavHeaderBg = (ImageView) navDrawerInstance.navHeader.findViewById(R.id.img_header_bg);
-        navDrawerInstance.imgProfilePic = (ImageView) navDrawerInstance.navHeader.findViewById(R.id.img_profile);
+        navHeader = navigationView.getHeaderView(0);
+        txtName = (TextView) navHeader.findViewById(R.id.name);
+        txtWebsite = (TextView) navHeader.findViewById(R.id.website);
+        imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
+        imgProfilePic = (ImageView) navHeader.findViewById(R.id.img_profile);
 
         // load toolbar titles from string resources
-        navDrawerInstance.activityTitles = appContext.getResources().getStringArray(R.array.nav_item_activity_titles);
-
+        activityTitles = appContext.getResources().getStringArray(R.array.nav_item_activity_titles);
 
         // load nav menu header data
-        navDrawerInstance.loadNavHeader();
+        loadNavHeader();
 
 
 //        if (savedInstanceState == null) {
@@ -72,7 +71,7 @@ public class NavDrawer {
     private void loadNavHeader() {
         // name, website
         txtName.setText("Sudhanshu");
-        txtWebsite.setText("www.androidhive.info");
+        txtWebsite.setText("www.softwaresunleashed.com");
 
         // loading header background image
 //        Glide.with(this).load(urlNavHeaderBg)
@@ -96,23 +95,23 @@ public class NavDrawer {
      * Returns respected fragment that user
      * selected from navigation menu
      */
-    public static void setUpNavigationView(NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectListener) {
+    public void setUpNavigationView(NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectListener) {
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         if(navDrawerItemSelectListener != null){
-            navDrawerInstance.navigationView.setNavigationItemSelectedListener(navDrawerItemSelectListener);
+            navigationView.setNavigationItemSelectedListener(navDrawerItemSelectListener);
         }
 
     }
 
     public void closeDrawers(){
-        navDrawerInstance.drawer.closeDrawers();
+        drawer.closeDrawers();
     }
 
 
 
     public void onBackPressed() {
-        if (navDrawerInstance.drawer.isDrawerOpen(GravityCompat.START)) {
-            navDrawerInstance.drawer.closeDrawers();
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawers();
             return;
         }
 

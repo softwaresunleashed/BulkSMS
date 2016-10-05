@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -22,7 +21,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
@@ -319,7 +317,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
     private View rootView;
     private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectListener = new NavigationView.OnNavigationItemSelectedListener(){
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected(MenuItem item) {
             //Check to see which item was being clicked and perform appropriate action
             switch (item.getItemId()) {
                 //Replacing the main content with ContentFragment Which is our Inbox View;
@@ -366,6 +364,13 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         }
     };
 
+    private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectLiActionstener = new NavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            return false;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -385,12 +390,13 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         // Invoke Navigation Drawer
         rootView = findViewById(R.id.drawer_layout);
         navDrawer = NavDrawer.getInstance();
         navDrawer.initNavigationDrawer(SUApplication.getContext(), rootView);
-        navDrawer.setUpNavigationView(navDrawerItemSelectListener);
+        navDrawer.setUpNavigationView(navDrawerItemSelectLiActionstener);
+
+
         ///////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -406,7 +412,61 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         // Register for callbacks from the fragments
         PlaceholderFragment.registerFragmentCallbacks(this);
 
+        displayAds();
 
+
+        // Set up the action bar.
+//        final ActionBar actionBar = getSupportActionBar();
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+
+        // To set icon for action bar
+//        actionBar.setIcon(R.drawable.bulksmsapplogo);
+//        //To enable the back button in your app use
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+
+
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        // Create the TabLayout, And Fill the Tabs as per ViewPager
+        tabLayout = (TabLayout) findViewById(R.id.tabs_bulksms);
+        tabLayout.addOnTabSelectedListener(tabSelectedListener);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        // When swiping between different sections, select the corresponding
+        // tab. We can also use ActionBar.Tab#select() to do this if we have
+        // a reference to the Tab.
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+//                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+
+        // For each of the sections in the app, add a tab to the action bar.
+        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+            // Create a tab with text corresponding to the page title defined by
+            // the adapter. Also specify this Activity object, which implements
+            // the TabListener interface, as the callback (listener) for when
+            // this tab is selected.
+
+//            actionBar.addTab(
+//                    actionBar.newTab()
+//                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+//                            .setTabListener(this));
+        }
+    }
+
+    private void displayAds() {
         if(getResources().getInteger(R.integer.host_ads)==1) {
 
             // Ad Buddiz SDK initialization
@@ -449,62 +509,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
             };
             thrAdThread.start();
 
-            ////////////-----------------------------------------/////////////
-
-
-
-        }
-
-
-
-        // Set up the action bar.
-//        final ActionBar actionBar = getSupportActionBar();
-//        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-//
-//
-//        // To set icon for action bar
-//        actionBar.setIcon(R.drawable.bulksmsapplogo);
-////        //To enable the back button in your app use
-////        actionBar.setHomeButtonEnabled(true);
-////        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
-
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        // Create the TabLayout, And Fill the Tabs as per ViewPager
-        tabLayout = (TabLayout) findViewById(R.id.tabs_bulksms);
-        tabLayout.addOnTabSelectedListener(tabSelectedListener);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        // When swiping between different sections, select the corresponding
-        // tab. We can also use ActionBar.Tab#select() to do this if we have
-        // a reference to the Tab.
-        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-//                actionBar.setSelectedNavigationItem(position);
-            }
-        });
-
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-
-//            actionBar.addTab(
-//                    actionBar.newTab()
-//                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-//                            .setTabListener(this));
         }
     }
 

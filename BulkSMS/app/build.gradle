@@ -72,6 +72,8 @@ android {
             exclude group: 'com.google.android.gms', module: 'play-services-base'
         }
 
+        // For @Nullable/@NonNull
+        compile 'com.android.support:support-annotations:+'
 
 
     }
