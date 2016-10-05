@@ -381,7 +381,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         SplashScreen.display_splash_screen(MainActivity.this);
 
         // Mandate User Login
-        LoginScreen.showLoginActivity(MainActivity.this);
+        //LoginScreen.showLoginActivity(MainActivity.this);
 
         setContentView(R.layout.activity_main);
 

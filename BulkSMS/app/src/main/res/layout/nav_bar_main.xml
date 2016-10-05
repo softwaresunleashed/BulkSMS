@@ -8,10 +8,10 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,23 +22,31 @@
             android:theme="@style/AppTheme"
             android:popupTheme="@android:style/ThemeOverlay.Material.Light"  />
 
-
         <!-- Insert Other UI components that you wish to insert below Toolbar -->
         <android.support.design.widget.TabLayout
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/tabs_bulksms"
             app:tabIndicatorColor="@color/orange"
             app:tabIndicatorHeight="@dimen/md_2dp_margin"
             app:tabMode="scrollable"
             app:tabTextColor="@color/black"
+            app:tabSelectedTextColor="@color/orange"
             android:elevation="4dp"
             app:tabBackground="@drawable/action_bar_button_bg_hamburger"
             app:tabGravity="center"
             app:layout_scrollFlags="scroll|enterAlways" />
 
-    </android.support.design.widget.AppBarLayout>
 
+        <android.support.v4.view.ViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity" />
+
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
