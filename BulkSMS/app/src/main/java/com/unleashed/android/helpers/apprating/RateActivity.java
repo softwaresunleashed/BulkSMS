@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.Preferences;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.config.Config;
+import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 
 
 public class RateActivity extends BaseActivity {
@@ -52,8 +54,8 @@ public class RateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate);
-        getSupportActionBar().setTitle(getString(R.string.rate));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavDrawer.getInstance().getAppActionBar().setTitle(getString(R.string.rate));
+        NavDrawer.getInstance().getAppActionBar().setDisplayHomeAsUpEnabled(true);
         context = this;
         if (savedInstanceState == null) {
             Config.isRateDialogDisplayed = true;

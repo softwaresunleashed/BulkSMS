@@ -310,7 +310,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
 
     private int navItemIndex = 0;
-    private Toolbar toolbar;
+
     private NavDrawer navDrawer;
     private TabLayout tabLayout;
     private View rootView;
@@ -384,20 +384,18 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
         setContentView(R.layout.activity_main);
 
-        ////////////////////////////Navigation Drawer Code ////////////////////////////////////////
-        // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //////////////////////////// Navigation Drawer Code ////////////////////////////////////////
+
 
 
         // Invoke Navigation Drawer
         rootView = findViewById(R.id.drawer_layout);
         navDrawer = NavDrawer.getInstance();
-        navDrawer.initNavigationDrawer(SUApplication.getContext(), rootView);
+        navDrawer.initNavigationDrawer(SUApplication.getContext(), this, rootView);
         navDrawer.setUpNavigationView(navDrawerItemSelectLiActionstener);
 
+        // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
+        navDrawer.setupToolbar(this, rootView);
 
         ///////////////////////////////////////////////////////////////////////////////////////////
 

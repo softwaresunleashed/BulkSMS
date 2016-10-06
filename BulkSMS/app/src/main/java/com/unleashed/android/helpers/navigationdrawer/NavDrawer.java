@@ -1,10 +1,14 @@
 package com.unleashed.android.helpers.navigationdrawer;
 
 
+
 import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +21,7 @@ public class NavDrawer {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
+    private Toolbar toolbar;
     private View navHeader;
     private ImageView imgNavHeaderBg;
     private ImageView imgProfilePic;
@@ -24,6 +29,7 @@ public class NavDrawer {
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
+    private AppCompatActivity mActivityContext;
 
     public static NavDrawer getInstance() {
         if(navDrawerInstance == null)
@@ -35,8 +41,9 @@ public class NavDrawer {
     private NavDrawer() {
     }
 
-    public void initNavigationDrawer(Context appContext, View rootView){
+    public void initNavigationDrawer(Context appContext, AppCompatActivity appCompatActivityContext, View rootView){
 
+        mActivityContext = appCompatActivityContext;
 
         drawer = (DrawerLayout) rootView.findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) rootView.findViewById(R.id.nav_view);
@@ -51,15 +58,8 @@ public class NavDrawer {
         // load toolbar titles from string resources
         activityTitles = appContext.getResources().getStringArray(R.array.nav_item_activity_titles);
 
-        // load nav menu header data
+        // Load Navigation Drawer Header Data
         loadNavHeader();
-
-
-//        if (savedInstanceState == null) {
-//            navItemIndex = 0;
-//            CURRENT_TAG = TAG_HOME;
-//            loadHomeFragment();
-//        }
 
     }
 
@@ -131,8 +131,38 @@ public class NavDrawer {
     }
 
 
+    public void setupToolbar( AppCompatActivity context, View rootView){
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        context.setSupportActionBar(toolbar);
+        context.getSupportActionBar().setHomeButtonEnabled(true);
+        context.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(context, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawer.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessary or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+
+    }
 
 
-
+    public ActionBar getAppActionBar(){
+        return mActivityContext.getSupportActionBar();
+    }
 
 }
