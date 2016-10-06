@@ -53,6 +53,7 @@ import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms_activities.ContactBook;
 import com.unleashed.android.bulksms_fragments.PlaceholderFragment;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
+import com.unleashed.android.customadapter.SectionsPagerAdapter;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
@@ -63,14 +64,12 @@ import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
-import com.unleashed.android.helpers.login.LoginScreen;
 import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -389,6 +388,9 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         // Invoke Navigation Drawer
         rootView = findViewById(R.id.drawer_layout);
@@ -414,21 +416,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
         displayAds();
 
-
-        // Set up the action bar.
-//        final ActionBar actionBar = getSupportActionBar();
-        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-
-        // To set icon for action bar
-//        actionBar.setIcon(R.drawable.bulksmsapplogo);
-//        //To enable the back button in your app use
-//        actionBar.setHomeButtonEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
-
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -448,22 +435,23 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-//                actionBar.setSelectedNavigationItem(position);
+                tabLayout.getTabAt(position).select();
+
             }
         });
 
-        // For each of the sections in the app, add a tab to the action bar.
-        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-            // Create a tab with text corresponding to the page title defined by
-            // the adapter. Also specify this Activity object, which implements
-            // the TabListener interface, as the callback (listener) for when
-            // this tab is selected.
-
-//            actionBar.addTab(
-//                    actionBar.newTab()
-//                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-//                            .setTabListener(this));
-        }
+//        // For each of the sections in the app, add a tab to the action bar.
+//        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+//            // Create a tab with text corresponding to the page title defined by
+//            // the adapter. Also specify this Activity object, which implements
+//            // the TabListener interface, as the callback (listener) for when
+//            // this tab is selected.
+//
+////            actionBar.addTab(
+////                    actionBar.newTab()
+////                            .setText(mSectionsPagerAdapter.getPageTitle(i))
+////                            .setTabListener(this));
+//        }
     }
 
     private void displayAds() {
@@ -652,8 +640,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 //
 //        }
 
-
-
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -666,7 +652,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
             InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
-
 
     }
 
@@ -706,45 +691,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
     }
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tab/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 4 total pages.
-            return 4;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
-                case 3:
-                    return getString(R.string.title_section4).toUpperCase(l);
-            }
-            return null;
-        }
-    }
 
 
     private String create_job_task(int totalPhoneNumbers, String smsMesg) {
@@ -1239,8 +1186,10 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
                     //ex.printStackTrace();
                 }
 
-                radbtn_set_reminder.setChecked(true);                   // set the radio button as selected.
-                getSupportActionBar().setSelectedNavigationItem(0);     // go to bulk sms tab
+                radbtn_set_reminder.setChecked(true);   // set the radio button as selected.
+                tabLayout.getTabAt(0).select();         // go to bulk sms tab
+
+                //getSupportActionBar().setSelectedNavigationItem(0);
             }
         });
 
@@ -1249,7 +1198,10 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         btnSetScheduleCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportActionBar().setSelectedNavigationItem(0);     // Return to Bulk SMS Tab
+                // Return to Bulk SMS Tab
+                tabLayout.getTabAt(0).select();
+
+                //getSupportActionBar().setSelectedNavigationItem(0);
             }
         });
 
@@ -1418,7 +1370,9 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
                 // Code to shift to 'Set Reminder' tab.
                 radbtn_set_reminder.setChecked(true);
-                getSupportActionBar().setSelectedNavigationItem(1); // go to set reminder tab
+
+                tabLayout.getTabAt(1).select();                     // go to set reminder tab
+                //getSupportActionBar().setSelectedNavigationItem(1);
             }
         });
 
