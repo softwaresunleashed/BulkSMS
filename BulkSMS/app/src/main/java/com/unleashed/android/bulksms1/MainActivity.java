@@ -845,8 +845,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
             return;
         }
 
-
-
         try{
             String smsSent = "SMS_SENT";
             String smsDelivered = "SMS_DELIVERED";
@@ -1370,7 +1368,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
                 radbtn_set_reminder.setChecked(true);
 
                 tabLayout.getTabAt(1).select();                     // go to set reminder tab
-                //getSupportActionBar().setSelectedNavigationItem(1);
             }
         });
 
@@ -1404,21 +1401,13 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         }
     }
 
-
-
-//    private void showLoginActivity() {
-//
-//        SocialLoginActivity.startActivityForResult(this);
-//    }
-
-
     @Override
     public void onBackPressed() {
 
         // Call Nav drawer onBackPressed to handle Nav Drawer related stuff
         navDrawer.onBackPressed();
 
-        super.onBackPressed();
+        //super.onBackPressed();
     }
 }
 

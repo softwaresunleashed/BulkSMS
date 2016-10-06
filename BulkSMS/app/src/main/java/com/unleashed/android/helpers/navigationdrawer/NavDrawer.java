@@ -115,23 +115,10 @@ public class NavDrawer {
             return;
         }
 
-        // This code loads home fragment when back key is pressed
-        // when user is in other fragment than home
-//        if (shouldLoadHomeFragOnBackPress) {
-//            // checking if user is on other navigation menu
-//            // rather than home
-//            if (navItemIndex != 0) {
-//                navItemIndex = 0;
-//                CURRENT_TAG = TAG_HOME;
-//                loadHomeFragment();
-//                return;
-//            }
-//        }
-
     }
 
 
-    public void setupToolbar( AppCompatActivity context, View rootView){
+    public void setupToolbar(AppCompatActivity context, View rootView){
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         context.setSupportActionBar(toolbar);
         context.getSupportActionBar().setHomeButtonEnabled(true);
