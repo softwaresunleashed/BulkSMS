@@ -25,6 +25,7 @@ import com.google.android.gms.ads.AdView;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.customadapter.CustomListViewAdapter;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
+import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;
 
@@ -33,10 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 
-public class ContactBook extends Activity
-        implements  View.OnClickListener,
-                    AdapterView.OnItemClickListener,
-                    SearchView.OnQueryTextListener{
+public class ContactBook extends BaseActivity implements  View.OnClickListener, AdapterView.OnItemClickListener, SearchView.OnQueryTextListener{
 
     private ImageButton imgbtn_done;
     private ImageButton imgbtn_reset;
@@ -78,11 +76,7 @@ public class ContactBook extends Activity
         super.onPostCreate(savedInstanceState);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_book);
-
+    private void displayInterstitialAds(){
         // Display Interstitial ad when Opening contact book
         if(getResources().getInteger(R.integer.host_ads)==1) {
             Thread thrAdThread = new Thread() {
@@ -99,13 +93,22 @@ public class ContactBook extends Activity
 
                     } catch (Exception ex) {
                         Logger.push(Logger.LogType.LOG_ERROR, "ContactBook.java:onCreate()");
-						//ex.printStackTrace();
+                        //ex.printStackTrace();
                         CrashReportBase.sendCrashReport(ex);
                     }
                 }
             };
             thrAdThread.start();
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_contact_book);
+
+        // Display Interstitial ad when Opening contact book
+        displayInterstitialAds();
 
         imgbtn_done = (ImageButton)findViewById(R.id.imgbtn_selectiondone);
         imgbtn_done.setOnClickListener(this);

@@ -2,19 +2,19 @@ package com.unleashed.android.bulksms_fragments;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.fragments.BaseFragment;
 
 
 /**
  * Created by sudhanshu on 14/09/16.
  */
 
-public class PlaceholderFragment extends Fragment{
+public class PlaceholderFragment extends BaseFragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.
@@ -34,14 +34,40 @@ public class PlaceholderFragment extends Fragment{
      * Returns a new instance of this fragment for the given section
      * number.
      */
+//    public static PlaceholderFragment newInstance(int sectionNumber) {
+//        PlaceholderFragment fragment = new PlaceholderFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+//        fragment.setArguments(args);
+//
+//        return fragment;
+//    }
+
     public static PlaceholderFragment newInstance(int sectionNumber) {
-        PlaceholderFragment fragment = new PlaceholderFragment();
+        PlaceholderFragment fragment = null;
+
+        switch (sectionNumber){
+            case TAB_SEND_BULK_SMS:
+                fragment = new FragmentSendBulkSms();
+                break;
+            case TAB_REMINDER_SMS:
+                fragment = new FragmentSMSReminderTab();
+                break;
+            case TAB_JOBS_SMS:
+                fragment = new FragmentJobsSMSTab();
+                break;
+            case TAB_ABOUT_APP:
+                fragment = new FragmentAboutAppTab();
+                break;
+        }
+
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
 
         return fragment;
     }
+
 
     public static void registerFragmentCallbacks(IInitCallbacks cbListener){
         if(cbListener != null){

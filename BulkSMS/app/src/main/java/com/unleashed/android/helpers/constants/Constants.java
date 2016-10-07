@@ -27,6 +27,10 @@ public class Constants {
     public static final int GOOGLEPLUS_REQUEST_CODE = 1001;
     public static final int EMAILLOGIN_REQUEST_CODE = 1002;
 
+    public static final int RC_OPEN_CONTACTBOOK_ACT = 1100;
+
+
+
 
 
 }

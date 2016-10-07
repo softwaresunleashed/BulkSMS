@@ -33,16 +33,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ExpandableListView;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.appszoom.appszoomsdk.AppsZoom;
@@ -52,6 +42,7 @@ import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms_activities.ContactBook;
 import com.unleashed.android.bulksms_fragments.PlaceholderFragment;
+import com.unleashed.android.bulksms_interfaces.ITabLayoutCallbacks;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.customadapter.SectionsPagerAdapter;
 import com.unleashed.android.datetimepicker.DateTimePicker;
@@ -61,6 +52,7 @@ import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.SplashScreen.SplashScreen;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
+import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
@@ -68,9 +60,6 @@ import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 import com.unleashed.android.sendemail.Mail;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,9 +67,10 @@ import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_AB
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_JOBS_SMS;
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_REMINDER_SMS;
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_SEND_BULK_SMS;
+import static com.unleashed.android.helpers.constants.Constants.RC_OPEN_CONTACTBOOK_ACT;
 
 
-public class MainActivity extends BaseActivity implements ActionBar.TabListener, View.OnClickListener, PlaceholderFragment.IInitCallbacks {
+public class MainActivity extends BaseActivity implements PlaceholderFragment.IInitCallbacks, ITabLayoutCallbacks {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -97,30 +87,19 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
      */
     ViewPager mViewPager;
 
-    ListView lv_PhnNums;        // List view to hold selected numbers.
-    EditText et_sms_msg;        // Edit box for holding sms message.
-    RadioGroup radgrp;          // Radio Group for holding options to send sms now or set a reminder
-    RadioButton radbtn_now, radbtn_set_reminder;
 
-    ArrayAdapter<String> mContactsSelectedAdapter;
-    ArrayList<String> mContactsSelectedList;
+
+
 
     // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
 
-    // Handles to UI Controls on "Set Reminder SMS Tab"
-    protected static DateTimePicker dsdttmpick;// = new DateTimePicker(getApplicationContext());
+
     public DBHelper bulksmsdb;// = new DBHelper(this);
 
-    // Handles to UI Controls on "About App -  Bulk SMS Tab"
-    private TextView lbl_version_number;
-    private TextView lbl_version_history;
-    private TextView lbl_about_app;
 
-    // Handles to UI Controls on "Send Bulk SMS Tab"
-    private Button btn_bulksms;
-    private TextView lbl_sms_char_counter;
-    private ImageButton imgbtn_selectcontacts;
+
+
 
     /**
      * method is used for checking valid email id format.
@@ -384,10 +363,7 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
         setContentView(R.layout.activity_main);
 
-        //////////////////////////// Navigation Drawer Code ////////////////////////////////////////
-
-
-
+        //////////////////////////// Navigation Drawer Code ///////////////////////////////////////
         // Invoke Navigation Drawer
         rootView = findViewById(R.id.drawer_layout);
         navDrawer = NavDrawer.getInstance();
@@ -438,18 +414,6 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
             }
         });
 
-//        // For each of the sections in the app, add a tab to the action bar.
-//        for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-//            // Create a tab with text corresponding to the page title defined by
-//            // the adapter. Also specify this Activity object, which implements
-//            // the TabListener interface, as the callback (listener) for when
-//            // this tab is selected.
-//
-////            actionBar.addTab(
-////                    actionBar.newTab()
-////                            .setText(mSectionsPagerAdapter.getPageTitle(i))
-////                            .setTabListener(this));
-//        }
     }
 
     private void displayAds() {
@@ -503,16 +467,27 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         public void onTabSelected(TabLayout.Tab tab) {
             int position = tab.getPosition();
             // Switch to view for this tab
+
+            hideVirtualKeyboard();
+
+            // Tab - Jobs Reminder
+//            if(tab.getPosition() == 2){
+//                if(getResources().getInteger(R.integer.free_version_code) == 1){
+//                    alert_dialog_buy_bulk_sms();
+//                }
+//            }
+
         }
 
         @Override
         public void onTabUnselected(TabLayout.Tab tab) {
 
+            hideVirtualKeyboard();
         }
 
         @Override
         public void onTabReselected(TabLayout.Tab tab) {
-
+            hideVirtualKeyboard();
         }
     };
 
@@ -616,74 +591,83 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         return getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
 
-    @Override
-    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-        // When the given tab is selected, switch to the corresponding page in
-        // the ViewPager.
-
-
-        // Code to hide virtual keyboard
-        View focus = getCurrentFocus();
-        if(focus != null){
-            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-        }
-
-        // Tab - Jobs Reminder
-//        if(tab.getPosition() == 2){
+//    @Override
+//    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//        // When the given tab is selected, switch to the corresponding page in
+//        // the ViewPager.
 //
-//            if(getResources().getInteger(R.integer.free_version_code) == 1){
-//                alert_dialog_buy_bulk_sms();
-//            }
 //
+//        // Code to hide virtual keyboard
+//        View focus = getCurrentFocus();
+//        if(focus != null){
+//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
 //        }
+//
+//        // Tab - Jobs Reminder
+////        if(tab.getPosition() == 2){
+////
+////            if(getResources().getInteger(R.integer.free_version_code) == 1){
+////                alert_dialog_buy_bulk_sms();
+////            }
+////
+////        }
+//
+//        mViewPager.setCurrentItem(tab.getPosition());
+//    }
 
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
+    private void hideVirtualKeyboard(){
         // Code to hide virtual keyboard
         View focus = getCurrentFocus();
         if(focus != null){
             InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
         }
-
     }
 
-    @Override
-    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-        // Code to hide virtual keyboard
-        View focus = getCurrentFocus();
-        if(focus != null){
-            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-        }
-
-
-    }
+//    @Override
+//    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//
+//        // Code to hide virtual keyboard
+//        View focus = getCurrentFocus();
+//        if(focus != null){
+//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+//
+//        // Code to hide virtual keyboard
+//        View focus = getCurrentFocus();
+//        if(focus != null){
+//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+//        }
+//
+//
+//    }
 
     @Override
     public void initCallbacks(View view, int fragment_number) {
         // Call corresponding initialization routines, as per the tab selected.
         switch(fragment_number){
             case TAB_SEND_BULK_SMS:
-                initSendBulkSMSTab(view);
+                //initSendBulkSMSTab(view);
                 break;
 
             case TAB_REMINDER_SMS:
-                initSMSReminderTab(view);
+                //initSMSReminderTab(view);
                 break;
 
             case TAB_JOBS_SMS:
-                initJobsSMSTab(view);
+                //initJobsSMSTab(view);
                 break;
 
             case TAB_ABOUT_APP:
-                initAboutAppTab(view);
+                //initAboutAppTab(view);
                 break;
         }
     }
@@ -691,53 +675,16 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
 
 
 
-
-    private String create_job_task(int totalPhoneNumbers, String smsMesg) {
-
-        //String[] phoneContacts = new String[totalPhoneNumbers];
-        String phoneContacts = "";
-
-        // Extract the phone numbers
-        for(int i=0; i < totalPhoneNumbers; i++ ) {
-            // Get first phone number string from List View
-            String phoneNumber = (String) lv_PhnNums.getItemAtPosition(i);
-            // The phoneNumber string contains "Name <phone number>".
-            // Hence we need to extract only the numbers between '<' & '>'
-//            int startIndex = phoneNumber.indexOf('<');
-//            int endIndex = phoneNumber.indexOf('>');
-//            // startIndex+1 , because we need to capture from next character after '<'
-//            phoneNumber = phoneNumber.substring(startIndex + 1, endIndex);
-
-            // Add numbers to a local variable.
-            // Add '<' '>' for easy parsing
-//            phoneContacts = "<";
-            phoneContacts  += phoneNumber;
-//            phoneContacts = ">";
-
-            // Add Delimiter comma
-            phoneContacts  += ", ";
-        }
-
-        // Create a jobid from date selected (to be passed in the intent
-        String jobid_from_date = dsdttmpick.getYear() + dsdttmpick.getMonth() + dsdttmpick.getDay() + dsdttmpick.getHh() + dsdttmpick.getMm();
-
-        // Set an alarm and a notification to be raised when alarm goes off
-        dsdttmpick.setMessageReminder(scheduleClient, jobid_from_date);
-
-        // Create a JobID record in database
-        bulksmsdb.insertNewJob(jobid_from_date, phoneContacts, smsMesg);
-
-        return jobid_from_date;
-    }
 
 
     public DBHelper getBulkSMSDBobj(){
         return bulksmsdb;
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RC_OPEN_CONTACTBOOK_ACT) {
+        if (requestCode == Constants.RC_OPEN_CONTACTBOOK_ACT) {
             if (resultCode == RESULT_OK) {
                 // code for result
 
@@ -757,8 +704,8 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
                 // Create a temp array-list to from array-list obtained from another activity.
                 mContactsSelectedList = new ArrayList<String>();
                 for(int i=0; i < size; i++){
-                        PhoneBookRowItem rowItem = mContactsSelected.get(i);
-                        mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
+                    PhoneBookRowItem rowItem = mContactsSelected.get(i);
+                    mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
                 }
                 // Use mContactsSelectedList to create an adapter to be used to fill the list view.
                 mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
@@ -783,623 +730,8 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         FeedbackPromptFragment.showFirstTimeFeedbackPromptIfPossible(this, getSupportFragmentManager());
     }
 
-    public ArrayAdapter<String> getContactsSelectedAdapter(){
-        return mContactsSelectedAdapter;
-    }
 
 
-    private int RC_OPEN_CONTACTBOOK_ACT = 10;
-
-    private void invokeContactBookActivity() {
-        Intent startContactBookAct = new Intent(this, ContactBook.class);
-        startActivityForResult(startContactBookAct, RC_OPEN_CONTACTBOOK_ACT);
-    }
-
-    private void ComposeAndSendMessage(){
-        Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
-
-
-        String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
-        String smsMesg = et_sms_msg.getText().toString();       // Pull in the SMS text
-        final Context mContext = SUApplication.getContext();
-
-
-        int totalPhoneNumbers = lv_PhnNums.getCount();
-        if(totalPhoneNumbers == 0){
-            Toast.makeText(MainActivity.this, "Select minimum of one contact...", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(smsMesg.length() == 0){
-            Toast.makeText(MainActivity.this, "Enter Text to Send...", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        // Check if RadioButton "Set Reminder" is checked. Then store the mesg and recipient list along with time.
-        if(radbtn_set_reminder.isChecked() && dsdttmpick.isInitialized()) {
-
-            // Set Reminder is not available in Free Version of App
-//                if(getResources().getInteger(R.integer.free_version_code)==1){
-//                    alert_dialog_buy_bulk_sms();
-//                    return;
-//                }
-
-            // Nothing needs to be done as of now. Just create a job and return.
-            String jobId = create_job_task(totalPhoneNumbers, smsMesg);
-
-            // Clean Phone Contacts list view after sending sms.
-            int count = mContactsSelectedList.size();
-            for(int itr=0; itr < count; itr++){
-                mContactsSelectedList.remove(itr);
-            }
-            mContactsSelectedAdapter = getContactsSelectedAdapter();
-            mContactsSelectedAdapter.notifyDataSetChanged();
-            et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-            lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
-
-            // Select "Send Now" Radio button
-            radbtn_now.setChecked(true);
-            btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
-
-            display_toast("New Job # " + jobId + " created. \nSMS will be sent on the choosen Date and Time.");
-            return;
-        }
-
-        try{
-            String smsSent = "SMS_SENT";
-            String smsDelivered = "SMS_DELIVERED";
-
-            Intent smsSentIntent = new Intent(smsSent);
-            Intent smsDeliveredIntent = new Intent(smsDelivered);
-
-//            smsSentIntent.setAction("com.unleashed.android.bulksms");
-//            smsDeliveredIntent.setAction("com.unleashed.android.bulksms");
-
-            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, smsSentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,smsDeliveredIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            mContext.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(mContext, "SMS sent", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            Toast.makeText(mContext, "No service", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            Toast.makeText(mContext, "Radio off", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            }, new IntentFilter(smsSent));
-
-            // Receiver for Delivered SMS.
-            mContext.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(mContext, "SMS delivered", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case Activity.RESULT_CANCELED:
-                            Toast.makeText(mContext, "SMS Undelivered", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            }, new IntentFilter(smsDelivered));
-
-
-            // Get default SMS Manager's handler
-            SmsManager smsOperation = SmsManager.getDefault();
-
-
-            // Extract the phone numbers
-            for(int i=0; i < totalPhoneNumbers; i++ ){
-
-                // Get first phone number string from List View
-                phoneNumber = (String)lv_PhnNums.getItemAtPosition(i);
-
-
-                // The phoneNumber string contains "Name <phone number>".
-                // Hence we need to extract only the numbers between '<' & '>'
-                int startIndex = phoneNumber.indexOf('<');
-                int endIndex = phoneNumber.indexOf('>');
-                // startIndex+1 , because we need to capture from next character after '<'
-                phoneNumber = phoneNumber.substring(startIndex+1, endIndex);
-
-
-
-                // Finally Send SMS to all numbers in list view
-                smsOperation.sendTextMessage(phoneNumber, null, smsMesg, sentPI, deliveredPI);
-
-                btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
-
-
-                if(getResources().getInteger(R.integer.free_version_code)==1){
-                    // Show dialog box to request access to sending promotional email
-                    show_dialog_box_to_request_promotional_email();
-                }
-
-                // Display msg for "Sending SMS"
-//                    Toast tstmsg = new Toast(MainActivity.this);
-//                    tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                    tstmsg.makeText(MainActivity.this, "Sending Messages...Please Wait.", Toast.LENGTH_LONG);
-//                    tstmsg.show();
-
-                Toast.makeText(MainActivity.this, "Sending SMS(s)...Please Wait.", Toast.LENGTH_LONG).show();
-
-
-                final int MAX_AVAILABLE = 0;
-                final Semaphore sms_sent = new Semaphore(MAX_AVAILABLE, true);
-                Thread thrButtonEnable = new Thread(){
-                    @Override
-                    public void run() {
-                        super.run();
-
-                        try{
-                            sleep(3000);
-                            // release the semaphore
-                            sms_sent.release();
-                        }catch (Exception ex){
-                            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
-                            CrashReportBase.sendCrashReport(ex);
-                            //ex.printStackTrace();
-                        }
-                    }
-                };
-                thrButtonEnable.start();        // Start the thread to clear sms text mesg and phone list.
-
-                try {
-                    sms_sent.acquire();            // wait here till semaphore is released from thread
-
-                    btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
-
-                    // Clean Phone Contacts list view after sending sms.
-                    int count = mContactsSelectedList.size();
-                    for(int itr=0; itr < count; itr++){
-                        mContactsSelectedList.remove(itr);
-                    }
-                    mContactsSelectedAdapter = getContactsSelectedAdapter();
-                    mContactsSelectedAdapter.notifyDataSetChanged();
-                    et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-                    lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
-
-                } catch (InterruptedException e) {
-                    CrashReportBase.sendCrashReport(e);
-                    //e.printStackTrace();
-                }
-            }
-        }catch (Exception ex){
-            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
-            CrashReportBase.sendCrashReport(ex);
-            //ex.printStackTrace();
-            //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    private ExpandableListAdapter listAdapter;
-    private ExpandableListView exLV;
-    private List<String> listDataHeader;
-    private HashMap<String, List<String>> listDataChild;
-    private int refresh_list_flag = 0;
-
-    private void initJobsSMSTab(View localView) {
-
-        //////////// Add to Fragment ///////////////
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = new Fragment();
-        transaction.add(R.id.container_jobs_list, fragment);
-        transaction.commit();
-        ////////////////////////////////////////////
-
-        if (getResources().getInteger(R.integer.host_ads) == 1) {
-            // Invoke AdView
-            AdView mAdView = (AdView) localView.findViewById(R.id.adView_jobs_sms_tab);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
-
-
-        // TODO  : implement an expandable list view to show JOBS
-        exLV = (ExpandableListView) localView.findViewById(R.id.expandableListView_smsjobs);
-        exLV.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                return false;
-            }
-        });
-
-
-        if (refresh_list_flag == 0) {
-            refresh_job_list();
-            refresh_list_flag = 1;
-        }
-
-        ImageButton getrec = (ImageButton) localView.findViewById(R.id.imgbtn_refresh_records);
-        getrec.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                display_toast("Refreshing List...Please Wait.");
-                int number = refresh_job_list();
-
-                if (number == 0)
-                    display_toast("No Pending Jobs to display.");
-
-            }
-        });
-
-
-
-        // TODO : Implement Delete All DB Records & Alarms
-//            ImageButton delete_all_rec = (ImageButton)localView.findViewById(R.id.imgbtn_cancel_all_records);
-//            delete_all_rec.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    display_toast("Deleting All Pending Records.");
-//                    delete_all_records();
-//                }
-//            });
-//
-//        }
-
-        // TODO : Implement Delete All DB Records & Alarms
-//        private void delete_all_records() {
-//
-//
-//            AlarmManager am = (AlarmManager) getApplication().getSystemService(Context.ALARM_SERVICE);
-//            am.cancel();
-//
-//
-//        }
-//
-    }
-
-    private int refresh_job_list(){
-
-        int index =0;       // Keep track of number of records
-
-        try {
-            listDataHeader = new ArrayList<String>();
-            listDataChild = new HashMap<String, List<String>>();
-
-
-
-            // Get all pending Jobs
-            Cursor cur = bulksmsdb.retrieveAllJobs();
-            if (cur.moveToFirst()) {
-
-
-                do {
-                    String jobId = cur.getString(1);        // Job ID
-                    String phnNum = cur.getString(2);       // Phone Numbers seperated by comma
-                    String smsMsg = cur.getString(3);       // SMS Mesg
-
-                    // preparing list data
-                    prepareListData(index, jobId,phnNum, smsMsg );
-
-                    index++;
-
-                    //Toast.makeText(this, "\nEmployee ID: " + c.getString(0) + "\nEmployee Name: " + c.getString(1) + "\nEmployee Salary: " + c.getString(2), Toast.LENGTH_LONG).show();
-                }
-                while (cur.moveToNext());
-
-                // Create the list adapter
-                listAdapter = new ExpandableListAdapter(MainActivity.this, exLV, listDataHeader, listDataChild);
-
-                // setting list adapter
-                exLV.setAdapter(listAdapter);
-            }
-
-
-        } catch (Exception ex) {
-            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:refresh_job_list() caught exception");
-            CrashReportBase.sendCrashReport(ex);
-            //ex.printStackTrace();
-        }
-
-        return index;
-
-    }
-    private void prepareListData(int index, String jobId, String phnNum, String smsMsg) {
-
-
-
-        // Adding child data
-        listDataHeader.add(jobId);
-
-        // Adding sub-child data
-        List<String> sub_child = new ArrayList<String>();
-        sub_child.add(smsMsg);
-        sub_child.add(phnNum);
-
-        listDataChild.put(listDataHeader.get(index), sub_child);
-
-    }
-
-    private void initSMSReminderTab(View localView) {
-
-
-        //////////// Add to Fragment ///////////////
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = new Fragment();
-        transaction.add(R.id.container_reminder_bulk_sms, fragment);
-        transaction.commit();
-        ////////////////////////////////////////////
-
-        if(getResources().getInteger(R.integer.host_ads)==1) {
-            // Invoke AdView
-            AdView mAdView = (AdView) localView.findViewById(R.id.adView_reminder_bulk_sms_tab);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
-
-        final DatePicker dtpicker = (DatePicker)localView.findViewById(R.id.datePicker);
-        final TimePicker timePicker = (TimePicker)localView.findViewById(R.id.timePicker);
-
-        Button btnSetScheduleDone = (Button)localView.findViewById(R.id.btn_setSchedule);
-        btnSetScheduleDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                dsdttmpick.setMonth(dtpicker.getMonth());               // month is zero indexed
-                dsdttmpick.setDay(dtpicker.getDayOfMonth());
-                dsdttmpick.setYear(dtpicker.getYear());
-
-                dsdttmpick.setHh(timePicker.getCurrentHour());
-                dsdttmpick.setMm(timePicker.getCurrentMinute());
-
-                dsdttmpick.setInitialized(true);
-
-                try{
-                    String strBtnText = getResources().getString(R.string.btn_bulksms_set_reminder_text);
-                    strBtnText += String.valueOf(dsdttmpick.getDay()) + "-";
-                    strBtnText += String.valueOf(dsdttmpick.getMonth()) + "-";
-                    strBtnText += String.valueOf(dsdttmpick.getYear()) + ", ";
-                    strBtnText += String.valueOf(dsdttmpick.getHh()) + ":";
-                    strBtnText += String.valueOf(dsdttmpick.getMm());
-
-                    btn_bulksms = (Button)findViewById(R.id.imgbtn_SendBulkSMS);
-                    btn_bulksms.setText(strBtnText);
-
-
-                }catch (Exception ex){
-                    Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:initSMSReminderTab() caught exception");
-                    CrashReportBase.sendCrashReport(ex);
-                    //ex.printStackTrace();
-                }
-
-                radbtn_set_reminder.setChecked(true);   // set the radio button as selected.
-                tabLayout.getTabAt(0).select();         // go to bulk sms tab
-
-                //getSupportActionBar().setSelectedNavigationItem(0);
-            }
-        });
-
-
-        Button btnSetScheduleCancel = (Button)localView.findViewById(R.id.btn_cancelReminder);
-        btnSetScheduleCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Return to Bulk SMS Tab
-                tabLayout.getTabAt(0).select();
-
-                //getSupportActionBar().setSelectedNavigationItem(0);
-            }
-        });
-
-    }
-
-    private void initAboutAppTab(View localView) {
-
-        //////////// Add to Fragment ///////////////
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = new Fragment();
-        transaction.add(R.id.container_about_app, fragment);
-        transaction.commit();
-        ////////////////////////////////////////////
-
-        if(getResources().getInteger(R.integer.host_ads)==1) {
-            // Invoke AdView
-            AdView mAdView = (AdView) localView.findViewById(R.id.adView_about_app_tab);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }
-
-        AboutApp objAbtApp = new AboutApp(MainActivity.this);
-
-        lbl_version_number = (TextView)localView.findViewById(R.id.lbl_app_version_number);
-        lbl_version_number.setText(objAbtApp.getVersionNumber());
-
-        lbl_version_history = (TextView)localView.findViewById(R.id.lbl_app_version_history);
-        lbl_version_history.setText(objAbtApp.getVersionHistory());
-
-        lbl_about_app = (TextView)localView.findViewById(R.id.lbl_app_about);
-        lbl_about_app.setText(objAbtApp.getAboutApp());
-    }
-
-
-    private void initSendBulkSMSTab(View localView) {
-
-        //////////// Add to Fragment ///////////////
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = new Fragment();
-        transaction.add(R.id.container_send_bulk_sms, fragment);
-        transaction.commit();
-        ////////////////////////////////////////////
-
-        if(getResources().getInteger(R.integer.host_ads)==1) {
-            // Invoke AdView
-            AdView mAdView = (AdView) localView.findViewById(R.id.adView_send_bulk_sms_tab);
-            AdRequest adRequest = new AdRequest.Builder()
-                    //.addTestDevice(String.valueOf(R.string.test_device_id))
-                    .build();
-            mAdView.loadAd(adRequest);
-        }
-
-
-        lv_PhnNums = (ListView)localView.findViewById(R.id.listView_PhnNums);
-        lv_PhnNums.setLongClickable(true);
-
-//            lv_PhnNums.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    invokeContactBookActivity();
-//                }
-//            });
-
-        // This code allows ListView to scroll even when ListView is inside a ScrollView
-        lv_PhnNums.setOnTouchListener(new View.OnTouchListener() {
-            // Setting on Touch Listener for handling the touch inside ScrollView
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // Disallow the touch request for parent scroll on touch of child view
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-
-        lv_PhnNums.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                Context cntx = SUApplication.getContext();//getActivity(); //getBaseContext(); //getApplication();
-                final CharSequence[] items = {"Delete", "Cancel"};
-                final int pos = position;
-
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                builder.setIcon(R.drawable.bulksmsapplogo);
-                builder.setCancelable(true);
-                builder.setTitle("Action:");
-
-
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        //String strPhnRec = (String) lv_PhnNums.getItemAtPosition(position);
-
-                        switch (item) {
-
-                            case 0: // "Delete"
-                                mContactsSelectedList.remove(pos);
-                                mContactsSelectedAdapter = getContactsSelectedAdapter();
-                                mContactsSelectedAdapter.notifyDataSetChanged();
-                                //lv_PhnNums.setAdapter(mContactsSelectedAdapter);
-                                //mContactsSelectedAdapter.notifyDataSetChanged();
-                                break;
-
-                            case 1: // "Cancel"
-                                closeContextMenu();
-                                break;
-                        }
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
-
-                return false;
-            }
-        });
-
-
-        // Send bulk sms button
-        btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
-        btn_bulksms.setOnClickListener(this);
-
-        // Select contacts button
-        imgbtn_selectcontacts = (ImageButton)localView.findViewById(R.id.imgbtn_SelectContacts);
-        imgbtn_selectcontacts.setOnClickListener(this);
-
-
-        lbl_sms_char_counter = (TextView)localView.findViewById(R.id.lbl_SMSCharCount);
-
-        // Adding a text watcher to SMS text box
-        // (How text changes in text box should behave).
-        et_sms_msg = (EditText) localView.findViewById(R.id.et_SMS_msg);
-        et_sms_msg.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //This sets a textview to the current length
-                String smsNo;
-                if(charSequence.length() == 0)
-                    smsNo = "0";
-                else
-                    smsNo = String.valueOf(charSequence.length()/160 + 1);
-
-                String smsLength = String.valueOf(160-(charSequence.length()%160));
-                lbl_sms_char_counter.setText(smsLength+"/"+smsNo);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        // Radio Button Group and its member radio buttons
-        radgrp = (RadioGroup)localView.findViewById(R.id.radgrp_reminder);
-        radbtn_set_reminder = (RadioButton)localView.findViewById(R.id.radbtn_setreminder);
-        radbtn_set_reminder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // Code to shift to 'Set Reminder' tab.
-                radbtn_set_reminder.setChecked(true);
-
-                tabLayout.getTabAt(1).select();                     // go to set reminder tab
-            }
-        });
-
-        radbtn_now = (RadioButton)localView.findViewById(R.id.radbtn_sendnow);
-        radbtn_now.setChecked(true);
-        radbtn_now.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Nothing needs to be done i guess for this
-                radbtn_now.setChecked(true);
-                btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
-            }
-        });
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-
-        switch (id){
-
-            case R.id.imgbtn_SelectContacts:
-                invokeContactBookActivity();
-                break;
-
-            case R.id.imgbtn_SendBulkSMS:
-                ComposeAndSendMessage();
-                FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
-                break;
-
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -1408,6 +740,11 @@ public class MainActivity extends BaseActivity implements ActionBar.TabListener,
         navDrawer.onBackPressed();
 
         //super.onBackPressed();
+    }
+
+    @Override
+    public void tabSelected(int tabNumb) {
+
     }
 }
 
