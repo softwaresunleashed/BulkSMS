@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.BuildConfig;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
@@ -548,17 +549,11 @@ public class Helpers {
     }
 
     public static boolean shouldEnableCacheOnMemory() {
-        if (Build.MODEL.equalsIgnoreCase("GT-N7100") || (Build.MANUFACTURER.equalsIgnoreCase("SAMSUNG") && Build.VERSION.RELEASE.equalsIgnoreCase("4.4.2"))) {
-            return false;
-        }
-        return true;
+        return !(Build.MODEL.equalsIgnoreCase("GT-N7100") || (Build.MANUFACTURER.equalsIgnoreCase("SAMSUNG") && Build.VERSION.RELEASE.equalsIgnoreCase("4.4.2")));
     }
 
     public static boolean isLimitImageSize() {
-        if (Build.MODEL.equalsIgnoreCase("GT-N7100")) {
-            return true;
-        }
-        return false;
+        return Build.MODEL.equalsIgnoreCase("GT-N7100");
     }
 
     public static String getTimeDisplayForChat(String timeIn) {
@@ -645,10 +640,7 @@ public class Helpers {
     public static boolean isValidName(String name) {
         Pattern mPersonPattern = Pattern.compile(PERSON_PATTERN);
         Matcher matcher = mPersonPattern.matcher(name);
-        if (matcher.find()) {
-            return false;
-        }
-        return true;
+        return !matcher.find();
     }
 
     public static String getModelInfo() {
@@ -766,5 +758,10 @@ public class Helpers {
 
         return appContext.getPackageName();
     }
+
+    public static void displayToast(String Msg){
+        Toast.makeText(SUApplication.getContext(), Msg, Toast.LENGTH_SHORT).show();
+    }
+
 
 }

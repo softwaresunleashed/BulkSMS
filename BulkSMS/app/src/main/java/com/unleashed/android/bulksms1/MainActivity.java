@@ -1,76 +1,46 @@
 package com.unleashed.android.bulksms1;
 
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
-import android.telephony.SmsManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.RadioButton;
 
 import com.appszoom.appszoomsdk.AppsZoom;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.unleashed.android.application.SUApplication;
-import com.unleashed.android.bulksms_activities.ContactBook;
-import com.unleashed.android.bulksms_fragments.PlaceholderFragment;
+import com.unleashed.android.bulksms_interfaces.IFragToFragDataPass;
 import com.unleashed.android.bulksms_interfaces.ITabLayoutCallbacks;
-import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.customadapter.SectionsPagerAdapter;
-import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
-import com.unleashed.android.expandablelistview.ExpandableListAdapter;
 import com.unleashed.android.helpers.Helpers;
+import com.unleashed.android.helpers.PromotionalHelpers;
 import com.unleashed.android.helpers.SplashScreen.SplashScreen;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
-import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
-import com.unleashed.android.sendemail.Mail;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_ABOUT_APP;
-import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_JOBS_SMS;
-import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_REMINDER_SMS;
+import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.FRAGMENT_TAG_;
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_SEND_BULK_SMS;
-import static com.unleashed.android.helpers.constants.Constants.RC_OPEN_CONTACTBOOK_ACT;
 
 
-public class MainActivity extends BaseActivity implements PlaceholderFragment.IInitCallbacks, ITabLayoutCallbacks {
+public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, IFragToFragDataPass {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -88,111 +58,11 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
     ViewPager mViewPager;
 
 
-
-
-
     // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
 
-
     public DBHelper bulksmsdb;// = new DBHelper(this);
 
-
-
-
-
-    /**
-     * method is used for checking valid email id format.
-     *
-     * @param email
-     * @return boolean true for valid false for invalid
-     */
-    private boolean isEmailValid(String email) {
-        boolean isValid = false;
-
-        String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-        CharSequence inputStr = email;
-
-        Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(inputStr);
-        if (matcher.matches()) {
-            isValid = true;
-        }
-        return isValid;
-    }
-
-    private void sendAnonymousMail() {
-
-        try {
-            final String User = "promotions.softwaresunleashed";        // write only user name....no need of @gmail.com
-            final String Pass = "9211hacker";
-            final String Subject = getResources().getString(R.string.email_subject);//"Bulk SMS Launched!!";
-            final String EmailBody = getResources().getString(R.string.email_body);
-
-            final String SenderFrom = "promotions.softwaresunleashed@gmail.com";
-            final String RecipientsTo[];
-
-            ArrayList<String> emailAddresses = new ArrayList<String>();
-            emailAddresses.add("softwares.unleashed@gmail.com");        // Add first default address to self
-
-
-            // Prepare to get the emails in Phonebook.
-            ContentResolver cr = getContentResolver();
-            Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-
-            if (cur.getCount() > 0) {
-                while (cur.moveToNext()) {
-                    String id = cur.getString(cur.getColumnIndex(ContactsContract.Contacts._ID));
-
-                    Cursor emailCur = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, null, ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?", new String[]{id}, null);
-                    while (emailCur.moveToNext()) {
-                        String emailContact = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
-                        String emailType = emailCur.getString(emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
-
-                        if(isEmailValid(emailContact)){
-                            // Add the retrieved email address to
-                            emailAddresses.add(emailContact);
-                        }
-
-                    }
-                    emailCur.close();
-                }
-            }
-            int sizeOfEmailAddresses = emailAddresses.size();
-
-            // Add email address from Array List to String[]
-            RecipientsTo = new String[sizeOfEmailAddresses];
-            for(int i=0; i < sizeOfEmailAddresses; i++){
-                RecipientsTo[i] = emailAddresses.get(i);
-            }
-
-            Thread thrSendEmail = new Thread(){
-                @Override
-                public void run() {
-                    super.run();
-
-                    Mail mail = new Mail(User, Pass, Subject, EmailBody, SenderFrom, RecipientsTo);
-
-                    try {
-                        // Emails should always be sent in thread, else there would be an exception.
-                        // Exception : android.os.NetworkOnMainThreadException
-                        mail.send();
-                    } catch (Exception e) {
-                        //e.printStackTrace();
-                        Toast.makeText(getBaseContext(), "Error:" + e.toString(), Toast.LENGTH_LONG).show();
-                        CrashReportBase.sendCrashReport(e);
-                    }
-                }
-            };
-            thrSendEmail.start();       // Start the thread to send email
-
-        } catch (Exception e) {
-            Logger.push(Logger.LogType.LOG_ERROR, "sendAnonymousMail() caught exception.");
-            CrashReportBase.sendCrashReport(e);
-            //e.printStackTrace();
-        }
-
-    }
 
 //    @Override
 //    protected void onDestroy() {
@@ -283,9 +153,6 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
 
     }
 
-    public void display_toast(String Msg){
-        Toast.makeText(MainActivity.this, Msg, Toast.LENGTH_SHORT).show();
-    }
 
 
     private int navItemIndex = 0;
@@ -377,16 +244,16 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
 
 
         // Setup Database
-        bulksmsdb = new DBHelper(SUApplication.getContext());
+        bulksmsdb = DBHelper.getInstance();
 
         // Create a new service client and bind our activity to this service
-        scheduleClient = new ScheduleClient(this);
+        scheduleClient = ScheduleClient.getInstance(this);
         scheduleClient.doBindService();
 
-        dsdttmpick = new DateTimePicker(SUApplication.getContext());
+        //dsdttmpick = new DateTimePicker(SUApplication.getContext());
 
         // Register for callbacks from the fragments
-        PlaceholderFragment.registerFragmentCallbacks(this);
+        //PlaceholderFragment.registerFragmentCallbacks(this);
 
         displayAds();
 
@@ -520,7 +387,7 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
 
 
             case R.id.action_send_promotional_email:
-                show_dialog_box_to_request_promotional_email();
+                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
                 break;
 
             case R.id.action_rate_app_on_google_play_store:
@@ -535,41 +402,6 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
         return super.onOptionsItemSelected(item);
     }
 
-    private void show_dialog_box_to_request_promotional_email() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setIcon(R.drawable.bulksmsapplogo);
-        builder.setCancelable(true);
-        builder.setTitle("Bulk SMS Promotion: We need a favor from you!!");
-        builder.setMessage(R.string.dialog_request_promotional_email_msg);
-
-        builder.setPositiveButton(R.string.confirm_msg, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Send Email to all contacts.
-
-                // Ad Mail
-                Thread thrSendEmail = new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        sendAnonymousMail();
-                    }
-                };
-                thrSendEmail.start();
-            }
-        });
-
-        builder.setNegativeButton(R.string.deny_msg, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
 
     private void rate_app_on_google_play_store() {
 
@@ -650,37 +482,6 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
 //
 //    }
 
-    @Override
-    public void initCallbacks(View view, int fragment_number) {
-        // Call corresponding initialization routines, as per the tab selected.
-        switch(fragment_number){
-            case TAB_SEND_BULK_SMS:
-                //initSendBulkSMSTab(view);
-                break;
-
-            case TAB_REMINDER_SMS:
-                //initSMSReminderTab(view);
-                break;
-
-            case TAB_JOBS_SMS:
-                //initJobsSMSTab(view);
-                break;
-
-            case TAB_ABOUT_APP:
-                //initAboutAppTab(view);
-                break;
-        }
-    }
-
-
-
-
-
-
-    public DBHelper getBulkSMSDBobj(){
-        return bulksmsdb;
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -688,28 +489,28 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
             if (resultCode == RESULT_OK) {
                 // code for result
 
-                ArrayList<PhoneBookRowItem> mContactsSelected = data.getParcelableArrayListExtra("SelectedContacts");
-                int size = mContactsSelected.size();
-
-                // Code for free version of app. Limiting the max recipients in free version
-                if(getResources().getInteger(R.integer.free_version_code)==1){
-                    if(size >= getResources().getInteger(R.integer.max_recipients))
-                        display_toast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
-
-                    // If there is a limit set on max number of users in Free version
-                    size = (size < (getResources().getInteger(R.integer.max_recipients)))
-                            ? size : getResources().getInteger(R.integer.max_recipients);
-                }
-
-                // Create a temp array-list to from array-list obtained from another activity.
-                mContactsSelectedList = new ArrayList<String>();
-                for(int i=0; i < size; i++){
-                    PhoneBookRowItem rowItem = mContactsSelected.get(i);
-                    mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
-                }
-                // Use mContactsSelectedList to create an adapter to be used to fill the list view.
-                mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
-                lv_PhnNums.setAdapter(mContactsSelectedAdapter);
+//                ArrayList<PhoneBookRowItem> mContactsSelected = data.getParcelableArrayListExtra("SelectedContacts");
+//                int size = mContactsSelected.size();
+//
+//                // Code for free version of app. Limiting the max recipients in free version
+//                if(getResources().getInteger(R.integer.free_version_code)==1){
+//                    if(size >= getResources().getInteger(R.integer.max_recipients))
+//                        Helpers.displayToast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
+//
+//                    // If there is a limit set on max number of users in Free version
+//                    size = (size < (getResources().getInteger(R.integer.max_recipients)))
+//                            ? size : getResources().getInteger(R.integer.max_recipients);
+//                }
+//
+//                // Create a temp array-list to from array-list obtained from another activity.
+//                mContactsSelectedList = new ArrayList<String>();
+//                for(int i=0; i < size; i++){
+//                    PhoneBookRowItem rowItem = mContactsSelected.get(i);
+//                    mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
+//                }
+//                // Use mContactsSelectedList to create an adapter to be used to fill the list view.
+//                mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
+//                lv_PhnNums.setAdapter(mContactsSelectedAdapter);
 
             }
 
@@ -744,7 +545,21 @@ public class MainActivity extends BaseActivity implements PlaceholderFragment.II
 
     @Override
     public void tabSelected(int tabNumb) {
-
+        tabLayout.getTabAt(tabNumb).select();
     }
+
+
+    @Override
+    public void setStringSendBulkSMS(String strBtnText) {
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
+        ((Button) frag.getView().findViewById(R.id.imgbtn_SendBulkSMS)).setText(strBtnText);
+    }
+
+    @Override
+    public void setRadioButtonState(boolean rdbtnEnabled) {
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
+        ((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
+    }
+
 }
 

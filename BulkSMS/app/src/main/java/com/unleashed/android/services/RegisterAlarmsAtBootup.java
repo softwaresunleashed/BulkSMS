@@ -36,9 +36,9 @@ public class RegisterAlarmsAtBootup extends Service{
 
 
         // Read DB file and register alarms according to job id
-        final DBHelper localDBHelperObj = new DBHelper(getApplicationContext());   //getBulkSMSDBobj();
+        final DBHelper localDBHelperObj = DBHelper.getInstance();  //new DBHelper(getApplicationContext());   //getBulkSMSDBobj();
 
-        DateTimePicker dsdttmpick = null;
+        //DateTimePicker dsdttmpick = null;
 
         // Create a new calendar set to the date chosen
         // we set the time to time+date selected by user
@@ -107,7 +107,7 @@ public class RegisterAlarmsAtBootup extends Service{
     }
 
     private DateTimePicker extract_date_time_from_jobid(String jobId) {
-        DateTimePicker localDtTmObj = new DateTimePicker(getApplicationContext());
+        DateTimePicker localDtTmObj = DateTimePicker.getInstance();    // new DateTimePicker(getApplicationContext());
 
         // Decoding JobID to extract Date & Time details
         int year = Integer.valueOf(jobId.substring(0, 3));

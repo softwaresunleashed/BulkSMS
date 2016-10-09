@@ -27,7 +27,17 @@ public class ScheduleClient {
     // A flag if we are connected to the service or not
     private boolean mIsBound;
 
-    public ScheduleClient(Context context) {
+    // Singletone instance
+    private static ScheduleClient scheduleClient = null;
+
+    public static ScheduleClient getInstance(Context context){
+        if(scheduleClient == null)
+            scheduleClient = new ScheduleClient(context);
+
+        return scheduleClient;
+    }
+
+    private ScheduleClient(Context context) {
         mContext = context;
     }
 

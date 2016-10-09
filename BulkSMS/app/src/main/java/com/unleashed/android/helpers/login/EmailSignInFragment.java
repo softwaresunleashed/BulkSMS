@@ -321,18 +321,14 @@ public class EmailSignInFragment extends Fragment implements View.OnClickListene
 
     private boolean validatePassword(String passwd) {
         // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
-        if(passwd.length() == 0)
-            return false;
+        return passwd.length() != 0;
 
-        return true;
     }
 
     private boolean validateEmailAddress(String email) {
         // TODO : Validate Email Id and Password length . Minimum password length = 6 as per Firebase SDK
-        if(email.length() == 0)
-            return false;
+        return email.length() != 0;
 
-        return true;
     }
 
     private void showProgress() {

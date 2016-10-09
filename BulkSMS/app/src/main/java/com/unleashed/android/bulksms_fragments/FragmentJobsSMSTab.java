@@ -1,5 +1,6 @@
 package com.unleashed.android.bulksms_fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,10 +16,11 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
+import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.ArrayList;
@@ -37,7 +39,14 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
     private HashMap<String, List<String>> listDataChild;
     private int refresh_list_flag = 0;
 
+    private Context mContext;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mContext = context;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,7 +65,8 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        transaction.add(R.id.container_jobs_list, fragment);
+        String fragTag = FRAGMENT_TAG_ + TAB_JOBS_SMS;
+        transaction.add(R.id.container_jobs_list, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
 
@@ -89,11 +99,11 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
             @Override
             public void onClick(View view) {
 
-                display_toast("Refreshing List...Please Wait.");
+                Helpers.displayToast("Refreshing List...Please Wait.");
                 int number = refresh_job_list();
 
                 if (number == 0)
-                    display_toast("No Pending Jobs to display.");
+                    Helpers.displayToast("No Pending Jobs to display.");
 
             }
         });
@@ -105,7 +115,7 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
 //            delete_all_rec.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
-//                    display_toast("Deleting All Pending Records.");
+//                    Helpers.displayToast("Deleting All Pending Records.");
 //                    delete_all_records();
 //                }
 //            });
@@ -135,7 +145,7 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
 
 
             // Get all pending Jobs
-            Cursor cur = bulksmsdb.retrieveAllJobs();
+            Cursor cur = DBHelper.getInstance().retrieveAllJobs();
             if (cur.moveToFirst()) {
 
 
@@ -154,7 +164,7 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
                 while (cur.moveToNext());
 
                 // Create the list adapter
-                listAdapter = new ExpandableListAdapter(MainActivity.this, exLV, listDataHeader, listDataChild);
+                listAdapter = new ExpandableListAdapter(mContext, exLV, listDataHeader, listDataChild);
 
                 // setting list adapter
                 exLV.setAdapter(listAdapter);

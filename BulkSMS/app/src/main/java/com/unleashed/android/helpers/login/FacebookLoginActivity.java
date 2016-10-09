@@ -78,7 +78,7 @@ public class FacebookLoginActivity extends BaseActivity {
                 Logger.push(Logger.LogType.LOG_DEBUG, TAG + " FacebookLoginActivity::onAuthStateChanged:signed_out");
             }
         }
-    };;
+    };
 
 
     public static void callFacebookLogout(Context context) {

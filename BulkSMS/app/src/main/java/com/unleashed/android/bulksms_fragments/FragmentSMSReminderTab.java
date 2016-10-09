@@ -1,5 +1,6 @@
 package com.unleashed.android.bulksms_fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.TimePicker;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.bulksms_interfaces.IFragToFragDataPass;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;
@@ -26,7 +28,22 @@ import com.unleashed.android.helpers.logger.Logger;
 public class FragmentSMSReminderTab extends PlaceholderFragment {
 
     // Handles to UI Controls on "Set Reminder SMS Tab"
-    protected static DateTimePicker dsdttmpick;// = new DateTimePicker(getApplicationContext());
+    private DateTimePicker dsdttmpick;// = new DateTimePicker(getApplicationContext());
+
+    IFragToFragDataPass mFragCallback;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // Make sure that container activity implement the callback interface
+        try {
+            mFragCallback = (IFragToFragDataPass)context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement IFragToFragDataPass");
+        }
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,14 +56,14 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
 
     }
 
-    private void initSMSReminderTab(View localView) {
-
+    private void initSMSReminderTab(final View localView) {
 
         //////////// Add to Fragment ///////////////
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        transaction.add(R.id.container_reminder_bulk_sms, fragment);
+        String fragTag = FRAGMENT_TAG_ + TAB_REMINDER_SMS;
+        transaction.add(R.id.container_reminder_bulk_sms, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
 
@@ -59,6 +76,8 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
 
         final DatePicker dtpicker = (DatePicker)localView.findViewById(R.id.datePicker);
         final TimePicker timePicker = (TimePicker)localView.findViewById(R.id.timePicker);
+
+        dsdttmpick = DateTimePicker.getInstance();
 
         Button btnSetScheduleDone = (Button)localView.findViewById(R.id.btn_setSchedule);
         btnSetScheduleDone.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +101,9 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
                     strBtnText += String.valueOf(dsdttmpick.getHh()) + ":";
                     strBtnText += String.valueOf(dsdttmpick.getMm());
 
-                    btn_bulksms = (Button)findViewById(R.id.imgbtn_SendBulkSMS);
-                    btn_bulksms.setText(strBtnText);
+                    mFragCallback.setStringSendBulkSMS(strBtnText);
+//                    btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
+//                    btn_bulksms.setText(strBtnText);
 
 
                 }catch (Exception ex){
@@ -92,8 +112,11 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
                     //ex.printStackTrace();
                 }
 
-                radbtn_set_reminder.setChecked(true);   // set the radio button as selected.
-                tabLayout.getTabAt(0).select();         // go to bulk sms tab
+                mFragCallback.setRadioButtonState(true);
+//                radbtn_set_reminder.setChecked(true);   // set the radio button as selected.
+
+                mTabLayoutCallbacks.tabSelected(0);     // go to bulk sms tab
+                //tabLayout.getTabAt(0).select();
 
                 //getSupportActionBar().setSelectedNavigationItem(0);
             }
@@ -105,7 +128,8 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
             @Override
             public void onClick(View view) {
                 // Return to Bulk SMS Tab
-                tabLayout.getTabAt(0).select();
+                mTabLayoutCallbacks.tabSelected(0);
+                //tabLayout.getTabAt(0).select();
 
                 //getSupportActionBar().setSelectedNavigationItem(0);
             }

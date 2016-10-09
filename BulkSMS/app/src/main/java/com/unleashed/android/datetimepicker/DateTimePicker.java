@@ -2,6 +2,7 @@ package com.unleashed.android.datetimepicker;
 
 import android.content.Context;
 
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;
 
@@ -22,9 +23,16 @@ public class DateTimePicker {
     private boolean initialized;
     private Context ctx;
 
+    private static DateTimePicker dateTimePicker = null;
 
+    public static DateTimePicker getInstance(){
+        if(dateTimePicker == null)
+            dateTimePicker = new DateTimePicker(SUApplication.getContext());
 
-    public DateTimePicker(Context applicationContext) {
+        return dateTimePicker;
+    }
+
+    private DateTimePicker(Context applicationContext) {
 
         day = this.day;
         month = this.month;

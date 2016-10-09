@@ -1,6 +1,5 @@
 package com.unleashed.android.bulksms_activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -368,7 +367,7 @@ public class ContactBook extends BaseActivity implements  View.OnClickListener, 
                 processSelectedPhoneList();
                 Intent returnIntent = new Intent();
                 // Sending back the selected contacts in a return-intent.
-                returnIntent.putParcelableArrayListExtra("SelectedContacts", (ArrayList<PhoneBookRowItem>) selectedContacts);
+                returnIntent.putParcelableArrayListExtra("SelectedContacts", selectedContacts);
                 setResult(RESULT_OK, returnIntent);
                 finish();
 

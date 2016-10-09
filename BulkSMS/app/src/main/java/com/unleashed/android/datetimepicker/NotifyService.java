@@ -158,7 +158,7 @@ public class NotifyService extends Service {
 
     private void process_job_id(final String jobid) {
 
-        final DBHelper localDBHelperObj = new DBHelper(getApplicationContext());   //getBulkSMSDBobj();
+        final DBHelper localDBHelperObj = DBHelper.getInstance();   //(getApplicationContext());   //getBulkSMSDBobj();
 
         Thread thrSendBackGroundSMS = new Thread(){
             @Override

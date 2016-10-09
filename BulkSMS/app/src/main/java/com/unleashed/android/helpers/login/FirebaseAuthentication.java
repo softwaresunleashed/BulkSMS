@@ -34,11 +34,11 @@ public class FirebaseAuthentication implements  AuthStateListener{
     }
 
     public static void addAuthStateListener(@NonNull final AuthStateListener listener){
-        firebaseAuthInstance.getAuth().addAuthStateListener(listener);
+        getAuth().addAuthStateListener(listener);
     }
 
     public static void removeAuthStateListener(@NonNull final AuthStateListener listener){
-        firebaseAuthInstance.getAuth().addAuthStateListener(listener);
+        getAuth().addAuthStateListener(listener);
     }
 
     public static FirebaseAuth getAuth() {

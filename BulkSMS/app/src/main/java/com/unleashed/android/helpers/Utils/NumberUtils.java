@@ -131,9 +131,7 @@ public class NumberUtils {
 
         if (min != 0 && value < min) return false;
 
-        if (max != 0 && value > max) return false;
-
-        return true;
+        return !(max != 0 && value > max);
 
     }
 

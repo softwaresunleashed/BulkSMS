@@ -1,6 +1,6 @@
 package com.unleashed.android.bulksms_fragments;
 
-import android.app.Activity;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -34,17 +34,24 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.unleashed.android.application.SUApplication;
-import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.bulksms_activities.ContactBook;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
+import com.unleashed.android.datetimepicker.DateTimePicker;
+import com.unleashed.android.datetimepicker.ScheduleClient;
+import com.unleashed.android.helpers.Helpers;
+import com.unleashed.android.helpers.PromotionalHelpers;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
 import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
+import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 
 /**
@@ -53,18 +60,18 @@ import java.util.concurrent.Semaphore;
 
 public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnClickListener{
 
-    ListView lv_PhnNums;        // List view to hold selected numbers.
-    EditText et_sms_msg;        // Edit box for holding sms message.
-    RadioGroup radgrp;          // Radio Group for holding options to send sms now or set a reminder
-    RadioButton radbtn_now, radbtn_set_reminder;
-
     // Handles to UI Controls on "Send Bulk SMS Tab"
     private Button btn_bulksms;
     private TextView lbl_sms_char_counter;
     private ImageButton imgbtn_selectcontacts;
+    private ListView lv_PhnNums;        // List view to hold selected numbers.
+    private EditText et_sms_msg;        // Edit box for holding sms message.
+    private RadioGroup radgrp;          // Radio Group for holding options to send sms now or set a reminder
+    private RadioButton radbtn_now, radbtn_set_reminder;
 
-    ArrayAdapter<String> mContactsSelectedAdapter;
-    ArrayList<String> mContactsSelectedList;
+
+    private ArrayAdapter<String> mContactsSelectedAdapter;
+    private ArrayList<String> mContactsSelectedList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,7 +90,8 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        transaction.add(R.id.container_send_bulk_sms, fragment);
+        String fragTag = FRAGMENT_TAG_ + TAB_SEND_BULK_SMS;
+        transaction.add(R.id.container_send_bulk_sms, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
 
@@ -148,7 +156,9 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                                 break;
 
                             case 1: // "Cancel"
-                                closeContextMenu();
+                                dialog.dismiss();
+                                //Sudhanshu
+                                //closeContextMenu();
                                 break;
                         }
                     }
@@ -211,7 +221,8 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 // Code to shift to 'Set Reminder' tab.
                 radbtn_set_reminder.setChecked(true);
 
-                tabLayout.getTabAt(1).select();                     // go to set reminder tab
+                mTabLayoutCallbacks.tabSelected(1);                   // go to set reminder tab
+                //tabLayout.getTabAt(1).select();                     // go to set reminder tab
             }
         });
 
@@ -228,7 +239,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
     }
 
     private void invokeContactBookActivity() {
-        Intent startContactBookAct = new Intent(this, ContactBook.class);
+        Intent startContactBookAct = new Intent(this.getContext(), ContactBook.class);
         startActivityForResult(startContactBookAct, Constants.RC_OPEN_CONTACTBOOK_ACT);
     }
 
@@ -243,17 +254,17 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
         int totalPhoneNumbers = lv_PhnNums.getCount();
         if(totalPhoneNumbers == 0){
-            Toast.makeText(MainActivity.this, "Select minimum of one contact...", Toast.LENGTH_LONG).show();
+            Toast.makeText(SUApplication.getContext(), "Select minimum of one contact...", Toast.LENGTH_LONG).show();
             return;
         }
 
         if(smsMesg.length() == 0){
-            Toast.makeText(MainActivity.this, "Enter Text to Send...", Toast.LENGTH_LONG).show();
+            Toast.makeText(SUApplication.getContext(), "Enter Text to Send...", Toast.LENGTH_LONG).show();
             return;
         }
 
         // Check if RadioButton "Set Reminder" is checked. Then store the mesg and recipient list along with time.
-        if(radbtn_set_reminder.isChecked() && dsdttmpick.isInitialized()) {
+        if(radbtn_set_reminder.isChecked() && DateTimePicker.getInstance().isInitialized()) {
 
             // Set Reminder is not available in Free Version of App
 //                if(getResources().getInteger(R.integer.free_version_code)==1){
@@ -278,7 +289,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             radbtn_now.setChecked(true);
             btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
 
-            display_toast("New Job # " + jobId + " created. \nSMS will be sent on the choosen Date and Time.");
+            Helpers.displayToast("New Job # " + jobId + " created. \nSMS will be sent on the choosen Date and Time.");
             return;
         }
 
@@ -299,7 +310,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 @Override
                 public void onReceive(Context arg0, Intent arg1) {
                     switch (getResultCode()) {
-                        case Activity.RESULT_OK:
+                        case RESULT_OK:
                             Toast.makeText(mContext, "SMS sent", Toast.LENGTH_SHORT).show();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
@@ -323,11 +334,11 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 @Override
                 public void onReceive(Context arg0, Intent arg1) {
                     switch (getResultCode()) {
-                        case Activity.RESULT_OK:
+                        case RESULT_OK:
                             Toast.makeText(mContext, "SMS delivered", Toast.LENGTH_SHORT).show();
                             break;
 
-                        case Activity.RESULT_CANCELED:
+                        case RESULT_CANCELED:
                             Toast.makeText(mContext, "SMS Undelivered", Toast.LENGTH_SHORT).show();
                             break;
                     }
@@ -363,7 +374,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
                 if(getResources().getInteger(R.integer.free_version_code)==1){
                     // Show dialog box to request access to sending promotional email
-                    show_dialog_box_to_request_promotional_email();
+                    PromotionalHelpers.show_dialog_box_to_request_promotional_email();
                 }
 
                 // Display msg for "Sending SMS"
@@ -372,7 +383,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 //                    tstmsg.makeText(MainActivity.this, "Sending Messages...Please Wait.", Toast.LENGTH_LONG);
 //                    tstmsg.show();
 
-                Toast.makeText(MainActivity.this, "Sending SMS(s)...Please Wait.", Toast.LENGTH_LONG).show();
+                Helpers.displayToast("Sending SMS(s)...Please Wait.");
 
 
                 final int MAX_AVAILABLE = 0;
@@ -450,13 +461,15 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         }
 
         // Create a jobid from date selected (to be passed in the intent
+        DateTimePicker dsdttmpick = DateTimePicker.getInstance();
         String jobid_from_date = dsdttmpick.getYear() + dsdttmpick.getMonth() + dsdttmpick.getDay() + dsdttmpick.getHh() + dsdttmpick.getMm();
 
         // Set an alarm and a notification to be raised when alarm goes off
+        ScheduleClient scheduleClient = ScheduleClient.getInstance(getActivity());
         dsdttmpick.setMessageReminder(scheduleClient, jobid_from_date);
 
         // Create a JobID record in database
-        bulksmsdb.insertNewJob(jobid_from_date, phoneContacts, smsMesg);
+        DBHelper.getInstance().insertNewJob(jobid_from_date, phoneContacts, smsMesg);
 
         return jobid_from_date;
     }
@@ -500,7 +513,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 // Code for free version of app. Limiting the max recipients in free version
                 if(getResources().getInteger(R.integer.free_version_code)==1){
                     if(size >= getResources().getInteger(R.integer.max_recipients))
-                        display_toast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
+                        Helpers.displayToast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
 
                     // If there is a limit set on max number of users in Free version
                     size = (size < (getResources().getInteger(R.integer.max_recipients)))
@@ -514,7 +527,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                     mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
                 }
                 // Use mContactsSelectedList to create an adapter to be used to fill the list view.
-                mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
+                mContactsSelectedAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
                 lv_PhnNums.setAdapter(mContactsSelectedAdapter);
 
             }
@@ -528,4 +541,5 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
 
     }
+
 }

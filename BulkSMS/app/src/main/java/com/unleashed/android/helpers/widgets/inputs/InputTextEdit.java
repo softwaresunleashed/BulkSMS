@@ -547,7 +547,7 @@ public class InputTextEdit extends InputBase {
     public enum InputMethod {PHONE, NORMAL, NORMAL_MULTILINE, DIGIT, DATE, EMAIL, InputMethod, FLOAT, PASSWORD}
 
     public interface OnInputFocus {
-        public void onFocus(boolean hasFocus);
+        void onFocus(boolean hasFocus);
     }
 
     public static class ViewState implements Parcelable {

@@ -69,7 +69,8 @@
                         android:padding="5dp"
                         android:calendarViewShown="false"
                         android:background="@drawable/date_time_picker_bg"
-                        android:spinnersShown="true" />
+                        android:spinnersShown="true"
+                        android:datePickerMode="spinner" />
 
                     <LinearLayout
                         android:orientation="vertical"
@@ -84,7 +85,8 @@
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             android:layout_gravity="center"
-                            android:background="@drawable/date_time_picker_bg" />
+                            android:background="@drawable/date_time_picker_bg"
+                            android:timePickerMode="spinner" />
 
                         <LinearLayout
                             android:orientation="horizontal"

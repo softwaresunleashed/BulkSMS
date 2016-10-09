@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.sql.SQLException;
@@ -28,8 +29,10 @@ public class DBHelper {
     private static final String create_table = "create table JobTable (Id integer primary key AUTOINCREMENT, " + "JobId text not null, PhnNums text not null, Msg text not null);";
 
     private final Context ct;
-    private DatabaseHelper dbHelper;
+    private DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
+
+    private static DBHelper dbHelper = null;
 
 //    public abstract class DBReference{
 //        public DBHelper db_reference;
@@ -39,23 +42,30 @@ public class DBHelper {
 //        }
 //    }
 
+    public static DBHelper getInstance(){
+
+        if(dbHelper == null) {
+            dbHelper = new DBHelper(SUApplication.getContext());
+        }
+        return dbHelper;
+    }
 
 
-    public DBHelper(Context context) {
+    private DBHelper(Context context) {
+        databaseHelper = new DatabaseHelper(context);
         this.ct = context;
-        dbHelper = new DatabaseHelper(ct);
     }
 
 
     // Declaring the connect() method to connect to the database
     public DBHelper connect() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        database = databaseHelper.getWritableDatabase();
         return this;
     }
 
     // Declaring the disconnect() method to close the database
     public void disconnect() {
-        dbHelper.close();
+        databaseHelper.close();
     }
 
     // Declaring the insertEmployee() method to add the employee details into the database

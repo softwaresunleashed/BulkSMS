@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.unleashed.android.bulksms1.AboutApp;
-import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
 
 /**
@@ -45,7 +44,8 @@ public class FragmentAboutAppTab extends PlaceholderFragment{
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        transaction.add(R.id.container_about_app, fragment);
+        String fragTag = FRAGMENT_TAG_ + TAB_ABOUT_APP;
+        transaction.add(R.id.container_about_app, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
 
@@ -56,7 +56,7 @@ public class FragmentAboutAppTab extends PlaceholderFragment{
             mAdView.loadAd(adRequest);
         }
 
-        AboutApp objAbtApp = new AboutApp(MainActivity.this);
+        AboutApp objAbtApp = new AboutApp(getActivity());
 
         lbl_version_number = (TextView)localView.findViewById(R.id.lbl_app_version_number);
         lbl_version_number.setText(objAbtApp.getVersionNumber());
