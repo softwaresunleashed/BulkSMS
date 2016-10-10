@@ -1,11 +1,13 @@
 package com.unleashed.android.helpers.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 
+import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.util.List;
@@ -16,6 +18,9 @@ public class BaseActivity extends AppCompatActivity {
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
+
+    private boolean doubleBackToExitPressedOnce = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
@@ -53,5 +58,23 @@ public class BaseActivity extends AppCompatActivity {
                     childFragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Helpers.displayToast("Please click BACK again to exit");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

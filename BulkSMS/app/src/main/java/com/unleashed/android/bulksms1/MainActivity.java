@@ -61,7 +61,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
 
-    public DBHelper bulksmsdb;// = new DBHelper(this);
+    //public DBHelper bulksmsdb;// = new DBHelper(this);
 
 
 //    @Override
@@ -113,46 +113,6 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 //            }
 //        });
 //    }
-
-
-    private void alert_dialog_buy_bulk_sms(){
-        if(getResources().getInteger(R.integer.free_version_code) == 1){
-            // This is a free software, prompt user to buy paid version.
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setIcon(R.drawable.bulksmsapplogo);
-            builder.setCancelable(true);
-            builder.setTitle("Paid App Feature");
-            builder.setMessage("The feature you are trying to access is available in Paid version of the app. Please buy Bulk SMS on Google PlayStore. \nClick OK to buy on Google Play Store. \nClick CANCEL to dismiss. ");
-
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    // Request to buy Bulk SMS on Google Play.
-                    final String appPackageName = "com.unleashed.android.bulksms2"; //getPackageName();
-                    final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
-
-                    if (hasHandlerForIntent(openPlayStore))
-                        startActivity(openPlayStore);
-                    else
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-
-                }
-            });
-
-            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
-
-            AlertDialog alert = builder.create();
-            alert.show();
-        }
-
-    }
-
 
 
     private int navItemIndex = 0;
@@ -244,7 +204,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
 
         // Setup Database
-        bulksmsdb = DBHelper.getInstance();
+        //bulksmsdb = DBHelper.getInstance();
 
         // Create a new service client and bind our activity to this service
         scheduleClient = ScheduleClient.getInstance(this);
@@ -418,10 +378,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
     }
 
-    private boolean hasHandlerForIntent(Intent intent)
-    {
-        return getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
-    }
+
 
 //    @Override
 //    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

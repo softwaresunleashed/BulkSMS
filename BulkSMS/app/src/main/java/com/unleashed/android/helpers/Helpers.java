@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import android.provider.OpenableColumns;
 import android.support.annotation.DrawableRes;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -33,6 +35,7 @@ import android.widget.Toast;
 
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.BuildConfig;
+import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;
@@ -763,5 +766,49 @@ public class Helpers {
         Toast.makeText(SUApplication.getContext(), Msg, Toast.LENGTH_SHORT).show();
     }
 
+
+    public static void alert_dialog_buy_bulk_sms(final Context context){
+        if(SUApplication.getContext().getResources().getInteger(R.integer.free_version_code) == 1){
+            // This is a free software, prompt user to buy paid version.
+
+//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setIcon(R.drawable.bulksmsapplogo);
+            builder.setCancelable(true);
+            builder.setTitle("Paid App Feature");
+            builder.setMessage("The feature you are trying to access is available in Paid version of the app. Please buy Bulk SMS on Google PlayStore. \nClick OK to buy on Google Play Store. \nClick CANCEL to dismiss. ");
+
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Request to buy Bulk SMS on Google Play.
+                    final String appPackageName = "com.unleashed.android.bulksms2"; //getPackageName();
+                    final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+
+                    if (hasHandlerForIntent(openPlayStore))
+                        context.startActivity(openPlayStore);
+                    else
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+
+                }
+            });
+
+            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
+
+    }
+
+    private static boolean hasHandlerForIntent(Intent intent)
+    {
+        return SUApplication.getContext().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
+    }
 
 }
