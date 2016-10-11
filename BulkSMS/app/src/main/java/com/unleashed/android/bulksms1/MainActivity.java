@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import com.appszoom.appszoomsdk.AppsZoom;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
 import com.unleashed.android.application.SUApplication;
+import com.unleashed.android.bulksms_fragments.PlaceholderFragment;
 import com.unleashed.android.bulksms_interfaces.IFragToFragDataPass;
 import com.unleashed.android.bulksms_interfaces.ITabLayoutCallbacks;
 import com.unleashed.android.customadapter.SectionsPagerAdapter;
@@ -54,8 +55,6 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
     // This is a handle so that we can call methods on our service
     private ScheduleClient scheduleClient;
-
-    //public DBHelper bulksmsdb;// = new DBHelper(this);
 
 
 //    @Override
@@ -125,6 +124,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                 //Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.nav_home:
                     navItemIndex = 0;
+                    tabSelected(PlaceholderFragment.TAB_SEND_BULK_SMS);         // Switch to first tab
                     break;
 
                 case R.id.nav_tell_a_friend:
@@ -148,20 +148,21 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                     break;
 
                 case R.id.nav_about_us:
+                    tabSelected(PlaceholderFragment.TAB_ABOUT_APP);
                     // launch new intent instead of loading fragment
                     //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
-                    navDrawer.closeDrawers();
-                    return true;
+                    break;
 
                 case R.id.nav_privacy_policy:
                     // launch new intent instead of loading fragment
                     //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-                    navDrawer.closeDrawers();
-                    return true;
+
+                    break;
 
                 default:
                     navItemIndex = 0;
             }
+            navDrawer.closeDrawers();
             return true;
         }
     };

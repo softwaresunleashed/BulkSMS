@@ -12,45 +12,66 @@
         android:id="@+id/img_header_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-         />
-    <!--android:src="@drawable/nav_header_bg"-->
+        android:scaleType="fitXY" />
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
-        <!-- Profile Photo -->
-        <com.unleashed.android.helpers.widgets.images.CircularImageView
-            android:id="@+id/img_profile"
-            android:layout_width="@dimen/profile_width"
-            android:layout_height="@dimen/profile_height"
-            android:layout_gravity="left"
-            app:civ_selectorStrokeColor="@color/black"
-            app:civ_selectorStrokeWidth="@dimen/md_2dp_margin"
-            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:src="@drawable/ic_action_person" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <!--<ImageView-->
+            <!-- Profile Photo -->
+            <com.unleashed.android.helpers.widgets.images.CircularImageView
+                android:id="@+id/img_profile"
+                android:layout_width="@dimen/profile_width"
+                android:layout_height="@dimen/profile_height"
+                android:layout_gravity="left"
+                app:civ_selectorStrokeColor="@color/black"
+                app:civ_selectorStrokeWidth="@dimen/md_2dp_margin"
+                android:layout_marginTop="@dimen/nav_header_vertical_spacing"
+                android:src="@drawable/ic_action_person" />
+
+            <!--<ImageView-->
             <!--android:id="@+id/img_profile"-->
             <!--android:layout_width="@dimen/profile_width"-->
             <!--android:layout_height="@dimen/profile_height"-->
             <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
             <!--app:srcCompat="@android:drawable/sym_def_app_icon" />-->
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/website"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <TextView
+                    android:id="@+id/website"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/nav_header_vertical_spacing"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
 
     </LinearLayout>
 </RelativeLayout>

@@ -22,10 +22,10 @@ public class PlaceholderFragment extends BaseFragment {
     protected ITabLayoutCallbacks mTabLayoutCallbacks;
 
     // Static Numbers assiged to Tab(s)
-    public static final int TAB_SEND_BULK_SMS = 1;
-    public static final int TAB_REMINDER_SMS = 2;
-    public static final int TAB_JOBS_SMS = 3;
-    public static final int TAB_ABOUT_APP = 4;
+    public static final int TAB_SEND_BULK_SMS = 0;
+    public static final int TAB_REMINDER_SMS = 1;
+    public static final int TAB_JOBS_SMS = 2;
+    public static final int TAB_ABOUT_APP = 3;
 
     // View obj variable to pass View instances
     //private View mView;
