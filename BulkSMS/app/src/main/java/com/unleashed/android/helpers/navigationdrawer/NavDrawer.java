@@ -1,7 +1,6 @@
 package com.unleashed.android.helpers.navigationdrawer;
 
 
-
 import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.unleashed.android.bulksms1.R;
 
 public class NavDrawer {
@@ -69,6 +69,9 @@ public class NavDrawer {
      * name, website, notifications action view (dot)
      */
     private void loadNavHeader() {
+
+        Picasso.with(mActivityContext).load(R.drawable.nav_header_bg).fit().centerCrop().into(imgNavHeaderBg);
+
         // name, website
         txtName.setText("Sudhanshu");
         txtWebsite.setText("www.softwaresunleashed.com");
