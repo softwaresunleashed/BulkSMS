@@ -1,17 +1,13 @@
 package com.unleashed.android.bulksms1;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,9 +27,7 @@ import com.unleashed.android.helpers.PromotionalHelpers;
 import com.unleashed.android.helpers.SplashScreen.SplashScreen;
 import com.unleashed.android.helpers.activities.BaseActivity;
 import com.unleashed.android.helpers.apprating.FeedbackPromptFragment;
-import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
-import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.FRAGMENT_TAG_;
@@ -379,32 +373,6 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     }
 
 
-
-//    @Override
-//    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-//        // When the given tab is selected, switch to the corresponding page in
-//        // the ViewPager.
-//
-//
-//        // Code to hide virtual keyboard
-//        View focus = getCurrentFocus();
-//        if(focus != null){
-//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-//        }
-//
-//        // Tab - Jobs Reminder
-////        if(tab.getPosition() == 2){
-////
-////            if(getResources().getInteger(R.integer.free_version_code) == 1){
-////                alert_dialog_buy_bulk_sms();
-////            }
-////
-////        }
-//
-//        mViewPager.setCurrentItem(tab.getPosition());
-//    }
-
     private void hideVirtualKeyboard(){
         // Code to hide virtual keyboard
         View focus = getCurrentFocus();
@@ -414,71 +382,14 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         }
     }
 
-//    @Override
-//    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-//
-//        // Code to hide virtual keyboard
-//        View focus = getCurrentFocus();
-//        if(focus != null){
-//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-//
-//        // Code to hide virtual keyboard
-//        View focus = getCurrentFocus();
-//        if(focus != null){
-//            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            keyboard.hideSoftInputFromWindow(focus.getWindowToken(), 0);
-//        }
-//
-//
-//    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == Constants.RC_OPEN_CONTACTBOOK_ACT) {
-            if (resultCode == RESULT_OK) {
-                // code for result
 
-//                ArrayList<PhoneBookRowItem> mContactsSelected = data.getParcelableArrayListExtra("SelectedContacts");
-//                int size = mContactsSelected.size();
-//
-//                // Code for free version of app. Limiting the max recipients in free version
-//                if(getResources().getInteger(R.integer.free_version_code)==1){
-//                    if(size >= getResources().getInteger(R.integer.max_recipients))
-//                        Helpers.displayToast("Bulk SMS(Free Version) supports max of 5 recipients. \nList truncated to first 5 recipients.");
-//
-//                    // If there is a limit set on max number of users in Free version
-//                    size = (size < (getResources().getInteger(R.integer.max_recipients)))
-//                            ? size : getResources().getInteger(R.integer.max_recipients);
-//                }
-//
-//                // Create a temp array-list to from array-list obtained from another activity.
-//                mContactsSelectedList = new ArrayList<String>();
-//                for(int i=0; i < size; i++){
-//                    PhoneBookRowItem rowItem = mContactsSelected.get(i);
-//                    mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
-//                }
-//                // Use mContactsSelectedList to create an adapter to be used to fill the list view.
-//                mContactsSelectedAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
-//                lv_PhnNums.setAdapter(mContactsSelectedAdapter);
-
-            }
-
-            if (resultCode == RESULT_CANCELED) {
-                // Write your code on no result return
-
-            }
-        }
+        // Call super.onActivityResult() to invoke onActivityResult of respective Fragments.
+        super.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
     @Override
     protected void onResume() {
@@ -488,16 +399,13 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         FeedbackPromptFragment.showFirstTimeFeedbackPromptIfPossible(this, getSupportFragmentManager());
     }
 
-
-
-
     @Override
     public void onBackPressed() {
 
         // Call Nav drawer onBackPressed to handle Nav Drawer related stuff
         navDrawer.onBackPressed();
 
-        //super.onBackPressed();
+        super.onBackPressed();
     }
 
     @Override

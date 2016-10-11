@@ -501,7 +501,6 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Constants.RC_OPEN_CONTACTBOOK_ACT) {
             if (resultCode == RESULT_OK) {
