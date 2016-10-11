@@ -109,16 +109,19 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 //    }
 
 
+    // Nav Drawer UI Components
     private int navItemIndex = 0;
-
     private NavDrawer navDrawer;
     private TabLayout tabLayout;
     private View rootView;
-    private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectListener = new NavigationView.OnNavigationItemSelectedListener(){
+
+    private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectLiActionstener = new NavigationView.OnNavigationItemSelectedListener(){
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
+            int itemId = item.getItemId();
+
             //Check to see which item was being clicked and perform appropriate action
-            switch (item.getItemId()) {
+            switch (itemId) {
                 //Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.nav_home:
                     navItemIndex = 0;
@@ -163,17 +166,11 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         }
     };
 
-    private NavigationView.OnNavigationItemSelectedListener navDrawerItemSelectLiActionstener = new NavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(MenuItem item) {
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Print App Hash Code (Signatures) in ADB logs. Used for App Hash on FB.
         Helpers.printAppSignatures(SUApplication.getContext());
 
         // Display Splash Screen on Application Load
@@ -184,31 +181,14 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
         setContentView(R.layout.activity_main);
 
-        //////////////////////////// Navigation Drawer Code ///////////////////////////////////////
-        // Invoke Navigation Drawer
-        rootView = findViewById(R.id.drawer_layout);
-        navDrawer = NavDrawer.getInstance();
-        navDrawer.initNavigationDrawer(SUApplication.getContext(), this, rootView);
-        navDrawer.setUpNavigationView(navDrawerItemSelectLiActionstener);
-
-        // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
-        navDrawer.setupToolbar(this, rootView);
-
-        ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-        // Setup Database
-        //bulksmsdb = DBHelper.getInstance();
+        // Navigation Drawer Initialization
+        initNavDrawerAndToolbar();
 
         // Create a new service client and bind our activity to this service
         scheduleClient = ScheduleClient.getInstance(this);
         scheduleClient.doBindService();
 
-        //dsdttmpick = new DateTimePicker(SUApplication.getContext());
-
-        // Register for callbacks from the fragments
-        //PlaceholderFragment.registerFragmentCallbacks(this);
-
+        // Display Ads
         displayAds();
 
         // Create the adapter that will return a fragment for each of the three
@@ -235,6 +215,18 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
             }
         });
 
+    }
+
+    private void initNavDrawerAndToolbar(){
+        // Invoke Navigation Drawer
+        rootView = findViewById(R.id.drawer_layout);
+        navDrawer = NavDrawer.getInstance();
+        navDrawer.initNavigationDrawer(SUApplication.getContext(), this, rootView);
+        navDrawer.setUpNavigationView(navDrawerItemSelectLiActionstener);
+
+
+        // Set up the ActionBar(Old Implementation) / ToolBar(New Implementation)
+        navDrawer.setupToolbar(this, rootView);
     }
 
     private void displayAds() {
@@ -286,8 +278,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
-            int position = tab.getPosition();
-            // Switch to view for this tab
+            //int position = tab.getPosition();
 
             hideVirtualKeyboard();
 
@@ -302,7 +293,6 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
         @Override
         public void onTabUnselected(TabLayout.Tab tab) {
-
             hideVirtualKeyboard();
         }
 
@@ -335,10 +325,8 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                 intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
                 intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
                 intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body));
-
                 startActivity(Intent.createChooser(intent, "Send Email"));
                 break;
-
 
             case R.id.action_send_promotional_email:
                 PromotionalHelpers.show_dialog_box_to_request_promotional_email();
@@ -358,7 +346,6 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
 
     private void rate_app_on_google_play_store() {
-
         // Show Rate App Dialog
         FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
 
@@ -416,12 +403,16 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
     @Override
     public void setStringSendBulkSMS(String strBtnText) {
+        // Set the text of button in FragmentSendBulkSMS
+        // Find Fragments via Tag and then getView() and setText() on it.
         Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
         ((Button) frag.getView().findViewById(R.id.imgbtn_SendBulkSMS)).setText(strBtnText);
     }
 
     @Override
     public void setRadioButtonState(boolean rdbtnEnabled) {
+        // Set the text of button in FragmentSendBulkSMS
+        // Find Fragments via Tag and then getView() and setChecked() on it.
         Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
         ((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
     }

@@ -27,7 +27,9 @@
             android:id="@+id/img_profile"
             android:layout_width="@dimen/profile_width"
             android:layout_height="@dimen/profile_height"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="left"
+            app:civ_selectorStrokeColor="@color/black"
+            app:civ_selectorStrokeWidth="@dimen/md_2dp_margin"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
             android:src="@drawable/ic_action_person" />
 

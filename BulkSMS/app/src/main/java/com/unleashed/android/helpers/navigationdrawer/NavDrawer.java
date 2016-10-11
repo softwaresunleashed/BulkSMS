@@ -100,23 +100,18 @@ public class NavDrawer {
         if(navDrawerItemSelectListener != null){
             navigationView.setNavigationItemSelectedListener(navDrawerItemSelectListener);
         }
-
     }
 
     public void closeDrawers(){
         drawer.closeDrawers();
     }
 
-
-
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers();
             return;
         }
-
     }
-
 
     public void setupToolbar(AppCompatActivity context, View rootView){
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
@@ -146,7 +141,6 @@ public class NavDrawer {
         actionBarDrawerToggle.syncState();
 
     }
-
 
     public ActionBar getAppActionBar(){
         return mActivityContext.getSupportActionBar();
