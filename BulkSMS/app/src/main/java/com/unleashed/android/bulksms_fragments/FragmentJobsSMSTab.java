@@ -65,7 +65,7 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        String fragTag = FRAGMENT_TAG_ + TAB_JOBS_SMS;
+        String fragTag = FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_JOBS_SMS.getValue();
         transaction.add(R.id.container_jobs_list, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////

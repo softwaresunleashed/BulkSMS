@@ -44,7 +44,7 @@ public class FragmentAboutAppTab extends PlaceholderFragment{
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        String fragTag = FRAGMENT_TAG_ + TAB_ABOUT_APP;
+        String fragTag = FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_ABOUT_APP.getValue();
         transaction.add(R.id.container_about_app, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////

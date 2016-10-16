@@ -32,7 +32,7 @@ import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.navigationdrawer.NavDrawer;
 
 import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.FRAGMENT_TAG_;
-import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.TAB_SEND_BULK_SMS;
+
 
 
 public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, IFragToFragDataPass {
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                 //Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.nav_home:
                     navItemIndex = 0;
-                    tabSelected(PlaceholderFragment.TAB_SEND_BULK_SMS);         // Switch to first tab
+                    tabSelected(PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());         // Switch to first tab
                     break;
 
                 case R.id.nav_tell_a_friend:
@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                     break;
 
                 case R.id.nav_about_us:
-                    tabSelected(PlaceholderFragment.TAB_ABOUT_APP);
+                    tabSelected(PlaceholderFragment.TABS.TAB_ABOUT_APP.getValue());
                     // launch new intent instead of loading fragment
                     //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
                     break;
@@ -393,6 +393,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         // Call Nav drawer onBackPressed to handle Nav Drawer related stuff
         navDrawer.onBackPressed();
 
+        // Call BaseActivity's onBackPressed() to handle double backkey press to exit app
         super.onBackPressed();
     }
 
@@ -406,15 +407,16 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     public void setStringSendBulkSMS(String strBtnText) {
         // Set the text of button in FragmentSendBulkSMS
         // Find Fragments via Tag and then getView() and setText() on it.
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
         ((Button) frag.getView().findViewById(R.id.imgbtn_SendBulkSMS)).setText(strBtnText);
+
     }
 
     @Override
     public void setRadioButtonState(boolean rdbtnEnabled) {
         // Set the text of button in FragmentSendBulkSMS
         // Find Fragments via Tag and then getView() and setChecked() on it.
-        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + TAB_SEND_BULK_SMS);
+        Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
         ((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
     }
 

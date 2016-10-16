@@ -90,7 +90,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        String fragTag = FRAGMENT_TAG_ + TAB_SEND_BULK_SMS;
+        String fragTag = FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue();
         transaction.add(R.id.container_send_bulk_sms, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
@@ -221,8 +221,8 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 // Code to shift to 'Set Reminder' tab.
                 radbtn_set_reminder.setChecked(true);
 
-                mTabLayoutCallbacks.tabSelected(1);                   // go to set reminder tab
-                //tabLayout.getTabAt(1).select();                     // go to set reminder tab
+                // go to set reminder tab
+                mTabLayoutCallbacks.tabSelected(PlaceholderFragment.TABS.TAB_REMINDER_SMS.getValue());
             }
         });
 
@@ -536,9 +536,17 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
             }
         }
-
-
-
     }
+
+
+
+    public Button getBtn_bulksms() {
+        return btn_bulksms;
+    }
+
+    public RadioButton getRadbtn_set_reminder() {
+        return radbtn_set_reminder;
+    }
+
 
 }

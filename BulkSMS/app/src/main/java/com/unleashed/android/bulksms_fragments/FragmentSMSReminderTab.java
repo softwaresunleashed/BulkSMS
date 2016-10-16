@@ -62,7 +62,7 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
         FragmentManager manager = getActivity().getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
-        String fragTag = FRAGMENT_TAG_ + TAB_REMINDER_SMS;
+        String fragTag = FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_REMINDER_SMS.getValue();
         transaction.add(R.id.container_reminder_bulk_sms, fragment, fragTag);
         transaction.commit();
         ////////////////////////////////////////////
@@ -93,17 +93,14 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
 
                 dsdttmpick.setInitialized(true);
 
+                String strBtnText = null;
                 try{
-                    String strBtnText = getResources().getString(R.string.btn_bulksms_set_reminder_text);
+                    strBtnText = getResources().getString(R.string.btn_bulksms_set_reminder_text);
                     strBtnText += String.valueOf(dsdttmpick.getDay()) + "-";
                     strBtnText += String.valueOf(dsdttmpick.getMonth()) + "-";
                     strBtnText += String.valueOf(dsdttmpick.getYear()) + ", ";
                     strBtnText += String.valueOf(dsdttmpick.getHh()) + ":";
                     strBtnText += String.valueOf(dsdttmpick.getMm());
-
-                    mFragCallback.setStringSendBulkSMS(strBtnText);
-//                    btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
-//                    btn_bulksms.setText(strBtnText);
 
 
                 }catch (Exception ex){
@@ -112,13 +109,13 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
                     //ex.printStackTrace();
                 }
 
-                mFragCallback.setRadioButtonState(true);
-//                radbtn_set_reminder.setChecked(true);   // set the radio button as selected.
+                // go to bulk sms tab
+                mTabLayoutCallbacks.tabSelected(PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
 
-                mTabLayoutCallbacks.tabSelected(0);     // go to bulk sms tab
-                //tabLayout.getTabAt(0).select();
+                mFragCallback.setStringSendBulkSMS(strBtnText);
 
-                //getSupportActionBar().setSelectedNavigationItem(0);
+                mFragCallback.setRadioButtonState(true);    // set the radio button as selected.
+
             }
         });
 
@@ -128,10 +125,7 @@ public class FragmentSMSReminderTab extends PlaceholderFragment {
             @Override
             public void onClick(View view) {
                 // Return to Bulk SMS Tab
-                mTabLayoutCallbacks.tabSelected(0);
-                //tabLayout.getTabAt(0).select();
-
-                //getSupportActionBar().setSelectedNavigationItem(0);
+                mTabLayoutCallbacks.tabSelected(PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
             }
         });
 
