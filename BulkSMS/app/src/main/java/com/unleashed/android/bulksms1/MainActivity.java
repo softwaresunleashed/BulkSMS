@@ -12,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.RadioButton;
 
 import com.appszoom.appszoomsdk.AppsZoom;
 import com.purplebrain.adbuddiz.sdk.AdBuddiz;
@@ -408,8 +406,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         // Set the text of button in FragmentSendBulkSMS
         // Find Fragments via Tag and then getView() and setText() on it.
         Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
-        ((Button) frag.getView().findViewById(R.id.imgbtn_SendBulkSMS)).setText(strBtnText);
-
+        //((Button) frag.getView().findViewById(R.id.imgbtn_SendBulkSMS)).setText(strBtnText);
     }
 
     @Override
@@ -417,7 +414,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         // Set the text of button in FragmentSendBulkSMS
         // Find Fragments via Tag and then getView() and setChecked() on it.
         Fragment frag = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_ + PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());
-        ((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
+        //((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
     }
 
 }

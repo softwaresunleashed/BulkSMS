@@ -211,6 +211,23 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             }
         });
 
+        // Enabling scrollbars inside edit text view
+        et_sms_msg.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (event.getAction()&MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+
+                return false;
+            }
+        });
+
         // Radio Button Group and its member radio buttons
         radgrp = (RadioGroup)localView.findViewById(R.id.radgrp_reminder);
         radbtn_set_reminder = (RadioButton)localView.findViewById(R.id.radbtn_setreminder);
@@ -369,7 +386,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 // Finally Send SMS to all numbers in list view
                 smsOperation.sendTextMessage(phoneNumber, null, smsMesg, sentPI, deliveredPI);
 
-                btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
+                //btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
 
 
                 if(getResources().getInteger(R.integer.free_version_code)==1){
@@ -409,7 +426,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 try {
                     sms_sent.acquire();            // wait here till semaphore is released from thread
 
-                    btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
+                    //btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
 
                     // Clean Phone Contacts list view after sending sms.
                     int count = mContactsSelectedList.size();
