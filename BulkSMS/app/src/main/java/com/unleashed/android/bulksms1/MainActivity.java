@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -33,7 +32,7 @@ import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.FRAGME
 
 
 
-public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, IFragToFragDataPass {
+public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, IFragToFragDataPass, View.OnClickListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -127,14 +126,17 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 
                 case R.id.nav_tell_a_friend:
                     navItemIndex = 1;
+                    PromotionalHelpers.tell_a_friend_via_personal_email(SUApplication.getContext());
                     break;
 
                 case R.id.nav_promote_app:
+                    PromotionalHelpers.show_dialog_box_to_request_promotional_email();
                     navItemIndex = 2;
                     break;
 
                 case R.id.nav_rate_us:
                     navItemIndex = 3;
+                    rate_app_on_google_play_store();
                     break;
 
                 case R.id.nav_settings:
@@ -142,7 +144,8 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                     break;
 
                 case R.id.nav_exit:
-                    navItemIndex = 4;
+                    navItemIndex = 5;
+                    finish();
                     break;
 
                 case R.id.nav_about_us:
@@ -214,7 +217,27 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
             }
         });
 
+//        initSwipeMenu();
+
     }
+
+//    private void initSwipeMenu() {
+////        https://github.com/SpecialCyCi/AndroidResideMenu
+//        // attach to current activity;
+//        ResideMenu resideMenu = new ResideMenu(this);
+//        resideMenu.setBackground(R.drawable.nav_header_bg);
+//        resideMenu.attachToActivity(this);
+//
+//        // create menu items;
+//        String titles[] = { "Home", "Profile", "Calendar", "Settings" };
+//        int icon[] = { R.drawable.ic_action_person, R.drawable.ic_action_person, R.drawable.ic_action_person, R.drawable.ic_action_person };
+//
+//        for (int i = 0; i < titles.length; i++){
+//            ResideMenuItem item = new ResideMenuItem(this, icon[i], titles[i]);
+//            item.setOnClickListener(this);
+//            resideMenu.addMenuItem(item,  ResideMenu.DIRECTION_LEFT); // or  ResideMenu.DIRECTION_RIGHT
+//        }
+//    }
 
     private void initNavDrawerAndToolbar(){
         // Invoke Navigation Drawer
@@ -302,46 +325,41 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     };
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.menu_main, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-
-        switch (id){
-            case R.id.action_tell_a_friend_via_email:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
-                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body));
-                startActivity(Intent.createChooser(intent, "Send Email"));
-                break;
-
-            case R.id.action_send_promotional_email:
-                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
-                break;
-
-            case R.id.action_rate_app_on_google_play_store:
-                rate_app_on_google_play_store();
-                break;
-
-            case R.id.action_exit:
-                finish();
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle action bar item clicks here. The action bar will
+//        // automatically handle clicks on the Home/Up button, so long
+//        // as you specify a parent activity in AndroidManifest.xml.
+//        int id = item.getItemId();
+//
+//
+//        switch (id){
+//            case R.id.action_tell_a_friend_via_email:
+//                PromotionalHelpers.tell_a_friend_via_personal_email(this);
+//                break;
+//
+//            case R.id.action_send_promotional_email:
+//                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
+//                break;
+//
+//            case R.id.action_rate_app_on_google_play_store:
+//                rate_app_on_google_play_store();
+//                break;
+//
+//            case R.id.action_exit:
+//                finish();
+//                break;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
 
     private void rate_app_on_google_play_store() {
@@ -417,5 +435,33 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         //((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
     }
 
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+
+        switch (id){
+            case R.id.action_tell_a_friend_via_email:
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/html");
+                intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
+                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
+                intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body));
+                startActivity(Intent.createChooser(intent, "Send Email"));
+                break;
+
+            case R.id.action_send_promotional_email:
+                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
+                break;
+
+            case R.id.action_rate_app_on_google_play_store:
+                rate_app_on_google_play_store();
+                break;
+
+            case R.id.action_exit:
+                finish();
+                break;
+        }
+    }
 }
 

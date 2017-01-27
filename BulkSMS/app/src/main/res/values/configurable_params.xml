@@ -10,9 +10,9 @@
 
 
     <string name="app_name">Bulk SMS</string>
-    <integer name="versionCode">10</integer>
+    <integer name="versionCode">11</integer>
     <string name="versionName">@string/app_version</string>
-    <string name="app_version">Version ( v2.1 ) 2015-08-10</string>
+    <string name="app_version">Version ( v2.2 ) 2017-02-10</string>
 
     <string name="version_history">
         "\n" "Version History :"
@@ -29,6 +29,7 @@
         "\n" "v1.9_2015-08-06 : Bulk SMS Reminder finished. Releasing a test version."
         "\n" "v2.0_2015-08-08 : Version 2.0 Launched. Major UI change for better UX (User Experience). Bulk SMS Reminder available in free version too. Limit - 5 recipients max."
         "\n" "v2.1_2015-08-10 : Version 2.1 Launched. Major UI change for better UX (User Experience). Bulk SMS Reminder available in free version too. Limit - 5 recipients max. Added Contact Search for easy Phone Contacts selection"
+        "\n" "v2.2_2017-02-10 : Version 2.2 Major UI change for better with cool UI animation effects."
     </string>
 
     <string name="app_about">
@@ -46,7 +47,7 @@
     </string>
 
 
-    <string name="email_subject">New Android App -- Bulk SMS v2.1 (with Reminder &amp; Search Contacts  feature) -- Newly Launched!!!</string>
+    <string name="email_subject">New Android App -- Bulk SMS v2.2 (Complete UI revamp) -- Newly Launched!!!</string>
     <string name="email_body">
         "Dear Friend,"
         "\n\n" "Hope this mail finds you in great health!!"

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.unleashed.android.bulksms1"
     android:versionCode="10"
-    android:versionName="@string/versionName" >
+    android:versionName="@string/versionName">
 
     <uses-sdk android:minSdkVersion="16" />
 
@@ -44,7 +45,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon">
 
         <!-- This meta-data tag is required to use Google Play Services. -->
         <meta-data

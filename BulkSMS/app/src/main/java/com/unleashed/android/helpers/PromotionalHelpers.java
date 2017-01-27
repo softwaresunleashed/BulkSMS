@@ -3,6 +3,7 @@ package com.unleashed.android.helpers;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AlertDialog;
@@ -60,11 +61,22 @@ public class PromotionalHelpers {
         alert.show();
     }
 
+    public static void tell_a_friend_via_personal_email(Context context){
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/html");
+        intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, context.getResources().getString(R.string.email_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, context.getResources().getString(R.string.email_body));
+        context.startActivity(Intent.createChooser(intent, "Send Email"));
+
+    }
+
     private static void sendAnonymousMail(Context context) {
 
         try {
             final String User = "promotions.softwaresunleashed";        // write only user name....no need of @gmail.com
-            final String Pass = "9211hacker";
+            final String Pass = "!9211hacker";
             final String Subject = context.getResources().getString(R.string.email_subject);//"Bulk SMS Launched!!";
             final String EmailBody = context.getResources().getString(R.string.email_body);
 
