@@ -83,10 +83,4 @@ public class PlaceholderFragment extends BaseFragment {
 
     }
 
-
-
-
-
-
-
 }

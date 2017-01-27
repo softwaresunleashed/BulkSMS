@@ -75,7 +75,18 @@ android {
         // For @Nullable/@NonNull
         compile 'com.android.support:support-annotations:+'
 
+        // Android UI Libs //
 
+        // For Sliding Menu Bar
+        // compile 'com.specyci:residemenu:1.6+'
+
+        // View Animation Effects
+        compile 'com.nineoldandroids:library:2.4.0'
+        compile 'com.daimajia.easing:library:1.0.1@aar'
+        compile 'com.daimajia.androidanimations:library:1.1.3@aar'
+
+        // Sweet Alert Dialog
+        compile 'cn.pedant.sweetalert:library:1.3'
     }
 
 apply plugin: 'com.google.gms.google-services'
