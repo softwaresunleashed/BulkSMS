@@ -39,7 +39,7 @@
                 android:layout_height="fill_parent"
                 android:layout_below="@+id/imgView_Banner"
                 android:id="@+id/scrollView_about_app"
-                android:layout_margin="20dp">
+                android:layout_margin="5dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
