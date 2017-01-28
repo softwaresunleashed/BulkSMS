@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.unleashed.android.bulksms1.AboutApp;
@@ -36,6 +38,17 @@ public class FragmentAboutAppTab extends PlaceholderFragment{
 
         return rootView;
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Start Animations on opening About Tab
+        YoYo.with(Techniques.SlideInUp).duration(2000).playOn(lbl_version_number);
+        YoYo.with(Techniques.SlideInUp).duration(2000).playOn(lbl_version_history);
+        YoYo.with(Techniques.SlideInUp).duration(2000).playOn(lbl_about_app);
     }
 
     private void initAboutAppTab(View localView) {

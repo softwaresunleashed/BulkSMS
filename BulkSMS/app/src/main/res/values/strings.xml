@@ -39,7 +39,7 @@
     <string name="name">Name</string>
     <string name="number">Phone Number</string>
 
-    <string name="copyright_disclaimer"> Copyright © 2015, Softwares Unleashed Inc. \n email: softwares.unleashed@gmail.com  \n url: www.softwaresunleashed.com</string>
+    <string name="copyright_disclaimer"> Copyright © 2017, Softwares Unleashed Inc. \n email: softwares.unleashed@gmail.com  \n url: www.softwaresunleashed.com</string>
 
     <string name="test_device_id">41001a3e2e05b000</string>
 
@@ -136,6 +136,11 @@
     <string name="validation_field_digits">This field can contain only numbers</string>
     <string name="validation_phone_less_than_10">Phone number must be of 10-digits</string>
     <string name="validation_field_required">This field is required</string>
+
+    <string name="remove_contact_from_list_title">Remove Contact</string>
+    <string name="remove_contact_from_list_content">Are you sure you want to remove this contact from list ??</string>
+    <string name="btn_text_delete">Delete</string>
+    <string name="btn_text_cancel">Cancel</string>
 
 
 

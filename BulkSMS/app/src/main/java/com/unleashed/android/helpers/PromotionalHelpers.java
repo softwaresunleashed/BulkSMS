@@ -2,21 +2,21 @@ package com.unleashed.android.helpers;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.provider.ContactsContract;
-import android.support.v7.app.AlertDialog;
 
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;
-import com.unleashed.android.sendemail.Mail;
+import com.unleashed.android.helpers.sendemail.Mail;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by Sudhanshu on 09/10/16.
@@ -24,41 +24,47 @@ import java.util.regex.Pattern;
 
 public class PromotionalHelpers {
 
-    public static void show_dialog_box_to_request_promotional_email() {
+    public static void show_dialog_box_to_request_promotional_email(Context context) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(SUApplication.getContext());
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setIcon(R.drawable.bulksmsapplogo);
-        builder.setCancelable(true);
-        builder.setTitle("Bulk SMS Promotion: We need a favor from you!!");
-        builder.setMessage(R.string.dialog_request_promotional_email_msg);
-
-        builder.setPositiveButton(R.string.confirm_msg, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Send Email to all contacts.
-
-                // Ad Mail
-                Thread thrSendEmail = new Thread() {
+        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Bulk SMS Promotion")
+                .setContentText(context.getResources().getString(R.string.dialog_request_promotional_email_msg))
+                .setConfirmText(context.getResources().getString(R.string.confirm_msg))
+                .setCancelText(context.getResources().getString(R.string.deny_msg))
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void run() {
-                        super.run();
-                        sendAnonymousMail(SUApplication.getContext());
+                    public void onClick(SweetAlertDialog sDialog) {
+
+                        // Send Email to all contacts.
+                        // Ad Mail
+                        Thread thrSendEmail = new Thread() {
+                            @Override
+                            public void run() {
+                                super.run();
+                                sendAnonymousMail(SUApplication.getContext());
+                            }
+                        };
+                        thrSendEmail.start();
+
+
+                        sDialog
+                            .setTitleText("Sending Promo Email!")
+                            .setContentText("Thanks for taking time out to share our good work with your friends.")
+                            .setConfirmText("OK")
+                            .setConfirmClickListener(null)
+                            .showCancelButton(false)
+                            .setCancelClickListener(null)
+                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                     }
-                };
-                thrSendEmail.start();
-            }
-        });
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
 
-        builder.setNegativeButton(R.string.deny_msg, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 
     public static void tell_a_friend_via_personal_email(Context context){

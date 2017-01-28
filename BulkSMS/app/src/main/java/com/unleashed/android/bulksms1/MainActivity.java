@@ -32,7 +32,8 @@ import static com.unleashed.android.bulksms_fragments.PlaceholderFragment.FRAGME
 
 
 
-public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, IFragToFragDataPass, View.OnClickListener {
+public class MainActivity extends BaseActivity
+        implements ITabLayoutCallbacks, IFragToFragDataPass {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -54,10 +55,10 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
     private ScheduleClient scheduleClient;
 
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
 //        //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
 //        //AppsZoom.showAd(this);
 //        AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
@@ -66,7 +67,7 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 //                AppsZoom.showAd(MainActivity.this);
 //            }
 //        });
-//    }
+    }
 
     @Override
     protected void onStop() {
@@ -90,10 +91,10 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         }
     }
 
-//    @Override
-//    protected void onPostResume() {
-//        super.onPostResume();
-//
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
 //        //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
 //        //AppsZoom.showAd(this);
 //        AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
@@ -102,11 +103,10 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
 //                AppsZoom.showAd(MainActivity.this);
 //            }
 //        });
-//    }
+    }
 
 
     // Nav Drawer UI Components
-    private int navItemIndex = 0;
     private NavDrawer navDrawer;
     private TabLayout tabLayout;
     private View rootView;
@@ -120,31 +120,25 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
             switch (itemId) {
                 //Replacing the main content with ContentFragment Which is our Inbox View;
                 case R.id.nav_home:
-                    navItemIndex = 0;
                     tabSelected(PlaceholderFragment.TABS.TAB_SEND_BULK_SMS.getValue());         // Switch to first tab
                     break;
 
                 case R.id.nav_tell_a_friend:
-                    navItemIndex = 1;
-                    PromotionalHelpers.tell_a_friend_via_personal_email(SUApplication.getContext());
+                    PromotionalHelpers.tell_a_friend_via_personal_email(MainActivity.this);
                     break;
 
                 case R.id.nav_promote_app:
-                    PromotionalHelpers.show_dialog_box_to_request_promotional_email();
-                    navItemIndex = 2;
+                    PromotionalHelpers.show_dialog_box_to_request_promotional_email(MainActivity.this);
                     break;
 
                 case R.id.nav_rate_us:
-                    navItemIndex = 3;
                     rate_app_on_google_play_store();
                     break;
 
                 case R.id.nav_settings:
-                    navItemIndex = 4;
                     break;
 
                 case R.id.nav_exit:
-                    navItemIndex = 5;
                     finish();
                     break;
 
@@ -154,14 +148,8 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
                     //startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
                     break;
 
-                case R.id.nav_privacy_policy:
-                    // launch new intent instead of loading fragment
-                    //startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
-
-                    break;
-
                 default:
-                    navItemIndex = 0;
+
             }
             navDrawer.closeDrawers();
             return true;
@@ -435,33 +423,33 @@ public class MainActivity extends BaseActivity implements ITabLayoutCallbacks, I
         //((RadioButton) frag.getView().findViewById(R.id.radbtn_setreminder)).setChecked(true);
     }
 
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-
-
-        switch (id){
-            case R.id.action_tell_a_friend_via_email:
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/html");
-                intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
-                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
-                intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body));
-                startActivity(Intent.createChooser(intent, "Send Email"));
-                break;
-
-            case R.id.action_send_promotional_email:
-                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
-                break;
-
-            case R.id.action_rate_app_on_google_play_store:
-                rate_app_on_google_play_store();
-                break;
-
-            case R.id.action_exit:
-                finish();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        int id = v.getId();
+//
+//
+//        switch (id){
+//            case R.id.action_tell_a_friend_via_email:
+//                Intent intent = new Intent(Intent.ACTION_SEND);
+//                intent.setType("text/html");
+//                intent.putExtra(Intent.EXTRA_EMAIL, "softwares.unleashed@gmail.com");
+//                intent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.email_subject));
+//                intent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.email_body));
+//                startActivity(Intent.createChooser(intent, "Send Email"));
+//                break;
+//
+//            case R.id.action_send_promotional_email:
+//                PromotionalHelpers.show_dialog_box_to_request_promotional_email(this);
+//                break;
+//
+//            case R.id.action_rate_app_on_google_play_store:
+//                rate_app_on_google_play_store();
+//                break;
+//
+//            case R.id.action_exit:
+//                finish();
+//                break;
+//        }
+//    }
 }
 

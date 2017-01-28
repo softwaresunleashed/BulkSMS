@@ -4,7 +4,6 @@ package com.unleashed.android.bulksms_fragments;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -49,6 +47,8 @@ import com.unleashed.android.helpers.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -130,42 +130,76 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Context cntx = SUApplication.getContext();//getActivity(); //getBaseContext(); //getApplication();
-                final CharSequence[] items = {"Delete", "Cancel"};
+                Context context = getActivity();//SUApplication.getContext();//getActivity(); //getBaseContext(); //getApplication();
                 final int pos = position;
 
+                new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText(context.getResources().getString(R.string.remove_contact_from_list_title))
+                        .setContentText(context.getResources().getString(R.string.remove_contact_from_list_content))
+                        .setConfirmText(context.getResources().getString(R.string.btn_text_delete))
+                        .setCancelText(context.getResources().getString(R.string.btn_text_cancel))
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
-                builder.setIcon(R.drawable.bulksmsapplogo);
-                builder.setCancelable(true);
-                builder.setTitle("Action:");
-
-
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        //String strPhnRec = (String) lv_PhnNums.getItemAtPosition(position);
-
-                        switch (item) {
-
-                            case 0: // "Delete"
+                                // Remove contact from list.
                                 mContactsSelectedList.remove(pos);
                                 mContactsSelectedAdapter = getContactsSelectedAdapter();
                                 mContactsSelectedAdapter.notifyDataSetChanged();
                                 //lv_PhnNums.setAdapter(mContactsSelectedAdapter);
                                 //mContactsSelectedAdapter.notifyDataSetChanged();
-                                break;
 
-                            case 1: // "Cancel"
-                                dialog.dismiss();
-                                //Sudhanshu
-                                //closeContextMenu();
-                                break;
-                        }
-                    }
-                });
+                                sDialog
+                                        .setTitleText("Contact Removed!")
+                                        .setContentText("Contact removed from list.")
+                                        .setConfirmText("OK")
+                                        .setConfirmClickListener(null)
+                                        .showCancelButton(false)
+                                        .setCancelClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                            }
+                        })
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .show();
 
-                AlertDialog alert = builder.create();
-                alert.show();
+
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(cntx);
+//                builder.setIcon(R.drawable.bulksmsapplogo);
+//                builder.setCancelable(true);
+//                builder.setTitle("Action:");
+//
+//
+//                builder.setItems(items, new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int item) {
+//                        //String strPhnRec = (String) lv_PhnNums.getItemAtPosition(position);
+//
+//                        switch (item) {
+//
+//                            case 0: // "Delete"
+//                                mContactsSelectedList.remove(pos);
+//                                mContactsSelectedAdapter = getContactsSelectedAdapter();
+//                                mContactsSelectedAdapter.notifyDataSetChanged();
+//                                //lv_PhnNums.setAdapter(mContactsSelectedAdapter);
+//                                //mContactsSelectedAdapter.notifyDataSetChanged();
+//                                break;
+//
+//                            case 1: // "Cancel"
+//                                dialog.dismiss();
+//                                //Sudhanshu
+//                                //closeContextMenu();
+//                                break;
+//                        }
+//                    }
+//                });
+//
+//                AlertDialog alert = builder.create();
+//                alert.show();
 
                 return false;
             }
@@ -391,7 +425,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
                 if(getResources().getInteger(R.integer.free_version_code)==1){
                     // Show dialog box to request access to sending promotional email
-                    PromotionalHelpers.show_dialog_box_to_request_promotional_email();
+                    PromotionalHelpers.show_dialog_box_to_request_promotional_email(getActivity());
                 }
 
                 // Display msg for "Sending SMS"
@@ -543,7 +577,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                     mContactsSelectedList.add(rowItem.getPhoneUserName() + "  <" + rowItem.getPhoneNumber() + ">");
                 }
                 // Use mContactsSelectedList to create an adapter to be used to fill the list view.
-                mContactsSelectedAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_list_item_1, mContactsSelectedList);
+                mContactsSelectedAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), R.layout.layout_selected_contacts, mContactsSelectedList);
                 lv_PhnNums.setAdapter(mContactsSelectedAdapter);
 
             }

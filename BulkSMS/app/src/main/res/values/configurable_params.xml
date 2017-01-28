@@ -35,10 +35,10 @@
     <string name="app_about">
              "\n\n"
             "BULK SMS is aimed at users who wish to send one single message to huge number of recipients."
-            "\n""How is it different from regular sms apps already available ? (You may ask). "
-            "\n""Well, Bulk SMS v2.0 app provides you a feature where in you can set reminders (date,time) to send Birthday, Anniversary, Festive greetings to one or more recipients."
+            "\n\n""How is it different from regular sms apps already available ? (You may ask). "
+            "\n\n""Well, Bulk SMS v2.0 app provides you a feature where in you can set reminders (date,time) to send Birthday, Anniversary, Festive greetings to one or more recipients."
             "You have to set the Recipient, Message, Date &amp; Time, and leave rest to Bulk SMS app to take care of sending the message on appropriate Date and Time."
-            "\n""Bulk SMS Reminder feature works even after you restart your phone."
+            "\n\n""Bulk SMS Reminder feature works even after you restart your phone."
             "\n\n""We would love to hear from you, your feedback, suggestions &amp; bugs(if any) to make Bulk SMS even better."
             "\n""e-mail: softwares.unleashed@gmail.com"
             "\n""Visit us @ www.softwaresunleashed.com"
