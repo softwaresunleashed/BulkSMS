@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.BuildConfig;
-import com.unleashed.android.bulksms1.MainActivity;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.logger.Logger;

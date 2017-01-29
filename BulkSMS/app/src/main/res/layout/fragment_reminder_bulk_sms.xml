@@ -14,7 +14,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/md_60dp_margin">
 
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView_reminder_bulk_sms_tab"
@@ -34,48 +35,43 @@
                 android:id="@+id/imgView_Banner"
                 android:layout_gravity="center_horizontal" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:text="@string/title_set_date_time"
+                android:id="@+id/lbl_setDatenTime"
+                android:textStyle="bold|italic"
+                android:typeface="serif"
+                android:layout_marginTop="10dp"
+                android:gravity="left"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center" />
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/scrollView_sms_reminder">
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                        android:text="@string/title_set_date_time"
-                        android:id="@+id/lbl_setDatenTime"
-                        android:textStyle="bold|italic"
-                        android:typeface="serif"
-                        android:layout_marginTop="10dp"
-                        android:gravity="left"
-                        android:textColor="@color/black"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_gravity="center" />
-
-
-                    <DatePicker
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/datePicker"
-                        android:layout_gravity="center"
-                        android:layout_margin="10dp"
-                        android:padding="5dp"
-                        android:background="@drawable/date_time_picker_bg"
-                        android:calendarViewShown="false"
-                        android:datePickerMode="spinner" />
-
                     <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3">
+                        android:layout_weight="2">
+
+                        <DatePicker
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/datePicker"
+                            android:layout_gravity="center"
+                            android:layout_margin="10dp"
+                            android:padding="5dp"
+                            android:background="@drawable/date_time_picker_bg"
+                            android:calendarViewShown="false"
+                            android:layout_weight="1"
+                            android:datePickerMode="spinner" />
 
                         <TimePicker
                             android:layout_width="wrap_content"
@@ -85,40 +81,40 @@
                             android:padding="5dp"
                             android:layout_gravity="center"
                             android:background="@drawable/date_time_picker_bg"
+                            android:layout_weight="1"
                             android:timePickerMode="spinner" />
-
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_margin="15dp"
-                            android:weightSum="2">
-
-                            <Button
-                                style="?android:attr/buttonStyleSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Done "
-                                android:id="@+id/btn_setSchedule"
-                                android:background="@drawable/button_states"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1" />
-
-                            <Button
-                                style="?android:attr/buttonStyleSmall"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Cancel"
-                                android:id="@+id/btn_cancelReminder"
-                                android:background="@drawable/button_states"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1" />
-                        </LinearLayout>
 
                     </LinearLayout>
 
-                </LinearLayout>
             </ScrollView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:weightSum="2">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Done"
+                android:id="@+id/btn_setSchedule"
+                android:background="@drawable/button_states"
+                android:layout_margin="5dp"
+                android:layout_weight="1" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/btn_cancelReminder"
+                android:background="@drawable/button_states"
+                android:layout_margin="5dp"
+                android:layout_weight="1" />
         </LinearLayout>
     </FrameLayout>
 

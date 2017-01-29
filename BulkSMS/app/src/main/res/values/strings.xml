@@ -137,6 +137,8 @@
     <string name="validation_phone_less_than_10">Phone number must be of 10-digits</string>
     <string name="validation_field_required">This field is required</string>
 
+
+    <!--Dialog Box strings-->
     <string name="remove_contact_from_list_title">Remove Contact</string>
     <string name="remove_contact_from_list_content">Are you sure you want to remove this contact from list ??</string>
     <string name="btn_text_delete">Delete</string>
