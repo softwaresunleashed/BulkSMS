@@ -90,7 +90,7 @@ android {
 
         // Ripple Effect Library
         // compile 'com.github.traex.rippleeffect:library:1.3'
-        compile 'com.balysv:material-ripple:1.0.2'
+        // compile 'com.balysv:material-ripple:1.0.2'
     }
 
 apply plugin: 'com.google.gms.google-services'

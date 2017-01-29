@@ -2,6 +2,7 @@ package com.unleashed.android.bulksms1;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -135,7 +136,8 @@ public class MainActivity extends BaseActivity
                     rate_app_on_google_play_store();
                     break;
 
-                case R.id.nav_settings:
+                case R.id.nav_buy_premium:
+                    buy_premium_app_on_google_play_store();
                     break;
 
                 case R.id.nav_exit:
@@ -313,43 +315,6 @@ public class MainActivity extends BaseActivity
     };
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//
-//        switch (id){
-//            case R.id.action_tell_a_friend_via_email:
-//                PromotionalHelpers.tell_a_friend_via_personal_email(this);
-//                break;
-//
-//            case R.id.action_send_promotional_email:
-//                PromotionalHelpers.show_dialog_box_to_request_promotional_email();
-//                break;
-//
-//            case R.id.action_rate_app_on_google_play_store:
-//                rate_app_on_google_play_store();
-//                break;
-//
-//            case R.id.action_exit:
-//                finish();
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
-
     private void rate_app_on_google_play_store() {
         // Show Rate App Dialog
         FeedbackPromptFragment.showFeedbackPromptIfPossible(this, getSupportFragmentManager());
@@ -361,6 +326,16 @@ public class MainActivity extends BaseActivity
 //            startActivity(openPlayStore);
 //        else
 //            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+
+    }
+
+    private void buy_premium_app_on_google_play_store(){
+        final String appPackageName = "com.unleashed.android.bulksms2";     //point to paid version of app on playstore.
+        final Intent openPlayStore = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+        if (Helpers.hasHandlerForIntent(openPlayStore))
+            startActivity(openPlayStore);
+        else
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
 
     }
 

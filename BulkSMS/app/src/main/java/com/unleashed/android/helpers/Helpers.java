@@ -805,7 +805,7 @@ public class Helpers {
 
     }
 
-    private static boolean hasHandlerForIntent(Intent intent)
+    public static boolean hasHandlerForIntent(Intent intent)
     {
         return SUApplication.getContext().getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size() > 0;
     }
