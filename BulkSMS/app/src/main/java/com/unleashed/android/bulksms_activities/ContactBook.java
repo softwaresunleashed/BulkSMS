@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -409,7 +408,6 @@ public class ContactBook extends BaseActivity implements  View.OnClickListener, 
                item.setState(true);        //ie. item is selected.
 
                if(lv_phonerecords.getChildAt(i) != null){
-                   lv_phonerecords.getChildAt(i).setBackgroundColor(Color.LTGRAY);
 
                    chkbox_phnEntrySelected = (CheckBox)lv_phonerecords.getChildAt(i).findViewById(R.id.checkBox_phonebookcontact);
                    chkbox_phnEntrySelected.setChecked(true);
@@ -444,7 +442,6 @@ public class ContactBook extends BaseActivity implements  View.OnClickListener, 
             item.setState(false);        //ie. item is NOT selected.
             // Only update the entries which are visible
             if(lv_phonerecords.getChildAt(i) != null){
-                lv_phonerecords.getChildAt(i).setBackgroundColor(Color.WHITE);
 
                 chkbox_phnEntrySelected = (CheckBox)lv_phonerecords.getChildAt(i).findViewById(R.id.checkBox_phonebookcontact);
                 chkbox_phnEntrySelected.setChecked(false);

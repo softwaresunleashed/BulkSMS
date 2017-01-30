@@ -103,7 +103,7 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
                 int number = refresh_job_list();
 
                 if (number == 0)
-                    Helpers.displayToast("No Pending Jobs to display.");
+                    Helpers.displayToast("No Pending Messages to be sent.");
 
             }
         });
