@@ -34,6 +34,7 @@ import com.google.android.gms.ads.AdView;
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.bulksms_activities.ContactBook;
+import com.unleashed.android.bulksmsvendors.Msg91Com;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
@@ -62,6 +63,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
     // Handles to UI Controls on "Send Bulk SMS Tab"
     private Button btn_bulksms;
+    private Button btn_bulksmsMSG91;
     private TextView lbl_sms_char_counter;
     private ImageButton imgbtn_selectcontacts;
     private ListView lv_PhnNums;        // List view to hold selected numbers.
@@ -209,6 +211,10 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         // Send bulk sms button
         btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
         btn_bulksms.setOnClickListener(this);
+
+        // Send bulk sms button via MSG91
+        btn_bulksmsMSG91 = (Button)localView.findViewById(R.id.imgbtn_SendMSG91);
+        btn_bulksmsMSG91.setOnClickListener(this);
 
         // Select contacts button
         imgbtn_selectcontacts = (ImageButton)localView.findViewById(R.id.imgbtn_SelectContacts);
@@ -544,6 +550,11 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             case R.id.imgbtn_SendBulkSMS:
                 ComposeAndSendMessage();
                 FeedbackPromptFragment.showFeedbackPromptIfPossible(SUApplication.getContext(), getActivity().getSupportFragmentManager());
+                break;
+
+            case R.id.imgbtn_SendMSG91:
+                Msg91Com msg91Com = new Msg91Com();
+                msg91Com.SendMessage();
                 break;
 
         }

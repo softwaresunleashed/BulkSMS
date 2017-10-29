@@ -15,6 +15,7 @@
 
 
     <string name="btn_bulksms_send_now_text">Send Now</string>
+    <string name="btn_bulksms_send_now_msg91text">Send Now via MSG91</string>
     <string name="btn_bulksms_set_reminder_text">Send : </string>
 
 

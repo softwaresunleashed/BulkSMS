@@ -11,17 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.kyleduo.switchbutton.SwitchButton;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.expandablelistview.ExpandableListAdapter;
 import com.unleashed.android.helpers.Helpers;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
+import com.unleashed.android.helpers.widgets.ToggleExpandLayout.ToggleExpandLayout;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -89,6 +92,9 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
         });
 
 
+        initializeExpandableLayout(localView);
+
+
         if (refresh_list_flag == 0) {
             refresh_job_list();
             refresh_list_flag = 1;
@@ -132,6 +138,60 @@ public class FragmentJobsSMSTab extends PlaceholderFragment {
 //
 //        }
 //
+    }
+
+    private void initializeExpandableLayout(View localView) {
+        //        ToggleExpandLayout implementation
+        final ToggleExpandLayout layout = (ToggleExpandLayout) localView.findViewById(R.id.toogleLayout);
+        SwitchButton switchButton = (SwitchButton) localView.findViewById(R.id.switch_button);
+
+
+        layout.setOnToggleTouchListener(new ToggleExpandLayout.OnToggleTouchListener() {
+            @Override
+            public void onStartOpen(int height, int originalHeight) {
+
+            }
+
+            @Override
+            public void onOpen() {
+                int childCount = layout.getChildCount();
+                for(int i = 0; i < childCount; i++) {
+                    View view = layout.getChildAt(i);
+                    //view.setElevation(Helpers.dpToPx(SUApplication.getContext(), 1));
+                }
+
+            }
+
+            @Override
+            public void onStartClose(int height, int originalHeight) {
+                int childCount = layout.getChildCount();
+                for(int i = 0; i < childCount; i++) {
+                    View view = layout.getChildAt(i);
+                    //view.setElevation(Helpers.dpToPx(SUApplication.getContext(), i));
+                }
+            }
+
+            @Override
+            public void onClosed() {
+
+            }
+        });
+
+        switchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layout.open();
+                } else {
+                    layout.close();
+                }
+            }
+        });
+
+
+
+
+
     }
 
     private int refresh_job_list(){

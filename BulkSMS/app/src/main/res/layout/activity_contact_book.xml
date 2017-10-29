@@ -3,7 +3,7 @@
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
-    tools:context="com.unleashed.android.bulksms.ContactBook"
+    tools:context="com.unleashed.android.bulksms_activities.ContactBook"
     android:id="@+id/rel_layout_activity_contact_book"
     style="@style/Theme.AppCompat.Light.DarkActionBar" >
 
@@ -117,11 +117,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/border_round_corners"
                 android:layout_weight="1" />
-
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 </RelativeLayout>
