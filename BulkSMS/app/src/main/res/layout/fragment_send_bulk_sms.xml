@@ -69,6 +69,36 @@
 
                             <LinearLayout
                                 android:orientation="horizontal"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/LinearLayout_AddContacts"
+                                android:layout_marginBottom="10dp"
+                                android:layout_gravity="center"
+                                android:weightSum="2">
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btn_SelectContacts"
+                                    android:text="Add Recipient"
+                                    android:drawableLeft="@drawable/ic_contacts"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/button_states"
+                                    android:layout_gravity="center" />
+
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btn_CreateGroup"
+                                    android:text="Add to Group..."
+                                    android:drawableLeft="@drawable/ic_group_add"
+                                    android:layout_marginRight="5dp"
+                                    android:background="@drawable/button_states"
+                                    android:layout_gravity="center" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:orientation="horizontal"
                                 android:layout_width="match_parent"
                                 android:layout_height="100dp"
                                 android:id="@+id/LinearLayout_ContactInfo"
@@ -84,17 +114,6 @@
                                     android:layout_margin="4dp"
                                     android:background="@drawable/border_round_corners"
                                     android:padding="1dp" />
-
-
-                                <ImageButton
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/imgbtn_SelectContacts"
-                                    android:src="@drawable/select_users"
-                                    android:layout_marginRight="5dp"
-                                    android:background="@drawable/button_states"
-                                    android:layout_gravity="center" />
-
                             </LinearLayout>
 
                             <TextView
@@ -160,7 +179,7 @@
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/imgbtn_SendBulkSMS"
+                                android:id="@+id/btn_SendBulkSMS"
                                 android:src="@drawable/btnbulksms3"
                                 android:background="@drawable/button_states"
                                 android:layout_gravity="center"
@@ -201,7 +220,7 @@
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/imgbtn_SendMSG91"
+                                android:id="@+id/btn_SendMSG91"
                                 android:src="@drawable/btnbulksms3"
                                 android:background="@drawable/button_states"
                                 android:layout_gravity="center"

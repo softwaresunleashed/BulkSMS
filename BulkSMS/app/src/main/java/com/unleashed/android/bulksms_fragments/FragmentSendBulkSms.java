@@ -22,7 +22,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -65,7 +64,8 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
     private Button btn_bulksms;
     private Button btn_bulksmsMSG91;
     private TextView lbl_sms_char_counter;
-    private ImageButton imgbtn_selectcontacts;
+    private Button btn_selectcontacts;
+    private Button btn_creategroup;
     private ListView lv_PhnNums;        // List view to hold selected numbers.
     private EditText et_sms_msg;        // Edit box for holding sms message.
     private RadioGroup radgrp;          // Radio Group for holding options to send sms now or set a reminder
@@ -74,6 +74,8 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
     private ArrayAdapter<String> mContactsSelectedAdapter;
     private ArrayList<String> mContactsSelectedList;
+
+    private int TOTAL_SMS_CHARACTERS = 160;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -209,16 +211,22 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
 
         // Send bulk sms button
-        btn_bulksms = (Button)localView.findViewById(R.id.imgbtn_SendBulkSMS);
+        btn_bulksms = (Button)localView.findViewById(R.id.btn_SendBulkSMS);
         btn_bulksms.setOnClickListener(this);
 
         // Send bulk sms button via MSG91
-        btn_bulksmsMSG91 = (Button)localView.findViewById(R.id.imgbtn_SendMSG91);
+        btn_bulksmsMSG91 = (Button)localView.findViewById(R.id.btn_SendMSG91);
         btn_bulksmsMSG91.setOnClickListener(this);
 
         // Select contacts button
-        imgbtn_selectcontacts = (ImageButton)localView.findViewById(R.id.imgbtn_SelectContacts);
-        imgbtn_selectcontacts.setOnClickListener(this);
+        btn_selectcontacts = (Button)localView.findViewById(R.id.btn_SelectContacts);
+        btn_selectcontacts.setOnClickListener(this);
+
+        // Select contacts button
+        btn_creategroup = (Button)localView.findViewById(R.id.btn_CreateGroup);
+        btn_creategroup.setOnClickListener(this);
+
+
 
 
         lbl_sms_char_counter = (TextView)localView.findViewById(R.id.lbl_SMSCharCount);
@@ -235,14 +243,9 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 //This sets a textview to the current length
-                String smsNo;
-                if(charSequence.length() == 0)
-                    smsNo = "0";
-                else
-                    smsNo = String.valueOf(charSequence.length()/160 + 1);
 
-                String smsLength = String.valueOf(160-(charSequence.length()%160));
-                lbl_sms_char_counter.setText(smsLength+"/"+smsNo);
+                String smsLength = String.valueOf(TOTAL_SMS_CHARACTERS-(charSequence.length()%(TOTAL_SMS_CHARACTERS+1)));
+                lbl_sms_char_counter.setText(smsLength + " chars left");
             }
 
             @Override
@@ -543,16 +546,20 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
 
         switch (id){
 
-            case R.id.imgbtn_SelectContacts:
+            case R.id.btn_SelectContacts:
                 invokeContactBookActivity();
                 break;
 
-            case R.id.imgbtn_SendBulkSMS:
+            case R.id.btn_CreateGroup:
+                invokeContactBookActivity();
+                break;
+
+            case R.id.btn_SendBulkSMS:
                 ComposeAndSendMessage();
                 FeedbackPromptFragment.showFeedbackPromptIfPossible(SUApplication.getContext(), getActivity().getSupportFragmentManager());
                 break;
 
-            case R.id.imgbtn_SendMSG91:
+            case R.id.btn_SendMSG91:
                 Msg91Com msg91Com = new Msg91Com();
                 msg91Com.SendMessage();
                 break;
