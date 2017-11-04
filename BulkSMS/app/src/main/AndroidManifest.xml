@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.unleashed.android.bulksms1"
     android:versionCode="10"
-    android:versionName="@string/versionName">
+    android:versionName="BulkSMS"
+    android:revisionCode="10">
+
 
     <uses-sdk android:minSdkVersion="16" />
 
