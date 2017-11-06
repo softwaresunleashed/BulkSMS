@@ -1,8 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context=".MainActivity$PlaceholderFragment" >
+    tools:context=".MainActivity$PlaceholderFragment">
     <!--android:background="@drawable/main_bg"-->
 
     <FrameLayout
@@ -80,7 +82,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/btn_SelectContacts"
-                                    android:text="Add Recipient"
+                                    android:text=" Add Recipient"
                                     android:drawableLeft="@drawable/ic_contacts"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/button_states"
@@ -90,7 +92,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/btn_CreateGroup"
-                                    android:text="Add to Group..."
+                                    android:text=" Create Group..."
                                     android:drawableLeft="@drawable/ic_group_add"
                                     android:layout_marginRight="5dp"
                                     android:background="@drawable/button_states"
@@ -122,7 +124,7 @@
                                 android:textAppearance="?android:attr/textAppearanceMedium"
                                 android:text="SMS Text Message :"
                                 android:id="@+id/lbl_SMSText"
-                                android:layout_marginTop="30px"
+                                android:layout_marginTop="@dimen/md_4dp_margin"
                                 android:paddingLeft="10dp"
                                 android:textStyle="bold|italic"
                                 android:gravity="left"
@@ -134,7 +136,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceSmall"
-                                android:text="160/0"
+                                android:text="160 chars left"
                                 android:id="@+id/lbl_SMSCharCount"
                                 android:layout_marginLeft="10dp"
                                 android:textColor="#57810f"
@@ -146,8 +148,7 @@
                             <LinearLayout
                                 android:orientation="horizontal"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:weightSum="2">
+                                android:layout_height="match_parent">
 
                                 <EditText
                                     android:layout_width="match_parent"
@@ -161,7 +162,7 @@
                                     android:background="@drawable/border_round_corners"
                                     android:layout_height="150dp"
                                     android:hint="Enter message to send..."
-                                    android:padding="5dp"
+                                    android:padding="6dp"
                                     android:gravity="top"
                                     android:overScrollMode="always"
                                     android:scrollbarStyle="insideInset"
@@ -170,20 +171,42 @@
 
                             </LinearLayout>
 
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_corners"
+                        android:layout_marginTop="@dimen/md_2dp_margin"
+                        android:layout_margin="@dimen/md_10dp_margin" >
+
+                        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                            android:id="@+id/spinner_send_via"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Select Source"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:hint="Send Via"
+                            android:textColorHint="#57810f"
+                            android:textColor="@color/black"
+                            app:met_floatingLabel="normal"
+                            android:layout_marginLeft="@dimen/padding_6dp"
+                            android:padding="@dimen/padding_4dp"
+                            android:background="@drawable/spinner_bg"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
                         <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/md_4dp_margin">
 
                             <Button
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/btn_SendBulkSMS"
-                                android:src="@drawable/btnbulksms3"
                                 android:background="@drawable/button_states"
                                 android:layout_gravity="center"
-                                android:padding="5dp"
                                 android:textAllCaps="false"
                                 android:layout_marginLeft="10dp"
                                 android:text="@string/btn_bulksms_send_now_text" />
@@ -210,24 +233,6 @@
                                     android:id="@+id/radbtn_setreminder"
                                     android:visibility="visible" />
                             </RadioGroup>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/md_4dp_margin">
-
-                            <Button
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/btn_SendMSG91"
-                                android:src="@drawable/btnbulksms3"
-                                android:background="@drawable/button_states"
-                                android:layout_gravity="center"
-                                android:padding="5dp"
-                                android:textAllCaps="false"
-                                android:layout_marginLeft="10dp"
-                                android:text="@string/btn_bulksms_send_now_msg91text" />
                         </LinearLayout>
                     </LinearLayout>
 

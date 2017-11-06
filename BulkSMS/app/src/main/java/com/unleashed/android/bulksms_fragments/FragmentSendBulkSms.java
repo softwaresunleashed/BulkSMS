@@ -1,17 +1,13 @@
 package com.unleashed.android.bulksms_fragments;
 
 
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +30,9 @@ import com.google.android.gms.ads.AdView;
 import com.unleashed.android.application.SUApplication;
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.bulksms_activities.ContactBook;
+import com.unleashed.android.bulksmsvendors.BulkSMSVendorsBase;
 import com.unleashed.android.bulksmsvendors.Msg91Com;
+import com.unleashed.android.bulksmsvendors.PhoneSMSManager;
 import com.unleashed.android.customadapter.PhoneBookRowItem;
 import com.unleashed.android.datetimepicker.DateTimePicker;
 import com.unleashed.android.datetimepicker.ScheduleClient;
@@ -44,15 +43,14 @@ import com.unleashed.android.helpers.constants.Constants;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 import com.unleashed.android.helpers.dbhelper.DBHelper;
 import com.unleashed.android.helpers.logger.Logger;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
-import java.util.concurrent.Semaphore;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-
 
 /**
  * Created by OLX - Sudhanshu on 06-10-2016.
@@ -70,12 +68,25 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
     private EditText et_sms_msg;        // Edit box for holding sms message.
     private RadioGroup radgrp;          // Radio Group for holding options to send sms now or set a reminder
     private RadioButton radbtn_now, radbtn_set_reminder;
-
+    private MaterialBetterSpinner mSpinnerSendViaSource;
 
     private ArrayAdapter<String> mContactsSelectedAdapter;
     private ArrayList<String> mContactsSelectedList;
 
     private int TOTAL_SMS_CHARACTERS = 160;
+
+    private String[] mSpinnerData_SendVia = {"Phone Credits", "BulkSMS Service"};
+    private ArrayAdapter<String> mSpinnerData_SendVia_Adapter;
+
+    public int getSpinnerData_SendVia_SelectedItem() {
+        return mSpinnerData_SendVia_SelectedItem;
+    }
+
+    public void setSpinnerData_SendVia_SelectedItem(int selectedItem) {
+        this.mSpinnerData_SendVia_SelectedItem = selectedItem;
+    }
+
+    private int mSpinnerData_SendVia_SelectedItem = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -214,10 +225,6 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         btn_bulksms = (Button)localView.findViewById(R.id.btn_SendBulkSMS);
         btn_bulksms.setOnClickListener(this);
 
-        // Send bulk sms button via MSG91
-        btn_bulksmsMSG91 = (Button)localView.findViewById(R.id.btn_SendMSG91);
-        btn_bulksmsMSG91.setOnClickListener(this);
-
         // Select contacts button
         btn_selectcontacts = (Button)localView.findViewById(R.id.btn_SelectContacts);
         btn_selectcontacts.setOnClickListener(this);
@@ -225,8 +232,6 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         // Select contacts button
         btn_creategroup = (Button)localView.findViewById(R.id.btn_CreateGroup);
         btn_creategroup.setOnClickListener(this);
-
-
 
 
         lbl_sms_char_counter = (TextView)localView.findViewById(R.id.lbl_SMSCharCount);
@@ -245,7 +250,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 //This sets a textview to the current length
 
                 String smsLength = String.valueOf(TOTAL_SMS_CHARACTERS-(charSequence.length()%(TOTAL_SMS_CHARACTERS+1)));
-                lbl_sms_char_counter.setText(smsLength + " chars left");
+                lbl_sms_char_counter.setText(smsLength + " Chars Left");
             }
 
             @Override
@@ -265,8 +270,6 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                         view.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                 }
-
-
                 return false;
             }
         });
@@ -296,6 +299,32 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
                 btn_bulksms.setText(R.string.btn_bulksms_send_now_text);
             }
         });
+
+
+        // Send Via Spinner Adapter
+        mSpinnerData_SendVia_Adapter = new ArrayAdapter<String>(SUApplication.getContext(), R.layout.spinner_item_selected, mSpinnerData_SendVia);
+        mSpinnerData_SendVia_Adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+
+        mSpinnerSendViaSource  = (MaterialBetterSpinner) localView.findViewById(R.id.spinner_send_via);
+        mSpinnerSendViaSource.setAdapter(mSpinnerData_SendVia_Adapter);
+        mSpinnerSendViaSource.setOnItemClickListener(new Spinner.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        btn_bulksms.setText("Send Now via Phone Credits");
+                        setSpinnerData_SendVia_SelectedItem(0);
+                        break;
+                    case 1:
+                        btn_bulksms.setText("Send Now via Bulk Message Service");
+                        setSpinnerData_SendVia_SelectedItem(1);
+                        break;
+                    default:
+                        setSpinnerData_SendVia_SelectedItem(-1);
+                        break;
+                }
+            }
+        });
     }
 
     private void invokeContactBookActivity() {
@@ -307,7 +336,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
         Logger.push(Logger.LogType.LOG_INFO,  "MainActivity.java:ComposeAndSendMessage()");
 
 
-        String phoneNumber = "";//et_RecieverPhoneNumber.getText().toString();
+        String phoneNumber = "";                     //et_RecieverPhoneNumber.getText().toString();
         String smsMesg = et_sms_msg.getText().toString();       // Pull in the SMS text
         final Context mContext = SUApplication.getContext();
 
@@ -336,14 +365,7 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             String jobId = create_job_task(totalPhoneNumbers, smsMesg);
 
             // Clean Phone Contacts list view after sending sms.
-            int count = mContactsSelectedList.size();
-            for(int itr=0; itr < count; itr++){
-                mContactsSelectedList.remove(itr);
-            }
-            mContactsSelectedAdapter = getContactsSelectedAdapter();
-            mContactsSelectedAdapter.notifyDataSetChanged();
-            et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-            lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
+            clean_phone_contacts_list_and_message_box();
 
             // Select "Send Now" Radio button
             radbtn_now.setChecked(true);
@@ -353,145 +375,88 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             return;
         }
 
+
+
         try{
-            String smsSent = "SMS_SENT";
-            String smsDelivered = "SMS_DELIVERED";
-
-            Intent smsSentIntent = new Intent(smsSent);
-            Intent smsDeliveredIntent = new Intent(smsDelivered);
-
-//            smsSentIntent.setAction("com.unleashed.android.bulksms");
-//            smsDeliveredIntent.setAction("com.unleashed.android.bulksms");
-
-            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, smsSentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,smsDeliveredIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            mContext.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case RESULT_OK:
-                            Toast.makeText(mContext, "SMS sent", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            Toast.makeText(mContext, "No service", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            Toast.makeText(mContext, "Radio off", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            }, new IntentFilter(smsSent));
-
-            // Receiver for Delivered SMS.
-            mContext.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case RESULT_OK:
-                            Toast.makeText(mContext, "SMS delivered", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        case RESULT_CANCELED:
-                            Toast.makeText(mContext, "SMS Undelivered", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            }, new IntentFilter(smsDelivered));
+            BulkSMSVendorsBase bulkSMSVendorsBaseObj = null;
+            String[] phoneNumberArray = create_phone_numbers_array(totalPhoneNumbers);
 
 
-            // Get default SMS Manager's handler
-            SmsManager smsOperation = SmsManager.getDefault();
-
-
-            // Extract the phone numbers
-            for(int i=0; i < totalPhoneNumbers; i++ ){
-
-                // Get first phone number string from List View
-                phoneNumber = (String)lv_PhnNums.getItemAtPosition(i);
-
-
-                // The phoneNumber string contains "Name <phone number>".
-                // Hence we need to extract only the numbers between '<' & '>'
-                int startIndex = phoneNumber.indexOf('<');
-                int endIndex = phoneNumber.indexOf('>');
-                // startIndex+1 , because we need to capture from next character after '<'
-                phoneNumber = phoneNumber.substring(startIndex+1, endIndex);
-
-
-
-                // Finally Send SMS to all numbers in list view
-                smsOperation.sendTextMessage(phoneNumber, null, smsMesg, sentPI, deliveredPI);
-
-                //btn_bulksms.setVisibility(ImageButton.INVISIBLE);           // disable send button for some time, so that user doesnt click it again.
-
-
-                if(getResources().getInteger(R.integer.free_version_code)==1){
-                    // Show dialog box to request access to sending promotional email
-                    PromotionalHelpers.show_dialog_box_to_request_promotional_email(getActivity());
-                }
-
-                // Display msg for "Sending SMS"
-//                    Toast tstmsg = new Toast(MainActivity.this);
-//                    tstmsg.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-//                    tstmsg.makeText(MainActivity.this, "Sending Messages...Please Wait.", Toast.LENGTH_LONG);
-//                    tstmsg.show();
-
-                Helpers.displayToast("Sending SMS(s)...Please Wait.");
-
-
-                final int MAX_AVAILABLE = 0;
-                final Semaphore sms_sent = new Semaphore(MAX_AVAILABLE, true);
-                Thread thrButtonEnable = new Thread(){
-                    @Override
-                    public void run() {
-                        super.run();
-
-                        try{
-                            sleep(3000);
-                            // release the semaphore
-                            sms_sent.release();
-                        }catch (Exception ex){
-                            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception1");
-                            CrashReportBase.sendCrashReport(ex);
-                            //ex.printStackTrace();
-                        }
-                    }
-                };
-                thrButtonEnable.start();        // Start the thread to clear sms text mesg and phone list.
-
-                try {
-                    sms_sent.acquire();            // wait here till semaphore is released from thread
-
-                    //btn_bulksms.setVisibility(ImageButton.VISIBLE);        // Enable the "Send SMS" button after 2secs
-
-                    // Clean Phone Contacts list view after sending sms.
-                    int count = mContactsSelectedList.size();
-                    for(int itr=0; itr < count; itr++){
-                        mContactsSelectedList.remove(itr);
-                    }
-                    mContactsSelectedAdapter = getContactsSelectedAdapter();
-                    mContactsSelectedAdapter.notifyDataSetChanged();
-                    et_sms_msg.setText("");        // clear Edit box ,holding sms message.
-                    lbl_sms_char_counter.setText("160/0"); // Reset the value of sms char counter
-
-                } catch (InterruptedException e) {
-                    CrashReportBase.sendCrashReport(e);
-                    //e.printStackTrace();
-                }
+            switch (getSpinnerData_SendVia_SelectedItem()){
+                case 0:     // Normal Phone Manager
+                    bulkSMSVendorsBaseObj = new PhoneSMSManager();
+                    break;
+                case 1:     // Bulk SMS Service (Msg91.com)
+                    bulkSMSVendorsBaseObj = new Msg91Com();
+                    break;
+                default:
+                    break;
             }
+
+            if(bulkSMSVendorsBaseObj != null)
+                bulkSMSVendorsBaseObj.SendMessage(mContext, phoneNumberArray, smsMesg);
+
         }catch (Exception ex){
-            Logger.push(Logger.LogType.LOG_ERROR, "MainActivity.java:ComposeAndSendMessage() caught exception2");
+            Logger.push(Logger.LogType.LOG_ERROR, "FragmentSendBulkSms.java:ComposeAndSendMessage() caught exception");
             CrashReportBase.sendCrashReport(ex);
             //ex.printStackTrace();
-            //Toast.makeText(MainActivity.this, "Error Sending Messages. Try Again Later.", Toast.LENGTH_SHORT).show();
         }
+
+        try{
+
+            // Clean Phone Contacts list view after sending sms.
+            clean_phone_contacts_list_and_message_box();
+
+
+            if(getResources().getInteger(R.integer.free_version_code)==1){
+                // Show dialog box to request access to sending promotional email
+                PromotionalHelpers.show_dialog_box_to_request_promotional_email(getActivity());
+            }
+
+        }catch (Exception ex){
+            Logger.push(Logger.LogType.LOG_ERROR, "PhoneSMSManager.java:SendMessage() caught exception");
+            CrashReportBase.sendCrashReport(ex);
+        }
+
+
+
+    }
+
+    private String[] create_phone_numbers_array(int totalPhoneNumbers){
+
+        ArrayList<String> phoneNumberArray = new ArrayList<>();
+        String phoneNumber;
+
+        // Extract the phone numbers
+        for(int i=0; i < totalPhoneNumbers; i++ ) {
+
+            // Get first phone number string from List View
+            phoneNumber = (String) lv_PhnNums.getItemAtPosition(i);
+
+
+            // The phoneNumber string contains "Name <phone number>".
+            // Hence we need to extract only the numbers between '<' & '>'
+            int startIndex = phoneNumber.indexOf('<');
+            int endIndex = phoneNumber.indexOf('>');
+            // startIndex+1 , because we need to capture from next character after '<'
+            phoneNumber = phoneNumber.substring(startIndex + 1, endIndex);
+
+            // Add phone number to phone array
+            phoneNumberArray.add(phoneNumber);
+        }
+
+        return phoneNumberArray.toArray(new String[0]);
+    }
+
+    private void clean_phone_contacts_list_and_message_box(){
+        int count = mContactsSelectedList.size();
+        for(int itr=0; itr < count; itr++){
+            mContactsSelectedList.remove(itr);
+        }
+        mContactsSelectedAdapter = getContactsSelectedAdapter();
+        mContactsSelectedAdapter.notifyDataSetChanged();
+        et_sms_msg.setText("");        // clear Edit box ,holding sms message.
+        lbl_sms_char_counter.setText(getString(R.string.edt_box_characters_left)); // Reset the value of sms char counter
     }
 
     private String create_job_task(int totalPhoneNumbers, String smsMesg) {
@@ -557,11 +522,6 @@ public class FragmentSendBulkSms extends PlaceholderFragment implements View.OnC
             case R.id.btn_SendBulkSMS:
                 ComposeAndSendMessage();
                 FeedbackPromptFragment.showFeedbackPromptIfPossible(SUApplication.getContext(), getActivity().getSupportFragmentManager());
-                break;
-
-            case R.id.btn_SendMSG91:
-                Msg91Com msg91Com = new Msg91Com();
-                msg91Com.SendMessage();
                 break;
 
         }

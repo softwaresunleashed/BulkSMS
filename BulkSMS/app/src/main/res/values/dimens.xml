@@ -19,6 +19,7 @@
     <dimen name="layout_border_radius">10dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="md_0dp_margin">0dp</dimen>
     <dimen name="md_1dp_margin">1dp</dimen>
     <dimen name="md_2dp_margin">2dp</dimen>
     <dimen name="md_4dp_margin">4dp</dimen>
@@ -44,6 +45,8 @@
     <dimen name="md_280dp_margin">280dp</dimen>
 
     <!--Paddings-->
+    <dimen name="padding_0dp">0dp</dimen>
+    <dimen name="padding_1dp">1dp</dimen>
     <dimen name="padding_2dp">2dp</dimen>
     <dimen name="padding_3dp">3dp</dimen>
     <dimen name="padding_4dp">4dp</dimen>

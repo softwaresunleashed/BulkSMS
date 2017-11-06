@@ -146,5 +146,8 @@
     <string name="btn_text_cancel">Cancel</string>
 
 
+    <string name="edt_box_characters_left">160 Chars Left</string>
+
+
 
 </resources>

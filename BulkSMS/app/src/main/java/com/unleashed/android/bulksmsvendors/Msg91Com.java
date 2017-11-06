@@ -1,7 +1,9 @@
 package com.unleashed.android.bulksmsvendors;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.unleashed.android.helpers.Utils.TextUtils;
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.io.BufferedReader;
@@ -17,13 +19,17 @@ import java.net.URLEncoder;
  * P : 9211hacker
  */
 
-public class Msg91Com {
+public class Msg91Com extends BulkSMSVendorsBase{
 
-    String AUTH_KEY_MSG91 = "181244AV2b1RFKNE59f5949d";
+    // Get the auth key from MSG91 dashboard.
+    final String AUTH_KEY_MSG91 = "181244AV2b1RFKNE59f5949d";
+
+    final String TRANSACTIONAL_ROUTE = "4";
+    final String PROMOTIONAL_ROUTE = "1"; //"promotional route" allows to send SMS in between 9 am to 9 pm only
 
 
-    //public void SendMessage(String username, String password, String message){
-    public void SendMessage(){
+    public void SendMessage(final Context mContext, final String[] phoneNumbers, final String message){
+
 
         Thread thread = new Thread(new Runnable() {
 
@@ -35,20 +41,20 @@ public class Msg91Com {
                 //Your authentication key
                 String authkey = AUTH_KEY_MSG91;
                 //Multiple mobiles numbers separated by comma
-                String mobiles = "8800588188";
+                String mobiles = TextUtils.convertStringArrayToCommaSepratedString(phoneNumbers);
                 //Sender ID,While using route4 sender id should be 6 characters long.
                 String senderId = "SOFTUN";
                 //Your message to send, Add URL encoding here.
-                String message = "Test message";
-                //define route
-                String route="default";
+                String messageToSend = message;
+                //define route - TRANSACTIONAL_ROUTE / PROMOTIONAL_ROUTE
+                String route=TRANSACTIONAL_ROUTE;
 
                 URLConnection myURLConnection = null;
                 URL myURL = null;
                 BufferedReader reader = null;
 
                 //encoding message
-                String encoded_message = URLEncoder.encode(message);
+                String encoded_message = URLEncoder.encode(messageToSend);
 
                 //Send SMS API
                 String mainUrl = "https://control.msg91.com/api/sendhttp.php?";
@@ -88,10 +94,6 @@ public class Msg91Com {
 
             }
         });
-
         thread.start();
-
     }
-
-
 }

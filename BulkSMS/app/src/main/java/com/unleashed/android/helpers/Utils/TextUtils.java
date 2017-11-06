@@ -109,4 +109,13 @@ public class TextUtils {
         return px/scaledDensity;
     }
 
+    public static String convertStringArrayToCommaSepratedString(String[] strArray){
+        StringBuilder builder = new StringBuilder();
+        for(String s : strArray) {
+            builder.append(s);
+            builder.append(",");
+        }
+        return builder.toString();
+    }
+
 }

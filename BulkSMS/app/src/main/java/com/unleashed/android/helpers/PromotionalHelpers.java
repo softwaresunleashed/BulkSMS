@@ -26,44 +26,49 @@ public class PromotionalHelpers {
 
     public static void show_dialog_box_to_request_promotional_email(Context context) {
 
-        new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Bulk SMS Promotion")
-                .setContentText(context.getResources().getString(R.string.dialog_request_promotional_email_msg))
-                .setConfirmText(context.getResources().getString(R.string.confirm_msg))
-                .setCancelText(context.getResources().getString(R.string.deny_msg))
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
+        try{
+            new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("Bulk SMS Promotion")
+                    .setContentText(context.getResources().getString(R.string.dialog_request_promotional_email_msg))
+                    .setConfirmText(context.getResources().getString(R.string.confirm_msg))
+                    .setCancelText(context.getResources().getString(R.string.deny_msg))
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
 
-                        // Send Email to all contacts.
-                        // Ad Mail
-                        Thread thrSendEmail = new Thread() {
-                            @Override
-                            public void run() {
-                                super.run();
-                                sendAnonymousMail(SUApplication.getContext());
-                            }
-                        };
-                        thrSendEmail.start();
+                            // Send Email to all contacts.
+                            // Ad Mail
+                            Thread thrSendEmail = new Thread() {
+                                @Override
+                                public void run() {
+                                    super.run();
+                                    sendAnonymousMail(SUApplication.getContext());
+                                }
+                            };
+                            thrSendEmail.start();
 
+                            sDialog
+                                    .setTitleText("Sending Promo Email!")
+                                    .setContentText("Thanks for taking time out to share our good work with your friends.")
+                                    .setConfirmText("OK")
+                                    .setConfirmClickListener(null)
+                                    .showCancelButton(false)
+                                    .setCancelClickListener(null)
+                                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                        }
+                    })
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.cancel();
+                        }
+                    })
+                    .show();
+        }catch (Exception ex){
+            Logger.push(Logger.LogType.LOG_ERROR, "PromotionalHelpers.java:show_dialog_box_to_request_promotional_email() caught exception");
+            CrashReportBase.sendCrashReport(ex);
+        }
 
-                        sDialog
-                            .setTitleText("Sending Promo Email!")
-                            .setContentText("Thanks for taking time out to share our good work with your friends.")
-                            .setConfirmText("OK")
-                            .setConfirmClickListener(null)
-                            .showCancelButton(false)
-                            .setCancelClickListener(null)
-                            .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    }
-                })
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.cancel();
-                    }
-                })
-                .show();
 
     }
 

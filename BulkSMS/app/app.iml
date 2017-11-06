@@ -109,59 +109,64 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/splits-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 24 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 26 Platform (2)" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="cn.pedant.sweetalert:library-1.3" level="project" />
-    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/appszoomsdk.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.weiwangcn.betterspinner:library-material-1.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:multidex-1.0.1" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-analytics-9.4.0" level="project" />
-    <orderEntry type="library" name="com.parse.bolts:bolts-tasks:1.3.0@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-core-9.4.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-fragment-26.0.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-basement-9.4.0" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-auth-base-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-fragment-24.2.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-vector-drawable-26.0.0" level="project" />
     <orderEntry type="library" name="com.nineoldandroids:library:2.4.0@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-auth-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-v4-24.2.0" level="project" />
-    <orderEntry type="library" name="com.android.support:animated-vector-drawable-24.2.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-utils-26.0.0" level="project" />
     <orderEntry type="library" name="com.daimajia.easing:library-1.0.1" level="project" />
-    <orderEntry type="library" name="com.android.support:design-24.2.0" level="project" />
-    <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-9.4.0" level="project" />
+    <orderEntry type="library" name="com.rengwuxian.materialedittext:library-2.0.3" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-base-9.4.0" level="project" />
-    <orderEntry type="library" name="com.facebook.android:facebook-android-sdk-4.10.1" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-crash-9.4.0" level="project" />
-    <orderEntry type="library" name="com.kyleduo.switchbutton:library-1.4.4" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-gass-9.4.0" level="project" />
     <orderEntry type="library" name="com.daimajia.androidanimations:library-1.1.3" level="project" />
-    <orderEntry type="library" name="com.android.support:support-annotations:26.0.0-alpha1@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-iid-9.4.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-auth-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:recyclerview-v7-24.2.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-auth-common-9.4.0" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-common-9.4.0" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-tasks-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:cardview-v7-23.2.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-media-compat-24.2.0" level="project" />
-    <orderEntry type="library" name="com.avast:android-styled-dialogs-2.2.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/mail.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.google.firebase:firebase-auth-module-9.4.0" level="project" />
-    <orderEntry type="library" name="com.parse.bolts:bolts-applinks:1.3.0@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-vector-drawable-24.2.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/AdBuddiz-3.0.14.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.android.gms:play-services-ads-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-utils-24.2.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-v4-26.0.0" level="project" />
+    <orderEntry type="library" name="com.android.support:animated-vector-drawable-26.0.0" level="project" />
     <orderEntry type="library" name="com.squareup.picasso:picasso:2.5.2@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-clearcut-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:appcompat-v7-24.2.0" level="project" />
     <orderEntry type="library" name="com.pnikosis:materialish-progress-1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-media-compat-26.0.0" level="project" />
+    <orderEntry type="library" name="cn.pedant.sweetalert:library-1.3" level="project" />
+    <orderEntry type="library" name="com.android.support:recyclerview-v7-26.0.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/appszoomsdk.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.parse.bolts:bolts-tasks:1.3.0@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-auth-base-9.4.0" level="project" />
+    <orderEntry type="library" name="com.android.support:appcompat-v7-26.0.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-ui-26.0.0" level="project" />
+    <orderEntry type="library" name="com.google.firebase:firebase-analytics-impl-9.4.0" level="project" />
+    <orderEntry type="library" name="com.facebook.android:facebook-android-sdk-4.10.1" level="project" />
+    <orderEntry type="library" name="com.kyleduo.switchbutton:library-1.4.4" level="project" />
+    <orderEntry type="library" name="com.android.support:support-compat-26.0.0" level="project" />
+    <orderEntry type="library" name="com.android.support:cardview-v7-23.2.0" level="project" />
+    <orderEntry type="library" name="com.avast:android-styled-dialogs-2.2.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/mail.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.parse.bolts:bolts-applinks:1.3.0@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/AdBuddiz-3.0.14.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.android.gms:play-services-ads-9.4.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-annotations:27.0.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:design-26.0.0" level="project" />
+    <orderEntry type="library" name="com.android.support:transition-26.0.0" level="project" />
     <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/activation.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.nostra13.universalimageloader:universal-image-loader:1.9.3@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-compat-24.2.0" level="project" />
     <orderEntry type="library" name="__local_aars__:/Users/sudhanshu/Documents/R_Drive/01_Programming_Stuff/07_Android/02_Projects/BulkSMS_Free/BulkSMS/BulkSMS/app/libs/additionnal.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.google.android.gms:play-services-ads-lite-9.4.0" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-ui-24.2.0" level="project" />
   </component>
 </module>

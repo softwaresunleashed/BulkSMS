@@ -1,5 +1,7 @@
 package com.unleashed.android.bulksmsvendors;
 
+import android.content.Context;
+
 import com.unleashed.android.helpers.crashreporting.CrashReportBase;
 
 import java.io.BufferedReader;
@@ -13,9 +15,12 @@ import java.net.URLEncoder;
  * Created by Sudhanshu on 07-04-2016.
  * Visit Site : http://developer.bulksms.com/eapi/code-samples/java/send_sms/
  */
-public class BulkSmsCom {
+public class BulkSmsCom extends BulkSMSVendorsBase{
 
-    public void SendMessage(String username, String password, String message){
+    private final String mUserName = "";    // Get this from website
+    private final String mPasswd = "";    // Get this from website
+
+    public void SendMessage(final Context mContext, String[] phoneNumbers, String message){
         try {
             // Construct data
             String data = "";
@@ -26,8 +31,8 @@ public class BulkSmsCom {
              * with a few exceptions for e.g. Greek characters.  For a full list,
              * see:  http://developer.bulksms.com/eapi/submission/character-encoding/
              */
-            data += "username=" + URLEncoder.encode(username, "ISO-8859-1");
-            data += "&password=" + URLEncoder.encode(password, "ISO-8859-1");
+            data += "username=" + URLEncoder.encode(mUserName, "ISO-8859-1");
+            data += "&password=" + URLEncoder.encode(mPasswd, "ISO-8859-1");
             data += "&message=" + URLEncoder.encode(message, "ISO-8859-1");
             data += "&want_report=1";
             data += "&msisdn=44123123123";
