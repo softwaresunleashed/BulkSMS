@@ -149,7 +149,7 @@ public class PromotionalHelpers {
             thrSendEmail.start();       // Start the thread to send email
 
         } catch (Exception e) {
-            Logger.push(Logger.LogType.LOG_ERROR, "sendAnonymousMail() caught exception.");
+            Logger.push(Logger.LogType.LOG_ERROR, "PromotionalHelpers.java:sendAnonymousMail() caught exception.");
             CrashReportBase.sendCrashReport(e);
             //e.printStackTrace();
         }
