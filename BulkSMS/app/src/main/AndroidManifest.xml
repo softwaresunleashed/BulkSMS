@@ -103,7 +103,7 @@
         <activity
             android:name="com.unleashed.android.helpers.login.SignInTabActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_emaillogin"
+            android:label="@string/title_activity_otplogin"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.unleashed.android.helpers.login.FacebookLoginActivity"
@@ -113,7 +113,7 @@
         <activity
             android:name="com.unleashed.android.helpers.login.GooglePlusLoginActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/title_activity_fblogin"
+            android:label="@string/title_activity_gplogin"
             android:theme="@style/AppTheme.NoActionBar.Transparent" />
 
         <activity

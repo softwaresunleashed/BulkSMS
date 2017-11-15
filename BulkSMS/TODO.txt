@@ -1,0 +1,7 @@
+Add Payment gateway
+
+Add database - unique key willbe phonenumber in international format. +918800588xxx
+
+Add proguard
+
+Add

@@ -20,7 +20,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.logger.Logger;
 import com.unleashed.android.helpers.networkops.Connectivity;
 import com.unleashed.android.helpers.trackers.Trackers;
 
@@ -41,8 +44,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
 
     private Button fbBtn;
     private Button googleLoginBtn;
-    private Button loginBtn;
-    private Button phoneRegisterBtn;
+    private Button otpLoginBtn;
     private TextView tv_tnc;
     private Snackbar mInfoSnackbar;
     private LinearLayout parentContainer;
@@ -50,8 +52,8 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
     private SocialLoginListener mSocialLoginListener;
 
 
-//    private FirebaseAuth mAuth;
-//    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     public static SocialLoginFragment newInstance(String source) {
@@ -70,14 +72,12 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         parentContainer = (LinearLayout) view.findViewById(R.id.parent_container);
         fbBtn = (Button) view.findViewById(R.id.btn_fb);
         googleLoginBtn = (Button) view.findViewById(R.id.btn_google);
-        loginBtn = (Button) view.findViewById(R.id.btn_legacy_login);
-        phoneRegisterBtn = (Button) view.findViewById(R.id.btn_phone_register);
+        otpLoginBtn = (Button) view.findViewById(R.id.btn_otp_login);
         tv_tnc = (TextView) view.findViewById(R.id.tv_tnc);
 
         fbBtn.setOnClickListener(this);
         googleLoginBtn.setOnClickListener(this);
-        loginBtn.setOnClickListener(this);
-        phoneRegisterBtn.setOnClickListener(this);
+        otpLoginBtn.setOnClickListener(this);
         tv_tnc.setOnClickListener(this);
 
         //buildGoogleLoginClient();
@@ -98,21 +98,21 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         setHasOptionsMenu(false);
         getActivity().supportInvalidateOptionsMenu();
 
-//        mAuth = FirebaseAuth.getInstance();
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    // User is signed in
-//                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + "onAuthStateChanged:signed_in:" + user.getUid());
-//                } else {
-//                    // User is signed out
-//                    Logger.push(Logger.LogType.LOG_DEBUG, TAG +"onAuthStateChanged:signed_out");
-//                }
-//                // ...
-//            }
-//        };
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    Logger.push(Logger.LogType.LOG_DEBUG, TAG + "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Logger.push(Logger.LogType.LOG_DEBUG, TAG +"onAuthStateChanged:signed_out");
+                }
+                // ...
+            }
+        };
     }
 
     @Override
@@ -132,11 +132,8 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
             case R.id.btn_google:
                 performGoogleLogin();
                 break;
-            case R.id.btn_legacy_login:
-                startLoginActivity();
-                break;
-            case R.id.btn_phone_register:
-                startRegisterActivity();
+            case R.id.btn_otp_login:
+                startOTPLoginActivity();
                 break;
             case R.id.tv_tnc:
                 //displayWeb("rules", getString(R.string.term_of_use));
@@ -299,14 +296,9 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
         getActivity().supportInvalidateOptionsMenu();
     }
 
-    private void startLoginActivity() {
+    private void startOTPLoginActivity() {
         SignInTabActivity.startSignInActivityForResult(this);
         //Trackers.trackEvent(getActivity(), Trackers.EVENT_LOGIN_NOW_TAP);
-    }
-
-    private void startRegisterActivity() {
-        //RegisterActivity.startActivityForResult(this, mLaunchSource);
-        //Trackers.trackEvent(getActivity(), Trackers.EVENT_MOBILE_REGISTER_TAP);
     }
 
     private void startFacebookLogin() {
@@ -333,7 +325,7 @@ public class SocialLoginFragment extends Fragment implements View.OnClickListene
             informLoginSuccess();
         }
 
-        if (requestCode == EmailSignInFragment.REQUEST_CODE && resultCode == Activity.RESULT_OK){
+        if (requestCode == OTPSignInFragment.REQUEST_CODE && resultCode == Activity.RESULT_OK){
             informLoginSuccess();
         }
 

@@ -15,8 +15,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.unleashed.android.bulksms1.R;
+import com.unleashed.android.helpers.login.LoginScreen;
 
-public class NavDrawer {
+public class NavDrawer implements View.OnClickListener {
     private static NavDrawer navDrawerInstance;
 
     private NavigationView navigationView;
@@ -26,6 +27,7 @@ public class NavDrawer {
     private ImageView imgNavHeaderBg;
     private ImageView imgProfilePic;
     private TextView txtName, txtWebsite;
+    private TextView tvBtnLogin;
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
@@ -52,6 +54,7 @@ public class NavDrawer {
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
+        tvBtnLogin = (TextView) navHeader.findViewById(R.id.tvBtn_login);
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfilePic = (ImageView) navHeader.findViewById(R.id.img_profile);
 
@@ -75,6 +78,9 @@ public class NavDrawer {
         // name, website
         txtName.setText("Sudhanshu");
         txtWebsite.setText("www.softwaresunleashed.com");
+
+        // login button click register
+        tvBtnLogin.setOnClickListener(this);
 
         // loading header background image
 //        Glide.with(this).load(urlNavHeaderBg)
@@ -149,4 +155,15 @@ public class NavDrawer {
         return mActivityContext.getSupportActionBar();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvBtn_login:
+                LoginScreen.showLoginActivity(mActivityContext);
+                break;
+            default:
+                break;
+        }
+
+    }
 }

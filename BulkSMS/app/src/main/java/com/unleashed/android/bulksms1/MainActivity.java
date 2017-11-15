@@ -60,14 +60,17 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
 
-//        //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
-//        //AppsZoom.showAd(this);
-//        AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
-//            @Override
-//            public void onAdFetched() {
-//                AppsZoom.showAd(MainActivity.this);
-//            }
-//        });
+        if(getResources().getInteger(R.integer.host_ads)==1) {
+            //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
+            //AppsZoom.showAd(this);
+            AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
+                @Override
+                public void onAdFetched() {
+                    AppsZoom.showAd(MainActivity.this);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -96,14 +99,17 @@ public class MainActivity extends BaseActivity
     protected void onPostResume() {
         super.onPostResume();
 
-//        //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
-//        //AppsZoom.showAd(this);
-//        AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
-//            @Override
-//            public void onAdFetched() {
-//                AppsZoom.showAd(MainActivity.this);
-//            }
-//        });
+        if(getResources().getInteger(R.integer.host_ads)==1) {
+            //To show an Ad, call the showAd() method. You can select the most suitable moment to display interstitials.
+            //AppsZoom.showAd(this);
+            AppsZoom.fetchAd(null, new AppsZoom.OnAdFetchedListener() {
+                @Override
+                public void onAdFetched() {
+                    AppsZoom.showAd(MainActivity.this);
+                }
+            });
+        }
+
     }
 
 

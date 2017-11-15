@@ -26,11 +26,11 @@ public class SignInPagerAdapter extends FragmentStatePagerAdapter {
 //            case 0:
 //                return MobileSignInFragment.newInstance();
 //            case 1:
-//                return EmailSignInFragment.newInstance();
+//                return OTPSignInFragment.newInstance();
 
             // Sudhanshu Modified
             case 0:
-                return EmailSignInFragment.newInstance();
+                return OTPSignInFragment.newInstance();
         }
 
         return null;

@@ -34,8 +34,9 @@
 
     <string name="title_activity_contact_book">Select Contacts</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_emaillogin">Email Login</string>
+    <string name="title_activity_otplogin">OTP Login</string>
     <string name="title_activity_fblogin">Facebook Login</string>
+    <string name="title_activity_gplogin">GooglePlus Login</string>
     <string name="title_set_date_time">Set Date and Time</string>
     <string name="name">Name</string>
     <string name="number">Phone Number</string>
@@ -96,9 +97,10 @@
     <string name="connect_with_google">Connect with Google</string>
     <string name="mobile">Mobile</string>
     <string name="google">Google</string>
-    <string name="already_have_account">Already have an account ?</string>
+    <string name="login_via_otp_text">Prefer to login via OTP ?</string>
     <string name="account_terms_use">By continuing, you agree to the Terms and Conditions</string>
     <string name="login_now">Email Login</string>
+    <string name="otp_login_now">OTP Login</string>
     <string name="login">Login</string>
     <string name="login_required_message">You need to login or register to continue using BulkSMS</string>
     <string name="exit_app">Exit App</string>
@@ -107,7 +109,7 @@
     <string name="please_wait">Please wait</string>
     <string name="logging_progress">Logging you in...</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="register_new_user">New User? Register Here</string>
+    <string name="register_new_user">Enter OTP</string>
     <string name="already_facebook_loggedin">Already Facebook Logged in</string>
     <string name="already_googleplus_loggedin">Already Google Plus Logged in</string>
     <string name="login_success">Login Success</string>

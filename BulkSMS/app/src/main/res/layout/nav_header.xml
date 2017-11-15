@@ -37,17 +37,33 @@
                 android:layout_marginTop="@dimen/nav_header_vertical_spacing"
                 android:src="@drawable/ic_action_person" />
 
-            <!--<ImageView-->
-            <!--android:id="@+id/img_profile"-->
-            <!--android:layout_width="@dimen/profile_width"-->
-            <!--android:layout_height="@dimen/profile_height"-->
-            <!--android:paddingTop="@dimen/nav_header_vertical_spacing"-->
-            <!--app:srcCompat="@android:drawable/sym_def_app_icon" />-->
-
             <LinearLayout
+                android:id="@+id/login_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvBtn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/padding_10dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:background="@drawable/selector_rate_us_button"
+                    android:textAlignment="center"
+                    android:text="Login"/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/login_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/name"

@@ -8,9 +8,6 @@ import com.unleashed.android.helpers.Preferences;
 import com.unleashed.android.helpers.config.Config;
 
 
-/**
- * Created by michal.luszczuk on 2014-10-20.
- */
 public class UserNameManager {
     public static final String PREF_KEY_USER_NAME = "userName";
     public static final String PREF_KEY_NUMERIC_USER_ID = "numericUserId";

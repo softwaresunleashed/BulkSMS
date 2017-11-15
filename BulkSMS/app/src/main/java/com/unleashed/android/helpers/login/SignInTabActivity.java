@@ -6,9 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
-
 
 import com.unleashed.android.bulksms1.R;
 import com.unleashed.android.helpers.activities.BaseActivity;
@@ -18,13 +16,13 @@ import java.util.Arrays;
 
 public class SignInTabActivity extends BaseActivity {
 
-    public static final int REQUEST_CODE = EmailSignInFragment.REQUEST_CODE;
+    public static final int REQUEST_CODE = OTPSignInFragment.REQUEST_CODE;
     private TabLayout signInTabLayout;
     private ViewPager signInPager;
 
     private SignInPagerAdapter pagerAdapter;
 
-    private static String[] signInOptions = new String[]{"Email Login"};
+    private static String[] signInOptions = new String[]{"OTP"};
     //private static String[] signInOptions = new String[]{"Mobile Number", "Email"};
 
     public static void startSignInActivityForResult(Fragment fragment) {
@@ -59,8 +57,8 @@ public class SignInTabActivity extends BaseActivity {
 
                 /*fragment = pagerAdapter.getRegisteredFragment(position);
 
-                if (fragment instanceof EmailSignInFragment) {
-                    ((EmailSignInFragment) fragment).resetViews();
+                if (fragment instanceof OTPSignInFragment) {
+                    ((OTPSignInFragment) fragment).resetViews();
                     Trackers.trackEvent(SignInTabActivity.this, Trackers.EVENT_LOGIN_EMAIL_SELECT);
                 }
 
@@ -75,11 +73,12 @@ public class SignInTabActivity extends BaseActivity {
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(R.string.login_now);
-        actionBar.setElevation(0);
-        actionBar.setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // This code was crashing - actionbar was returning null. commented for now.
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle(R.string.otp_login_now);
+//        actionBar.setElevation(0);
+//        actionBar.setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 

@@ -11,6 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 19
         vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -49,12 +50,18 @@ dependencies {
     // Image Loading (Via URLs / URIs)
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+
+    // Firebase Libraries
     // Firebase Analytics
-    compile 'com.google.firebase:firebase-core:9.4.0'
+    compile 'com.google.firebase:firebase-core:11.6.0'
     // Firebase Crash Reporting
-    compile 'com.google.firebase:firebase-crash:9.4.0'
+    compile 'com.google.firebase:firebase-crash:11.6.0'
     // Firebase Authorization Related Dependency Libs
-    compile 'com.google.firebase:firebase-auth:9.4.0'
+    compile 'com.google.firebase:firebase-auth:11.6.0'
+    // Firebase Database
+    compile 'com.google.firebase:firebase-database:11.6.0'
+
+
     // Facebook Login SDK
     compile 'com.facebook.android:facebook-android-sdk:4.10.1'
     // Google Login SDK
@@ -86,6 +93,9 @@ dependencies {
 
     // Material Design Spinners
     compile 'com.weiwangcn.betterspinner:library-material:1.1.0'
+
+    // OTP Pin Library
+    compile 'com.chaos.view:pinview:1.2.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
