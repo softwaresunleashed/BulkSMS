@@ -110,6 +110,7 @@
     <string name="logging_progress">Logging you in...</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="register_new_user">Enter OTP</string>
+    <string name="otp_sent_to_phone">OTP has been sent to your phone. Use that code to login...</string>
     <string name="already_facebook_loggedin">Already Facebook Logged in</string>
     <string name="already_googleplus_loggedin">Already Google Plus Logged in</string>
     <string name="login_success">Login Success</string>

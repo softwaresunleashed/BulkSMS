@@ -38,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/md_20dp_margin"
-                android:text="@string/register_new_user"
+                android:text="@string/otp_sent_to_phone"
                 android:textAllCaps="true"
                 android:gravity="left"
                 android:layout_weight="0.5"
@@ -68,6 +68,20 @@
                 app:lineWidth="2dp"
                 app:viewType="rectangle" />
 
+            <TextView
+                android:id="@+id/tv_login"
+                style="@style/BottomActionTextPosting"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/orange_button_selector"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_marginTop="@dimen/padding_4dp"
+                android:layout_marginLeft="@dimen/md_10dp_margin"
+                android:layout_marginRight="@dimen/md_10dp_margin"
+                android:padding="@dimen/padding_4dp"
+                android:text="@string/login"
+                android:visibility="visible" />
         </LinearLayout>
 
         <!--<LinearLayout-->
@@ -132,17 +146,7 @@
 
     </ScrollView>
 
-    <TextView
-        android:id="@+id/tv_login"
-        style="@style/BottomActionTextPosting"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        android:layout_gravity="bottom"
-        android:background="@drawable/orange_button_selector"
-        android:gravity="center_vertical|center_horizontal"
-        android:padding="@dimen/padding_4dp"
-        android:text="@string/login"
-        android:visibility="visible" />
+
 
 </FrameLayout>
 
